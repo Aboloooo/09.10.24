@@ -52,12 +52,11 @@
         <?php
         $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
         $line = fgets($ProductsDataBase);
+        $product_ID_number = 0;
         while (!feof($ProductsDataBase)) {
             $line = fgets($ProductsDataBase);
             $splitsOfEachLine = explode(",", $line);
-            // print("<div>.$line.</div>");
             if (count($splitsOfEachLine) >= 6) {
-                //     print("test");
         ?>
                 <div class="product-box">
                     <!-- ID,Name,Description,Price,Size,Gender,img -->
@@ -71,8 +70,11 @@
 
 
         <?php
+
             }
+            $product_ID_number++;
         }
+        $_SESSION["product_ID_number"] = $product_ID_number;
         ?>
     </div>
     <!-- the following function will create a end bar in the end of the content of a webpage -->

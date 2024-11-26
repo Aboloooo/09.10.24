@@ -2,6 +2,7 @@
 
 function NavigationBarE($DedicatedPage)
 {
+    global $arrayOfStrings;
 ?>
 
     <nav class="navigationBar">
@@ -11,43 +12,61 @@ function NavigationBarE($DedicatedPage)
                 <a href="Home.php" <?php
                                     if ($DedicatedPage == "Home") {
                                         print("class='active'");
-                                    } ?>>Home</a>
+                                    } ?>><?= $arrayOfStrings["Home"] ?></a>
 
                 <a href="Product.php" <?php
                                         if ($DedicatedPage == "Product") {
                                             print("class='active'");
-                                        } ?>>Product</a>
+                                        } ?>><?= $arrayOfStrings["Product"] ?></a>
 
                 <a href="Contact.php" <?php
                                         if ($DedicatedPage == "Contact") {
                                             print("class='active'");
-                                        } ?>>Contact</a>
+                                        } ?>><?= $arrayOfStrings["Contact"] ?></a>
 
                 <a href="About.php" <?php
                                     if ($DedicatedPage == "About") {
                                         print("class='active'");
-                                    } ?>>About</a>
+                                    } ?>><?= $arrayOfStrings["About"] ?></a>
             </div>
 
         </div>
     </nav>
     <div id="userName">
         <div>
-            <h3>
-
-                <a href="Home.php?language=EN" id="langChanger">
-                    <h3>change the language</h3>
-                </a>
-
-                <box-icon name='user'></box-icon>
-                <?php
-                if ($_SESSION["user"]) {
-                    print($_SESSION["UserName"]);          //here instead of priting user I must print the username that just logged in
+            <box-icon name='user'></box-icon> <br>
+            <?php
+            if ($_SESSION["user"]) {
+                print($_SESSION["UserName"]);          //here instead of priting user I must print the username that just logged in
+            } else {
+                echo "Unknown user";
+            }
+            ?>
+            <!-- <a href="Home.php?language=EN" id="langChanger">
+                    <h3>changer la langue</h3>
+                </a> -->
+            <br>
+            <form method="POST">
+                <select name="selectedLang" id="selectLang">
+                    <option value="EN">English</option>
+                    <option value="FR">French</option>
+                </select>
+            </form>
+            <?php
+            if (isset($_POST["selectedLang"])) {
+                if ($_POST["selectedLang"] == "EN") {
+                    $_SESSION["language"] = "EN";
+                    echo "EN";
+                } else if ($_POST["selectedLang"] == "FR") {
+                    echo "FR";
+                    $_SESSION["language"] = "FR";
                 } else {
-                    echo "Unknown user";
+                    echo "Error";
                 }
-                ?>
-            </h3>
+            } else {
+                echo "Error in selection occured!";
+            }
+            ?>
         </div>
     </div>
 
@@ -64,20 +83,24 @@ if (!isset($_SESSION["userIsAdmin"])) {
     $_SESSION["userIsAdmin"] = false;
 }
 
-if(!isset($_SESSION["language"])){
+if (!isset($_SESSION["language"])) {
     $_SESSION["language"] = "EN";
+}
+if (isset($_GET["language"])) {
+    $_SESSION["language"] = $_GET["language"];
 }
 $Translation = fopen("../DataBases/translation.csv", "r");
 $arrayOfStrings = [];
 $line = fgets($Translation);
 while (!feof($Translation)) {
     $line = fgets($Translation);
-    $splitsOfEachLine = explode(" => ", $line);
-    if (count($splitsOfEachLine) == 3 ) {
-        if($_SESSION["language"] == "EN"){
-            $arrayOfStrings [$splitsOfEachLine[0]] = $splitsOfEachLine[1];
-        }else {
-            $arrayOfStrings [$splitsOfEachLine[0]] = $splitsOfEachLine[2];
+    $Language = explode(",", $line);
+    if (count($Language) == 3) {
+        if ($_SESSION["language"] == "EN") {
+            // language will dedicate which element out of csv file will be chosen.
+            $arrayOfStrings[$Language[0]] = $Language[1];
+        } else {
+            $arrayOfStrings[$Language[0]] = $Language[2];
         }
     }
 }
