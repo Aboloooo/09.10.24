@@ -33,17 +33,24 @@ function NavigationBarE($DedicatedPage)
     </nav>
     <div id="userName">
         <div>
-        <box-icon name='user'></box-icon>
-        <h3><?php
-            if ($_SESSION["user"]) {
-                print($_SESSION["UserName"]);          //here instead of priting user I must print the username that just logged in
-            } else {                    
-                echo "Unknown user";
-            }
-            ?> </h3>
-            </div>
+            <h3>
+
+                <a href="Home.php?language=EN" id="langChanger">
+                    <h3>change the language</h3>
+                </a>
+
+                <box-icon name='user'></box-icon>
+                <?php
+                if ($_SESSION["user"]) {
+                    print($_SESSION["UserName"]);          //here instead of priting user I must print the username that just logged in
+                } else {
+                    echo "Unknown user";
+                }
+                ?>
+            </h3>
+        </div>
     </div>
-    
+
 <?php
 };
 
@@ -53,9 +60,26 @@ if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = false;
 }
 
-if (!isset($_SESSION["userIsAdmin"]))
-{
+if (!isset($_SESSION["userIsAdmin"])) {
     $_SESSION["userIsAdmin"] = false;
+}
+
+if(!isset($_SESSION["language"])){
+    $_SESSION["language"] = "EN";
+}
+$Translation = fopen("../DataBases/translation.csv", "r");
+$arrayOfStrings = [];
+$line = fgets($Translation);
+while (!feof($Translation)) {
+    $line = fgets($Translation);
+    $splitsOfEachLine = explode(" => ", $line);
+    if (count($splitsOfEachLine) == 3 ) {
+        if($_SESSION["language"] == "EN"){
+            $arrayOfStrings [$splitsOfEachLine[0]] = $splitsOfEachLine[1];
+        }else {
+            $arrayOfStrings [$splitsOfEachLine[0]] = $splitsOfEachLine[2];
+        }
+    }
 }
 
 ?>

@@ -15,11 +15,6 @@
     include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("Home");
     ?>
-    
-
-    <a href="../FrenchVersion/Maison.php" id="langChanger">
-        <h1>Changer de langue</h1>
-    </a>
 
     <div>
         <a href="Login.php"> <?php
