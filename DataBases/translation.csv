@@ -4,6 +4,32 @@ Product,Product,Product
 Contact,Contact,Contact
 About,About,à propos
 Login,Login,Se connecter
+Logout,Logout,déconnexion
+Login failled!,Login failled!,La connexion a échoué!
+This username is already taken; please choose another!,This username is already taken; please choose another!,Ce nom d'utilisateur est déjà pris ; veuillez en choisir un autre!
 SignUp,Sign up,s'inscrire
+Registration in process; please be patient!,Registration in process; please be patient!,Inscription en cours; s'il vous plaît soyez patient!
+Passwords do not match!,Passwords do not match!,Les mots de passe ne correspondent pas!
 langChanger,Change the language,changer la langue
-unknown,unknown,inconnu
+unknown,Unknown,Inconnu
+firstPromotiontext,A World of Style and Fashion,Un monde de style et de mode
+secondPromotiontext,Discover Your Best Look with Us! <br> Quality is No Accident; It is Our Commitment!,Découvrez votre plus beau look avec nous! <br>La Qualité n'est pas un accident; C'est notre engagement!
+Our products,Our products,Nos produits
+Resource,Resource,Ressource
+Help,Help,Aide
+Company,Company,Entreprise
+Our headquarter in USA,Our headquarter in USA,Notre siège social aux États-Unis
+Please fill in all the inputs!,Please fill in all the inputs!,Veuillez remplir toutes les entrées!
+Form has been submitted succefully!,Form has been submitted successfully!,Le formulaire a été soumis avec succè!
+Contact us,Contact us,Contactez-nous
+First name,First name,Prénom
+Last name,Last name,Nom de famille
+Forgotten password,Forgotten password,Mot de passe oublié
+country,country,pays
+Write Home,Write "Home" here,Écrivez "Home" ici
+Username, Username,nom d'utilisateur
+Email or Phone,Email or Phone,E-mail ou téléphone
+Password,Password,Mot de passe
+Password confirmation,Password confirmation,Confirmation du mot de passe
+Create an account,Create an account,Créer un compte
+submit,submit,soumettre

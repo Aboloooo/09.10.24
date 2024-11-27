@@ -23,6 +23,7 @@
 
     function submitForm()
     {
+        global $arrayOfStrings;
         // if (isset($_GET["UserName"])) {
         //     if ($_GET["UserName"] == "") {
         //         print("Form cant be submitted.");
@@ -48,14 +49,14 @@
         foreach ($inputs as $key => $value) {
             if (isset($_GET[$value])) {
                 if ($_GET[$value] == "") {
-                    print("Please fill in all the inputs!");
+                    print($arrayOfStrings["Please fill in all the inputs!"]);
                     $flag = false;
                     break;
                 }
             }
         }
         if ($flag == true) {
-            print("Form has been submitted succefully!");
+            print($arrayOfStrings["Form has been submitted succefully!"]);
         }
     };
 
@@ -63,28 +64,21 @@
     ?>
     <div class="form-location">
         <div class="container-form">
-            <h3>Contact us</h3>
+            <h3><?= $arrayOfStrings["Contact us"]?></h3>
             <form action="" method="GET">
-                <input type="text" placeholder="First name" name="UserName">
-                <input type="text" placeholder="Last name" name="LastName">
+                <input type="text" placeholder="<?= $arrayOfStrings["First name"]?>" name="UserName">
+                <input type="text" placeholder="<?= $arrayOfStrings["Last name"]?>" name="LastName">
                 <input type="email" placeholder="Email" name="Email">
-                <a href="#" class="Forgotten-password">Forgotten password</a>
+                <a href="#" class="Forgotten-password"><?= $arrayOfStrings["Forgotten password"]?></a>
 
                 <div class="countryCodeSelection">
                     <select name="countryCode" id="countryCode" require>
-                        <option value="default" selected="selected">country</option>
+                        <option value="default" selected="selected"><?= $arrayOfStrings["country"]?></option>
                         <?php
                         $countries = [
                             "Luxembourg",
                             "France",
                             "Germany",
-                            "Italy",
-                            "Spain",
-                            "Netherlands",
-                            "Sweden",
-                            "Norway",
-                            "Greece",
-                            "Poland"
                         ];
                         foreach ($countries as $country) {
                         ?>
@@ -96,11 +90,8 @@
                     <input type="tel" value="" name="phoneNumber" placeholder="GSM" pattern="[0-9]{9}">
                 </div>
 
-
-
-                <input type="submit" value="submit" name="submit">
+                <input type="submit" value="<?= $arrayOfStrings["submit"]?>" name="submit">
             </form>
-            <a href="Contact.php">Reset the form and search</a>
         </div>
     </div>
     <!-- the following function will create a end bar in the end of the content of a webpage -->

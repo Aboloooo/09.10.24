@@ -23,14 +23,17 @@
                 <img src="../img/backgro.png" alt="" class="background_img">
             </div>
             <div class="h2-1">
-                <h2>A World of Style and Fashion</h2>
+                <?php 
+                //var_dump($arrayOfStrings); 
+                ?>
+                <h2><?= $arrayOfStrings["firstPromotiontext"] ?></h2>
             </div>
         </div>
         <div>
             <img src="../img/backgro2.png" alt="" class="background_img2">
         </div>
         <div class="h2-2">
-            <h2>Discover Your Best Look with Us! <br>Quality is No Accident; It is Our Commitment</h2>
+            <h2> <?= $arrayOfStrings["secondPromotiontext"] ?></h2>
         </div>
     </div>
 
@@ -42,7 +45,7 @@
     <?php
     } else {
     ?>
-        <h2>Our products</h2>
+        <h2> <?= $arrayOfStrings["Our products"]?></h2>
     <?php
     };
     ?>
@@ -56,15 +59,19 @@
         while (!feof($ProductsDataBase)) {
             $line = fgets($ProductsDataBase);
             $splitsOfEachLine = explode(",", $line);
-            if (count($splitsOfEachLine) >= 6) {
+            if (count($splitsOfEachLine) >= 8) {
         ?>
                 <div class="product-box">
-                    <!-- ID,Name,Description,Price,Size,Gender,img -->
+                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderEN -->
                     <img src="<?= $splitsOfEachLine[6] ?>" class="product-img">
                     <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
                     <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
                     <p><?= $splitsOfEachLine[4] ?></p>
-                    <p><?= $splitsOfEachLine[5] ?></p>
+                    <p><?php if($_SESSION["language"=="EN"]){
+                                    $splitsOfEachLine[5];
+                                    }else if($_SESSION["language"=="FR"]){
+                                        $splitsOfEachLine[8];
+                                    }?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
                 </div>
 

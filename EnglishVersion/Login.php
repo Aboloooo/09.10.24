@@ -18,6 +18,7 @@
     <?php
     $accounts = "../DataBases/Client_DataBase.csv";
     $_SESSION["userIsAdmin"] = false;
+    global $arrayOfStrings;
 
     //check if all the filleds are filled up
     if (isset($_POST["username"], $_POST["password"])) {
@@ -53,29 +54,30 @@
             };
         }
         if (!$sucessfullLogin) {
-            print("Login failled!");
+            //Temperory text!! apear
+            print($arrayOfStrings["Login failled!"]);
         }
     }
 
     ?>
 
     <div>
-        <a href="SignUp.php"> Sign up </a>
+        <a href="SignUp.php"><?=$arrayOfStrings["SignUp"]?></a>
     </div>
 
     <div class="login-form">
         <form action="" method="POST">
-            <h1>Login</h1>
-            <label for="username">Username</label>
-            <input type="text" placeholder="Email or Phone" name="username">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" name="password">
+            <h1><?= $arrayOfStrings["Login"]?></h1>
+            <label for="username"><?= $arrayOfStrings["Username"]?></label>
+            <input type="text" placeholder="<?= $arrayOfStrings["Email or Phone"]?>" name="username">
+            <label for="password"><?= $arrayOfStrings["Password"]?></label>
+            <input type="password" placeholder="<?= $arrayOfStrings["Password"]?>" name="password">
             <div>
 
-                <a href="#">Forgotten password</a>
-                <a href="SignUp.php">Create an account</a>
+                <a href="#"><?= $arrayOfStrings["Forgotten password"]?></a>
+                <a href="SignUp.php"><?= $arrayOfStrings["Create an account"]?></a>
             </div>
-            <input type="submit" id="submit" placeholder="submit" value="Submit" name="submit">
+            <input type="submit" id="submit" value="<?= $arrayOfStrings["submit"]?>" name="submit">
 
         </form>
     </div>

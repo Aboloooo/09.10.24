@@ -17,11 +17,12 @@
     ?>
 
     <div>
-        <a href="Login.php"> Login </a>
+        <a href="Login.php"> <?= $arrayOfStrings["Login"]?> </a>
     </div>
 
     <?php
     if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
+        global $arrayOfStrings;
         $usernameInput = $_POST["username"];
 
         // check if user is already exist
@@ -33,7 +34,7 @@
             while(($line = fgets($OpenedFile))!== false){
                 list($username , $password) = explode(" => ", $line);
                 if($username == $usernameInput){
-                    print("This username is already taken, please choose another!");
+                    print($arrayOfStrings["This username is already taken; please choose another!"]);
                     $usernameAlreayExist = true;
                     break;
                 }
@@ -43,7 +44,7 @@
         if (!$usernameAlreayExist)
         {
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
-                print("Registration in process, please be patient!");
+                print($arrayOfStrings["Registration in process; please be patient!"]);
                 $client_DataBase = fopen("../DataBases/Client_DataBase.csv", "a");
     
                 //A condition to add header for the database
@@ -54,7 +55,7 @@
                 //adding crendintial to database for ex) abolo => 123 => Customer
                 fwrite($client_DataBase, "\n" . $_POST["username"] . " => " . $_POST["password"]. " => " . "Customer");
             } else {
-                print("Passwords do not match!");
+                print($arrayOfStrings["Passwords do not match!"]);
             }
 
         }
@@ -64,15 +65,15 @@
 
     <div class="login-form">
         <form action="" method="POST">
-            <h1>Sign up</h1>
+            <h1><?= $arrayOfStrings["SignUp"] ?></h1>
             <label for="Email">Email</label>
-            <input type="text" placeholder="Email or Phone" name="username">
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" name="password">
-            <label for="password">Password confirmation</label>
-            <input type="password" placeholder="Password confirmation" name="passwordConfirmation">
+            <input type="text" placeholder="<?= $arrayOfStrings["Email or Phone"] ?>" name="username">
+            <label for="password"><?= $arrayOfStrings["Password"] ?></label>
+            <input type="password" placeholder="<?= $arrayOfStrings["Password"] ?>" name="password">
+            <label for="password"><?= $arrayOfStrings["Password confirmation"] ?></label>
+            <input type="password" placeholder="<?= $arrayOfStrings["Password confirmation"] ?>" name="passwordConfirmation">
 
-            <input type="submit" id="submit" placeholder="submit" value="Submit">
+            <input type="submit" id="submit" placeholder="submit" value="<?= $arrayOfStrings["submit"] ?>">
 
         </form>
     </div>

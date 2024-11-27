@@ -36,9 +36,9 @@
     include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("About");
     ?>
-    <label for="">Write Home</label>
-    <input type="text" id="input" placeholder="write home here">
-    <button id="btn">submit</button>
+    <label for=""><?= $arrayOfStrings["Write Home"]?></label>
+    <input type="text" id="input" placeholder="Home">
+    <button id="btn"><?= $arrayOfStrings["submit"]?></button>
     <p id="output"></p>
     <!-- the following function will create a end bar in the end of the content of a webpage -->
     <?php

@@ -22,7 +22,7 @@
                                 ?>
                 <!-- here we convert the link into a btn for loging out -->
                 <form action="" method="POST">
-                    <input type="submit" value="Logout" name="Logout">
+                    <input type="submit" value="<?= $arrayOfStrings["Logout"]?>" name="Logout">
                 </form>
             <?php   //function of the logout btn
                                     if (isset($_POST["Logout"])) {
@@ -31,14 +31,14 @@
                                         header("Refresh:0");  //this refreash doesnt function
                                     }
                                 } else {
-                                    print("Login");
+                                    print($arrayOfStrings["Login"]);
                                 }
             ?>
         </a>
     </div>
 
     <div>
-        <a href="SignUp.php"> Sign up </a>
+        <a href="SignUp.php"><?= $arrayOfStrings["SignUp"] ?></a>
     </div>
 
 </body>
