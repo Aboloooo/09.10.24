@@ -73,6 +73,7 @@
                                         $splitsOfEachLine[8];
                                     }?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
+                    <button>Buy now</button>
                 </div>
 
 
