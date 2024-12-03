@@ -23,7 +23,7 @@
                 <img src="../img/backgro.png" alt="" class="background_img">
             </div>
             <div class="h2-1">
-                <?php 
+                <?php
                 //var_dump($arrayOfStrings); 
                 ?>
                 <h2><?= $arrayOfStrings["firstPromotiontext"] ?></h2>
@@ -45,7 +45,7 @@
     <?php
     } else {
     ?>
-        <h2> <?= $arrayOfStrings["Our products"]?></h2>
+        <h2> <?= $arrayOfStrings["Our products"] ?></h2>
     <?php
     };
     ?>
@@ -62,16 +62,15 @@
             if (count($splitsOfEachLine) >= 8) {
         ?>
                 <div class="product-box">
-                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderEN -->
-                    <img src="<?= $splitsOfEachLine[6] ?>" class="product-img">
+                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
+                    <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
                     <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
                     <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
-                    <p><?= $splitsOfEachLine[4] ?></p>
-                    <p><?php if($_SESSION["language"=="EN"]){
-                                    $splitsOfEachLine[5];
-                                    }else if($_SESSION["language"=="FR"]){
-                                        $splitsOfEachLine[8];
-                                    }?></p>
+                    <p><?php if ($_SESSION["language"] == "EN") {
+                            print($splitsOfEachLine[4]);
+                        } else if ($_SESSION["language"] == "FR") {
+                            print($splitsOfEachLine[7]);
+                        } ?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
                     <button>Buy now</button>
                 </div>
