@@ -62,6 +62,7 @@
             if (count($splitsOfEachLine) >= 8) {
         ?>
                 <div class="product-box">
+                <form method="POST">
                     <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
                     <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
                     <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
@@ -72,7 +73,9 @@
                             print($splitsOfEachLine[7]);
                         } ?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
-                    <button>Buy now</button>
+                   
+                        <input type="submit" value="<?= $splitsOfEachLine["BuyNow"] ?>" name="submit">
+                    </form>
                 </div>
 
 
