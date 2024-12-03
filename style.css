@@ -101,6 +101,17 @@ body {
   margin-top: 20px;
 }
 
+.product-banner {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.product-banner div {
+  padding: 25px;
+}
+
 .image-container {
   display: flex;
   overflow: hidden;

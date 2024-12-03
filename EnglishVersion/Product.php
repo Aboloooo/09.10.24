@@ -36,19 +36,38 @@
             <h2> <?= $arrayOfStrings["secondPromotiontext"] ?></h2>
         </div>
     </div>
+    </div>
 
-    <!-- Add new products btn !-->
-    <?php
-    if ($_SESSION["userIsAdmin"] != false) {
-    ?>
-        <a href="AddingNewProduct.php"><button class="button-24" role="button">Add new product</button></a>
-    <?php
-    } else {
-    ?>
-        <h2> <?= $arrayOfStrings["Our products"] ?></h2>
-    <?php
-    };
-    ?>
+
+    <div class="product-banner">
+        <!-- Add new products btn !-->
+        <?php
+        if ($_SESSION["userIsAdmin"] != false) {
+        ?>
+            <div>
+                <a href="AddingNewProduct.php"><button class="button-24" role="button">Add new product</button></a>
+            </div>
+        <?php
+        } else {
+        ?>
+            <div>
+                <h2> <?= $arrayOfStrings["Our products"] ?></h2>
+            </div>
+            <!-- if any customer user is logged the cart icon will be appeared -->
+            <?php
+            if ($_SESSION[("user")]) {
+            ?>
+                <div>
+                    <box-icon name='cart-add'></box-icon>
+                    <?= $_SESSION["clickedNumber"] ?>
+                </div>
+            <?php
+            }
+            ?>
+        <?php
+        }; ?>
+    </div>
+
 
 
     <div class="image-container">
@@ -62,25 +81,53 @@
             if (count($splitsOfEachLine) >= 8) {
         ?>
                 <div class="product-box">
-                <form method="POST">
-                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
-                    <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
-                    <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
-                    <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
-                    <p><?php if ($_SESSION["language"] == "EN") {
-                            print($splitsOfEachLine[4]);
-                        } else if ($_SESSION["language"] == "FR") {
-                            print($splitsOfEachLine[7]);
-                        } ?></p>
-                    <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
-                   
-                        <input type="submit" value="<?= $splitsOfEachLine["BuyNow"] ?>" name="submit">
+                    <form method="POST">
+                        <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
+                        <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
+                        <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
+                        <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
+                        <p><?php if ($_SESSION["language"] == "EN") {
+                                print($splitsOfEachLine[4]);
+                            } else if ($_SESSION["language"] == "FR") {
+                                print($splitsOfEachLine[7]);
+                            } ?></p>
+                        <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
+
+                        <!-- hidden inputs  title  price  img -->
+                        <input type="hidden" value="<?= $splitsOfEachLine[1] ?>" name="title">
+                        <input type="hidden" value="<?= $splitsOfEachLine[3] ?>" name="price">
+                        <input type="hidden" value="<?= $splitsOfEachLine[5] ?>" name="img">
+
+                        <!-- buy btn will be there in case a customer has logged in-->
+                        <?php
+                        if ($_SESSION[("user")]) {
+                        ?>
+                            <input type="submit" value="<?= $arrayOfStrings["Buy"] ?>" name="addToCart">
+                        <?php
+                        }
+                        ?>
+                        <!-- if btn clicked the corresponding information will be keeped as session  -->
+                        <?php
+                        if (isset($_POST["addToCart"])) {
+                            function addToCart()
+                            {
+                                $_SESSION["clickedNumber"]++;
+                                $prodcutTitle = $_POST["title"];
+                                $prodcutPrice = $_POST["price"];
+                                $prodcutImg = $_POST["img"];
+
+                                $_SESSION["cart"] = [
+                                    1 => $prodcutTitle,
+                                    2 => $prodcutPrice,
+                                    3 => $prodcutImg,
+                                    // using comma to seperate each line in associative array
+                                ];
+                            }
+                        }
+                        ?>
                     </form>
                 </div>
-
-
         <?php
-
             }
             $product_ID_number++;
         }

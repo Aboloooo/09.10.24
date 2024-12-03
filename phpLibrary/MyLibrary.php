@@ -49,13 +49,13 @@ function NavigationBarE($DedicatedPage)
 
             <form method="POST">
                 <select name="selectedLang" id="selectLang" onchange="this.form.submit()">
-                    <option value="EN"  <?php if($_SESSION["language"] == "EN"){
-                        print ("selected");
-                    } ?> >English</option>
-                    <option value="FR" <?php if($_SESSION["language"] == "FR"){
-                        print ("selected");   
-                    } ?>>French</option>
-                </select>            
+                    <option value="EN" <?php if ($_SESSION["language"] == "EN") {
+                                            print("selected");
+                                        } ?>>English</option>
+                    <option value="FR" <?php if ($_SESSION["language"] == "FR") {
+                                            print("selected");
+                                        } ?>>French</option>
+                </select>
             </form>
         </div>
     </div>
@@ -76,9 +76,21 @@ if (!isset($_SESSION["userIsAdmin"])) {
 if (!isset($_SESSION["language"])) {
     $_SESSION["language"] = "EN";
 }
+
 if (isset($_GET["language"])) {
     $_SESSION["language"] = $_GET["language"];
 }
+
+if (!isset($_SESSION["cart"])) {
+    $_SESSION["cart"] = [];
+}
+if (!isset($_SESSION["clickedNumber"])) {
+    $_SESSION["clickedNumber"] = 0;
+}
+
+
+
+
 
 
 if (isset($_POST["selectedLang"])) {
