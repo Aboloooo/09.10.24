@@ -59,7 +59,7 @@
             ?>
                 <div>
                     <box-icon name='cart-add'></box-icon>
-                    <?= $_SESSION["clickedNumber"] ?>
+                    <?= count($_SESSION["cart"]) ?>
                 </div>
             <?php
             }
@@ -74,64 +74,52 @@
         <?php
         $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
         $line = fgets($ProductsDataBase);
-        $product_ID_number = 0;
+
         while (!feof($ProductsDataBase)) {
             $line = fgets($ProductsDataBase);
             $splitsOfEachLine = explode(",", $line);
             if (count($splitsOfEachLine) >= 8) {
         ?>
                 <div class="product-box">
-                    <form method="POST">
-                        <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
-                        <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
-                        <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
-                        <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
-                        <p><?php if ($_SESSION["language"] == "EN") {
-                                print($splitsOfEachLine[4]);
-                            } else if ($_SESSION["language"] == "FR") {
-                                print($splitsOfEachLine[7]);
-                            } ?></p>
-                        <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
+                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
+                    <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
+                    <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
+                    <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
+                    <p><?php if ($_SESSION["language"] == "EN") {
+                            print($splitsOfEachLine[4]);
+                        } else if ($_SESSION["language"] == "FR") {
+                            print($splitsOfEachLine[7]);
+                        } ?></p>
+                    <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
 
-                        <!-- hidden inputs  title  price  img -->
-                        <input type="hidden" value="<?= $splitsOfEachLine[1] ?>" name="title">
-                        <input type="hidden" value="<?= $splitsOfEachLine[3] ?>" name="price">
-                        <input type="hidden" value="<?= $splitsOfEachLine[5] ?>" name="img">
+                    <?php
+                    if ($_SESSION[("user")]) {
+                    ?>
+                        <form method="POST">
+                            <!-- hidden input  ID -->
+                            <input type="hidden" value="<?= $splitsOfEachLine[1] ?>" name="ID">
+                            <!-- buy btn will be there in case a customer has logged in-->
+                            <input type="submit" value="<?= $arrayOfStrings["Buy"] ?>" name="btnaddToCart">
+                        </form>
+                    <?php
+                    }
+                    ?>
+                    <!-- if btn clicked the corresponding information will be keeped as array session  -->
+                    <?php
+                    if (isset($_POST["btnaddToCart"])) {
+                        function addToCart()
+                        {
+                            $prodcutID = $_POST["ID"];
 
-                        <!-- buy btn will be there in case a customer has logged in-->
-                        <?php
-                        if ($_SESSION[("user")]) {
-                        ?>
-                            <input type="submit" value="<?= $arrayOfStrings["Buy"] ?>" name="addToCart">
-                        <?php
+                            array_push($_SESSION["cart"],$prodcutID);
                         }
-                        ?>
-                        <!-- if btn clicked the corresponding information will be keeped as session  -->
-                        <?php
-                        if (isset($_POST["addToCart"])) {
-                            function addToCart()
-                            {
-                                $_SESSION["clickedNumber"]++;
-                                $prodcutTitle = $_POST["title"];
-                                $prodcutPrice = $_POST["price"];
-                                $prodcutImg = $_POST["img"];
+                    }
+                    ?>
 
-                                $_SESSION["cart"] = [
-                                    1 => $prodcutTitle,
-                                    2 => $prodcutPrice,
-                                    3 => $prodcutImg,
-                                    // using comma to seperate each line in associative array
-                                ];
-                            }
-                        }
-                        ?>
-                    </form>
                 </div>
         <?php
             }
-            $product_ID_number++;
         }
-        $_SESSION["product_ID_number"] = $product_ID_number;
         ?>
     </div>
     <!-- the following function will create a end bar in the end of the content of a webpage -->

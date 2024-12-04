@@ -18,12 +18,10 @@
 
     <?php
     $completedProductDetails = false;
-
     if (isset($_POST["submit"])) {
         $productName = $_POST["productName"];
         $productDescription = $_POST["productDescription"];
         $productPrice = $_POST["productPrice"];
-        $productSize = $_POST["productSize"];
 
         $productGender = $_POST["productGender"];
         $productGenderUpperCase = strtoupper($productGender);
@@ -32,7 +30,7 @@
         }
 
         // now checking if all the neccesary inputs are filled up
-        if (!isset($productName, $productDescription, $productPrice,  $productSize, $productGender)) {
+        if (!isset($productName, $productDescription, $productPrice, $productGender)) {
             die("Error: One or more product details are missing.");
             $completedProductDetails = false;
         } else {
@@ -40,74 +38,29 @@
         }
 
         if ($completedProductDetails) {
-            $product_ID_number = $_SESSION["product_ID_number"];
-            $relativePath = "../img/uploads/" . basename($_FILES["fileToUpload"]["name"]);
+
+            $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
+            $lastId = 0;
+            $line = fgets($ProductsDataBase);
+            while (!feof($ProductsDataBase)) {
+                $line = fgets($ProductsDataBase);
+                $splitsOfEachLine = explode(",", $line);
+                if (count($splitsOfEachLine) >= 8) {
+                    $lastId = $splitsOfEachLine[0];
+                }
+            }
+            
+            $lastId++;
+
+
+
+            //print($_SESSION["LastID"]++);
             //  ID, $productName, $productDescription, $productPrice,  $productSize, $productGender, $productImg
             $productBank =  fopen("../DataBases/Products.csv", "a");
-            $NewProduct = [$product_ID_number, $productName, $productDescription, $productPrice,  $productSize, $productGender, $relativePath];
+            $NewProduct = [$lastId, $productName, $productDescription, $productPrice, $productGender, "../img/new_product/new_product.jpg"];
 
             fputcsv($productBank, $NewProduct);
         }
-
-
-        /////////   TEST TEACHER
-
-        $target_dir = "../img/uploads/";
-        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-        $uploadOk = 1;
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-        // Check if image file is a actual image or fake image
-        if (isset($_POST["submit"])) {
-            $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-            if ($check !== false) {
-                echo "File is an image - " . $check["mime"] . ".";
-                $uploadOk = 1;
-            } else {
-                echo "File is not an image.";
-                $uploadOk = 0;
-            }
-        }
-
-        // Check if file already exists
-        if (file_exists($target_file)) {
-            die("Sorry, file already exists.");
-            $uploadOk = 0;
-        }
-
-        // Check file size
-        if ($_FILES["fileToUpload"]["size"] > 500000) {
-            die("Sorry, your file is too large.");
-            $uploadOk = 0;
-        }
-
-        // Allow certain file formats
-        if (
-            $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-            && $imageFileType != "gif"
-        ) {
-            die("Sorry, only JPG, JPEG, PNG & GIF files are allowed.");
-            $uploadOk = 0;
-        }
-
-        // Check if $uploadOk is set to 0 by an error
-        if ($uploadOk == 0) {
-            die("Sorry, your file was not uploaded.");
-            // if everything is ok, try to upload file
-        } else {
-            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-                echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.";
-            } else {
-                echo "Sorry, there was an error uploading your file.";
-            }
-        }
-
-
-
-        //// END TEST TEACHER
-
-
-
     }
     ?>
 
@@ -126,9 +79,6 @@
 
                 <label for="">Price:</label>
                 <input type="money" name="productPrice">
-
-                <label for="">Sizes availible:</label>
-                <input type="text" name="productSize">
 
                 <label for="">Gender usage:</label>
                 <input type="text" name="productGender">
