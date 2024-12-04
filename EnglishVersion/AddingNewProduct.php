@@ -20,17 +20,16 @@
     $completedProductDetails = false;
     if (isset($_POST["submit"])) {
         $productName = $_POST["productName"];
-        $productDescription = $_POST["productDescription"];
         $productPrice = $_POST["productPrice"];
 
-        $productGender = $_POST["productGender"];
-        $productGenderUpperCase = strtoupper($productGender);
-        if ($productGenderUpperCase != "MALE" && $productGenderUpperCase != "FEMALE" && $productGenderUpperCase != "BOTH") {
-            die("Error: Gender can be considered only (Male, Female or Both)");
-        }
+        $productDescriptionEN = $_POST["productDescription(EN)"];
+        $productDescriptionFR = $_POST["productDescription(FR)"];
+
+        $productGenderEN = $_POST["productGender(EN)"];
+        $productGenderFR = $_POST["productGender(FR)"];
 
         // now checking if all the neccesary inputs are filled up
-        if (!isset($productName, $productDescription, $productPrice, $productGender)) {
+        if (!isset($productName, $productDescriptionEN, $productDescriptionFR, $productPrice, $productGenderEN, $productGenderFR)) {
             die("Error: One or more product details are missing.");
             $completedProductDetails = false;
         } else {
@@ -49,7 +48,7 @@
                     $lastId = $splitsOfEachLine[0];
                 }
             }
-            
+
             $lastId++;
 
 
@@ -57,7 +56,7 @@
             //print($_SESSION["LastID"]++);
             //  ID, $productName, $productDescription, $productPrice,  $productSize, $productGender, $productImg
             $productBank =  fopen("../DataBases/Products.csv", "a");
-            $NewProduct = [$lastId, $productName, $productDescription, $productPrice, $productGender, "../img/new_product/new_product.jpg"];
+            $NewProduct = [$lastId, $productName, $productDescriptionEN, $productPrice, $productGenderEN, "../img/new_product/new_product.jpg", $productDescriptionFR, $productGenderFR];
 
             fputcsv($productBank, $NewProduct);
         }
@@ -67,21 +66,22 @@
     <div class="container-new-product">
         <form method="POST" class="form" enctype="multipart/form-data">
             <div class="img-new-product">
-                <label for="fileToUpload">Product Image:</label>
+                <label for="fileToUpload"><?= $arrayOfStrings["Product Image"] ?>:</label>
                 <input type="file" name="fileToUpload">
             </div>
             <div class="detail-new-product">
-                <label for="">Product name:</label>
-                <input type="text" name="productName">
 
-                <label for="">Description:</label>
-                <input type="text" name="productDescription">
+                <input type="text" placeholder="<?= $arrayOfStrings["Product name"] ?>:" name="productName">
 
-                <label for="">Price:</label>
-                <input type="money" name="productPrice">
+                <input type="text" placeholder="<?= $arrayOfStrings["Description"] ?>(EN):" name="productDescription(EN)">
 
-                <label for="">Gender usage:</label>
-                <input type="text" name="productGender">
+                <input type="text" placeholder="<?= $arrayOfStrings["Description"] ?>(FR):" name="productDescription(FR)">
+
+                <input type="money" placeholder="<?= $arrayOfStrings["Price"] ?>:" name="productPrice">
+
+                <input type="text" placeholder="<?= $arrayOfStrings["Gender usage"] ?>(EN):" name="productGender(EN)">
+
+                <input type="text" placeholder="<?= $arrayOfStrings["Gender usage"] ?>(FR):" name="productGender(FR)">
 
                 <input type="submit" value="submit" name="submit">
 

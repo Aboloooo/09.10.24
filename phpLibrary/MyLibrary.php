@@ -84,10 +84,6 @@ if (isset($_GET["language"])) {
 if (!isset($_SESSION["cart"])) {
     $_SESSION["cart"] = [];
 }
-if (!isset($_SESSION["LastID"])) {
-    $_SESSION["LastID"];
-}
-
 
 
 if (isset($_POST["selectedLang"])) {

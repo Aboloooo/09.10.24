@@ -42,7 +42,7 @@
     <div class="product-banner">
         <!-- Add new products btn !-->
         <?php
-        if ($_SESSION["userIsAdmin"] != false) {
+        if ($_SESSION["userIsAdmin"]) {
         ?>
             <div>
                 <a href="AddingNewProduct.php"><button class="button-24" role="button">Add new product</button></a>
@@ -85,11 +85,7 @@
                     <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
                     <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
                     <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
-                    <p><?php if ($_SESSION["language"] == "EN") {
-                            print($splitsOfEachLine[4]);
-                        } else if ($_SESSION["language"] == "FR") {
-                            print($splitsOfEachLine[7]);
-                        } ?></p>
+                    <p><?php ($_SESSION["language"] == "EN") ? $splitsOfEachLine[4] : $splitsOfEachLine[7] ?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
 
                     <?php
@@ -97,28 +93,26 @@
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->
-                            <input type="hidden" value="<?= $splitsOfEachLine[1] ?>" name="ID">
+                            <input type="hidden" value="<?= $splitsOfEachLine[0] ?>" name="ID">
+
                             <!-- buy btn will be there in case a customer has logged in-->
                             <input type="submit" value="<?= $arrayOfStrings["Buy"] ?>" name="btnaddToCart">
                         </form>
                     <?php
                     }
                     ?>
-                    <!-- if btn clicked the corresponding information will be keeped as array session  -->
-                    <?php
-                    if (isset($_POST["btnaddToCart"])) {
-                        function addToCart()
-                        {
-                            $prodcutID = $_POST["ID"];
-
-                            array_push($_SESSION["cart"],$prodcutID);
-                        }
-                    }
-                    ?>
-
                 </div>
         <?php
             }
+        }
+        //if btn clicked the corresponding information will be keeped as array session
+        if (isset($_POST["btnaddToCart"])) {
+            $prodcutID = $_POST["ID"];
+            addToCart($prodcutID);
+        }
+        function addToCart($prodcutID)
+        {
+            array_push($_SESSION["cart"], $prodcutID);
         }
         ?>
     </div>
