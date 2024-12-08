@@ -16,23 +16,23 @@
     NavigationBarE("Home");
     ?>
 
-    <div>
-        <a href="Login.php"> <?php
-                                if ($_SESSION["user"]) {
-                                ?>
+    <div class="SignInUpBtn">
+        <a href="Login.php" class="LoginBtn"> <?php
+                                                if ($_SESSION["user"]) {
+                                                ?>
                 <!-- here we convert the link into a btn for loging out -->
                 <form action="" method="POST">
-                    <input type="submit" value="<?= $arrayOfStrings["Logout"]?>" name="Logout">
+                    <input type="submit" value="<?= $arrayOfStrings["Logout"] ?>" name="Logout">
                 </form>
             <?php   //function of the logout btn
-                                    if (isset($_POST["Logout"])) {
-                                        session_unset();
-                                        session_destroy();
-                                        header("Refresh:0");  //this refreash doesnt function
-                                    }
-                                } else {
-                                    print($arrayOfStrings["Login"]);
-                                }
+                                                    if (isset($_POST["Logout"])) {
+                                                        session_unset();
+                                                        session_destroy();
+                                                        header("Refresh:0");  //this refreash doesnt function
+                                                    }
+                                                } else {
+                                                    print($arrayOfStrings["Login"]);
+                                                }
             ?>
         </a>
     </div>

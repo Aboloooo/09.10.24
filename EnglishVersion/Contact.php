@@ -24,21 +24,6 @@
     function submitForm()
     {
         global $arrayOfStrings;
-        // if (isset($_GET["UserName"])) {
-        //     if ($_GET["UserName"] == "") {
-        //         print("Form cant be submitted.");
-        //     }
-        // } elseif (isset($_GET["LastName"])) {
-        //     if ($_GET["LastName"] == "") {
-        //         print("Field in submision, Last name filled cant be empty");
-        //     }
-        // } elseif (isset($_GET["Email"])) {
-        //     if ($_GET["LastName"] == "") {
-        //         print("Field in submision, Email filled cant be empty");
-        //     }
-        // } else {
-        //     print("Form submitted successfully");
-        // }
 
         $inputs = array(
             "Key1" => "UserName",
@@ -64,16 +49,16 @@
     ?>
     <div class="form-location">
         <div class="container-form">
-            <h3><?= $arrayOfStrings["Contact us"]?></h3>
+            <h3><?= $arrayOfStrings["Contact us"] ?></h3>
             <form action="" method="GET">
-                <input type="text" placeholder="<?= $arrayOfStrings["First name"]?>" name="UserName">
-                <input type="text" placeholder="<?= $arrayOfStrings["Last name"]?>" name="LastName">
+                <input type="text" placeholder="<?= $arrayOfStrings["First name"] ?>" name="UserName">
+                <input type="text" placeholder="<?= $arrayOfStrings["Last name"] ?>" name="LastName">
                 <input type="email" placeholder="Email" name="Email">
-                <a href="#" class="Forgotten-password"><?= $arrayOfStrings["Forgotten password"]?></a>
+                <a href="#" class="Forgotten-password"><?= $arrayOfStrings["Forgotten password"] ?></a>
 
                 <div class="countryCodeSelection">
                     <select name="countryCode" id="countryCode" require>
-                        <option value="default" selected="selected"><?= $arrayOfStrings["country"]?></option>
+                        <option value="default" selected="selected"><?= $arrayOfStrings["country"] ?></option>
                         <?php
                         $countries = [
                             "Luxembourg",
@@ -90,7 +75,7 @@
                     <input type="tel" value="" name="phoneNumber" placeholder="GSM" pattern="[0-9]{9}">
                 </div>
 
-                <input type="submit" value="<?= $arrayOfStrings["submit"]?>" name="submit">
+                <input type="submit" value="<?= $arrayOfStrings["submit"] ?>" name="submit">
             </form>
         </div>
     </div>

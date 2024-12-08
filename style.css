@@ -68,6 +68,9 @@ body {
   padding: 10px;
 }
 
+.SignInUpBtn {
+  background-color: #03f88e;
+}
 /* Product page */
 
 .background_img {
