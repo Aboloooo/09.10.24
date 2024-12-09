@@ -9,9 +9,17 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../style.css? <?= time(); ?>">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script>
+        // function to appear side shopping cart
+        document.querySelectorAll(".close").foreach(function(closeBtn) {
+            closeBtn.addEventListener("click", function() {
+                cartTab.style.right = "0";
+            })
+        })
+    </script>
 </head>
 
-<body>
+<body class="ProductPageBody">
     <?php
     include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("Product");
@@ -58,12 +66,38 @@
             if ($_SESSION[("user")]) {
             ?>
                 <div>
-                    <box-icon name='cart-add'></box-icon>
-                    <?= count($_SESSION["cart"]) ?>
+                    <a href="">
+                        <box-icon name='cart-add'></box-icon>
+                        <?= count($_SESSION["cart"]) ?>
+                    </a>
                 </div>
+
             <?php
             }
             ?>
+            <div class="container">
+                <div class="cartTab">
+                    <h1>Shopping cart</h1>
+                    <div class="listCart">
+                        <div class="item">
+                            <div class="imgage">
+                                <img src="../img/Men/1/1.1.PNG" alt="">
+                            </div>
+                            <div class="name">
+                                Name
+                            </div>
+                            <div class="totalPrice">
+                                200$
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn">
+                        <button>Check out</button>
+                        <button class="close">Close</button>
+                    </div>
+                </div>
+            </div>
+
         <?php
         }; ?>
     </div>
@@ -96,7 +130,7 @@
                             <input type="hidden" value="<?= $splitsOfEachLine[0] ?>" name="ID">
 
                             <!-- buy btn will be there in case a customer has logged in-->
-                            <input type="submit" value="<?= $arrayOfStrings["Buy"] ?>" name="btnaddToCart">
+                            <input type="submit" id="btn" value="<?= $arrayOfStrings["Buy"] ?>" name="btnaddToCart">
                         </form>
                     <?php
                     }
@@ -113,6 +147,10 @@
         function addToCart($prodcutID)
         {
             array_push($_SESSION["cart"], $prodcutID);
+            header("Refresh:0");
+            if (in_array($prodcutID, $_SESSION["cart"])) {
+                echo "Item " . $prodcutID . " is already added to cart.";
+            };
         }
         ?>
     </div>
