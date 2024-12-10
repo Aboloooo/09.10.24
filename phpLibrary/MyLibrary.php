@@ -96,6 +96,21 @@ if (isset($_POST["selectedLang"])) {
     }
 }
 
+ //if btn clicked the corresponding information will be keeped as array session
+ if (isset($_POST["btnaddToCart"])) {
+    $prodcutID = $_POST["ID"];
+    addToCart($prodcutID);
+}
+
+function addToCart($prodcutID)
+{
+    if (!in_array($prodcutID, $_SESSION["cart"])) {
+        array_push($_SESSION["cart"], $prodcutID);
+    }else{
+        echo "Item " . $prodcutID . " is already added to cart.";
+    }
+    
+}
 
 
 $Translation = fopen("../DataBases/translation.csv", "r");
@@ -119,6 +134,7 @@ while (!feof($Translation)) {
 
 
 <?php
+
 function EndBar()
 {
     global $arrayOfStrings;

@@ -9,14 +9,6 @@
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <link rel="stylesheet" href="../style.css? <?= time(); ?>">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script>
-        // function to appear side shopping cart
-        document.querySelectorAll(".close").foreach(function(closeBtn) {
-            closeBtn.addEventListener("click", function() {
-                cartTab.style.right = "0";
-            })
-        })
-    </script>
 </head>
 
 <body class="ProductPageBody">
@@ -65,40 +57,66 @@
             <?php
             if ($_SESSION[("user")]) {
             ?>
-                <div>
-                    <a href="">
+                <div class="container">
+                    <div id="show-cart">
                         <box-icon name='cart-add'></box-icon>
                         <?= count($_SESSION["cart"]) ?>
-                    </a>
-                </div>
+                    </div>
 
-            <?php
+                <?php
             }
-            ?>
-            <div class="container">
-                <div class="cartTab">
+                ?>
+                <div id="cartTab">
+                    <box-icon name='exit' id="closeIcone"></box-icon>
                     <h1>Shopping cart</h1>
                     <div class="listCart">
-                        <div class="item">
-                            <div class="imgage">
-                                <img src="../img/Men/1/1.1.PNG" alt="">
+
+                        <!--For each item in the cart session the following loop will run-->
+                        <?php
+                        for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+                            $Products = fopen("../DataBases/Products.csv", "r");
+                            $arrayOfStrings = [];
+                            $line = fgets($Products);
+                            while (!feof($Products)) {
+                                $line = fgets($Products);
+                                $Product = explode(",", $line);
+                                if (count($Product) == 8) {
+                                    //finding index of a session array
+                                    if ($_SESSION["cart"] == "EN") {
+                                        // language will dedicate which element out of csv file will be chosen.
+                                        $arrayOfStrings[$Language[0]] = $Language[1];
+                                    } else {
+                                        $arrayOfStrings[$Language[0]] = $Language[2];
+                                    }
+                                }
+                            }
+                        ?>
+                            <div class="item">
+                                <div class="imgage">
+                                    <img src="../img/Men/1/1.1.PNG" alt="">
+                                </div>
+                                <div class="name">
+                                    Name
+                                </div>
+                                <div class="totalPrice">
+                                    200$
+                                </div>
                             </div>
-                            <div class="name">
-                                Name
-                            </div>
-                            <div class="totalPrice">
-                                200$
-                            </div>
-                        </div>
+
+                        <?php
+                        }
+                        ?>
+
                     </div>
                     <div class="btn">
                         <button>Check out</button>
-                        <button class="close">Close</button>
+                        <button id="closeBtn">Close</button>
                     </div>
-                </div>
-            </div>
 
-        <?php
+                </div>
+                </div>
+
+            <?php
         }; ?>
     </div>
 
@@ -139,26 +157,30 @@
         <?php
             }
         }
-        //if btn clicked the corresponding information will be keeped as array session
-        if (isset($_POST["btnaddToCart"])) {
-            $prodcutID = $_POST["ID"];
-            addToCart($prodcutID);
-        }
-        function addToCart($prodcutID)
-        {
-            array_push($_SESSION["cart"], $prodcutID);
-            header("Refresh:0");
-            if (in_array($prodcutID, $_SESSION["cart"])) {
-                echo "Item " . $prodcutID . " is already added to cart.";
-            };
-        }
+
         ?>
     </div>
     <!-- the following function will create a end bar in the end of the content of a webpage -->
     <?php
     EndBar()
     ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", ready);
 
+        function ready() {
+            //Those will close the side cart
+            document.getElementById("closeBtn").addEventListener("click", closeSideCart)
+            document.getElementById("closeIcone").addEventListener("click", closeSideCart)
+
+            function closeSideCart() {
+                document.getElementById("cartTab").style.right = "-550px"
+            }
+            //this function will appear the side cart
+            document.getElementById("show-cart").addEventListener("click", function() {
+                document.getElementById("cartTab").style.right = "0px"
+            })
+        }
+    </script>
 </body>
 
 </html>
