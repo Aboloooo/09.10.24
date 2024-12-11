@@ -96,8 +96,8 @@ if (isset($_POST["selectedLang"])) {
     }
 }
 
- //if btn clicked the corresponding information will be keeped as array session
- if (isset($_POST["btnaddToCart"])) {
+//if btn clicked the corresponding information will be kept as array session
+if (isset($_POST["addingToCart"])) {
     $prodcutID = $_POST["ID"];
     addToCart($prodcutID);
 }
@@ -106,10 +106,11 @@ function addToCart($prodcutID)
 {
     if (!in_array($prodcutID, $_SESSION["cart"])) {
         array_push($_SESSION["cart"], $prodcutID);
-    }else{
-        echo "Item " . $prodcutID . " is already added to cart.";
+    } else {
+        echo '<script language="javascript">';
+        echo 'alert("This item is already in your cart!")';
+        echo '</script>';
     }
-    
 }
 
 

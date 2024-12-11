@@ -74,34 +74,31 @@
                         <!--For each item in the cart session the following loop will run-->
                         <?php
                         for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-                            $Products = fopen("../DataBases/Products.csv", "r");
-                            $arrayOfStrings = [];
-                            $line = fgets($Products);
-                            while (!feof($Products)) {
-                                $line = fgets($Products);
-                                $Product = explode(",", $line);
-                                if (count($Product) == 8) {
-                                    //finding index of a session array
-                                    if ($_SESSION["cart"] == "EN") {
-                                        // language will dedicate which element out of csv file will be chosen.
-                                        $arrayOfStrings[$Language[0]] = $Language[1];
-                                    } else {
-                                        $arrayOfStrings[$Language[0]] = $Language[2];
-                                    }
+                            $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+                            $line = fgets($ProductsCSV);
+                            while(!feof($ProductsCSV)){
+                                $line = fgets($ProductsCSV);
+                                $ProductsCSVitems = explode("," , $line);
+                                if($ProductsCSVitems[0] == $_SESSION["cart"][$i])
+                                //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
+                                {
+                                    ?>
+                            <div class="item">
+                                <div class="imgage">
+                                    <img src="<?= $ProductsCSVitems[5]?>" alt="">
+                                </div>
+                                <div class="name">
+                                <?= $ProductsCSVitems[1]?>
+                                </div>
+                                <div class="totalPrice">
+                                <?= $ProductsCSVitems[3]?>
+                                </div>
+                            </div>
+                            <?php
                                 }
                             }
                         ?>
-                            <div class="item">
-                                <div class="imgage">
-                                    <img src="../img/Men/1/1.1.PNG" alt="">
-                                </div>
-                                <div class="name">
-                                    Name
-                                </div>
-                                <div class="totalPrice">
-                                    200$
-                                </div>
-                            </div>
+                           
 
                         <?php
                         }
@@ -148,7 +145,7 @@
                             <input type="hidden" value="<?= $splitsOfEachLine[0] ?>" name="ID">
 
                             <!-- buy btn will be there in case a customer has logged in-->
-                            <input type="submit" id="btn" value="<?= $arrayOfStrings["Buy"] ?>" name="btnaddToCart">
+                            <input type="submit" id="btn" value="<?= $arrayOfStrings["Buy"] ?>" name="addingToCart">
                         </form>
                     <?php
                     }
