@@ -234,7 +234,8 @@ body {
 #cartTab {
   width: 400px;
   color: #eee;
-  background-color: #19422f;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
   position: fixed;
   top: 100px;
   right: -550px;
@@ -245,7 +246,7 @@ body {
 }
 
 .item{
-  background-color: #e8bc0e;
+  background-color: #5ab388;
 }
 
 #cartTab h1 {
@@ -258,7 +259,7 @@ body {
   grid-template-columns: repeat(2, 1fr);
 }
 #cartTab .btn button {
-  background-color: #e8bc0e;
+  background-color: #0bb162;
   border: none;
   font-family: monospace;
   font-weight: 800;
@@ -273,7 +274,7 @@ body {
 }
 #cartTab .listCart .item {
   display: grid;
-  grid-template-columns: 100px 150px 150px 1fr;
+  grid-template-columns: 100px 150px 1fr;
 }
 .listCart .item:nth-child(even) {
   background-color: #eee1;

@@ -90,8 +90,9 @@
                                 <div class="name">
                                 <?= $ProductsCSVitems[1]?>
                                 </div>
+                                <!--<input type="number" value="1" name="quantity">-->
                                 <div class="totalPrice">
-                                <?= $ProductsCSVitems[3]?>
+                                <?= $ProductsCSVitems[3] ?>€
                                 </div>
                             </div>
                             <?php
@@ -105,10 +106,17 @@
                         ?>
 
                     </div>
-                    <div class="btn">
+                   <!-- <div class="btn">
                         <button>Check out</button>
                         <button id="closeBtn">Close</button>
-                    </div>
+                    </div> -->
+
+                   <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
+
+                    <form mathod="POST" class="btn">
+                        <input type="submit" value="Check out" name="check_out">
+                        <input type="submit" value="Close" name="closeBtn" id="closeBtn">
+                    </form>
 
                 </div>
                 </div>
