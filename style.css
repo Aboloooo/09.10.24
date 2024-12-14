@@ -217,7 +217,7 @@ body {
   opacity: 0.5;
 }
 
-.cart{
+.cart {
   background-color: #03f80f;
 }
 
@@ -225,9 +225,9 @@ body {
 .container {
   position: relative;
 }
-#closeIcone{
+#closeIcone {
   position: absolute;
-  right:100%;
+  right: 100%;
   cursor: pointer;
 }
 
@@ -245,7 +245,7 @@ body {
   transition: ease-out 0.5s;
 }
 
-.item{
+.item {
   background-color: #5ab388;
 }
 
@@ -258,11 +258,12 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-#cartTab .btn button {
-  background-color: #0bb162;
+#cartTab .btn input {
+  background-color: #eb7915;
+  border-radius: 5px;
   border: none;
   font-family: monospace;
-  font-weight: 800;
+  font-weight: 1000;
   cursor: pointer;
 }
 #cartTab .btn #closeBtn {
@@ -273,9 +274,19 @@ body {
   margin-left: -60px;
 }
 #cartTab .listCart .item {
+  position: relative;
   display: grid;
   grid-template-columns: 100px 150px 1fr;
 }
+.trash {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+.trash:hover {
+  background-color: red;
+}
+
 .listCart .item:nth-child(even) {
   background-color: #eee1;
 }
@@ -457,4 +468,26 @@ body {
   height: 50px;
   cursor: pointer;
   font-weight: bolder;
+}
+
+/* CheckedOut page */
+.checkedOut {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+}
+h1 {
+  display: flex;
+  justify-content: center;
+}
+.inventoryList {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  border: black 1px solid;
+}
+.orderRecord {
+  margin-top: 100px;
+  border: black 2px solid;
 }

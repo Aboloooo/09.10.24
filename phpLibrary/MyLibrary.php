@@ -104,14 +104,17 @@ if (isset($_POST["addingToCart"])) {
 
 function addToCart($prodcutID)
 {
-    if (!in_array($prodcutID, $_SESSION["cart"])) {
-        array_push($_SESSION["cart"], $prodcutID);
-    } else {
-        echo '<script language="javascript">';
-        echo 'alert("This item is already in your cart!")';
-        echo '</script>';
-    }
+    array_push($_SESSION["cart"], $prodcutID);
 }
+
+// //Clearing bascket
+if (isset($_POST["ClearAll"])) {
+    unset($_SESSION["cart"]);
+    session_destroy($_SESSION["cart"]);
+    header("Refresh:0");
+}
+
+
 
 
 $Translation = fopen("../DataBases/translation.csv", "r");

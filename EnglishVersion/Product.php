@@ -57,71 +57,72 @@
             <?php
             if ($_SESSION[("user")]) {
             ?>
-                <div class="container">
-                    <div id="show-cart">
-                        <box-icon name='cart-add'></box-icon>
-                        <?= count($_SESSION["cart"]) ?>
-                    </div>
+                <div id="show-cart">
+                    <box-icon name='cart-add'></box-icon>
+                    <?= count($_SESSION["cart"]) ?>
+                </div>
 
-                <?php
+            <?php
             }
-                ?>
-                <div id="cartTab">
-                    <box-icon name='exit' id="closeIcone"></box-icon>
-                    <h1>Shopping cart</h1>
-                    <div class="listCart">
+            ?>
+            <div id="cartTab">
+                <box-icon name='exit' id="closeIcone"></box-icon>
+                <h1>Shopping cart</h1>
+                <div class="listCart">
 
-                        <!--For each item in the cart session the following loop will run-->
-                        <?php
-                        for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-                            $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+                    <!--For each item in the cart session the following loop will run-->
+                    <?php
+                    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+                        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+                        $line = fgets($ProductsCSV);
+                        $Total;
+                        while (!feof($ProductsCSV)) {
                             $line = fgets($ProductsCSV);
-                            while(!feof($ProductsCSV)){
-                                $line = fgets($ProductsCSV);
-                                $ProductsCSVitems = explode("," , $line);
-                                if($ProductsCSVitems[0] == $_SESSION["cart"][$i])
-                                //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
-                                {
-                                    ?>
-                            <div class="item">
-                                <div class="imgage">
-                                    <img src="<?= $ProductsCSVitems[5]?>" alt="">
+                            $ProductsCSVitems = explode(",", $line);
+                            if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
+                            //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
+                            {
+                                $Total = $Total + $ProductsCSVitems[3];
+                    ?>
+                                <div class="item">
+                                    <div class="imgage">
+                                        <img src="<?= $ProductsCSVitems[5] ?>" alt="">
+                                    </div>
+                                    <div class="name">
+                                        <?= $ProductsCSVitems[1] ?>
+                                    </div>
+                                    <div class="totalPrice">
+                                        <?= $ProductsCSVitems[3] ?>€
+                                    </div>
+                                    <div class="trash">
+                                        <box-icon name='trash-alt' type='solid'></box-icon>
+                                    </div>
                                 </div>
-                                <div class="name">
-                                <?= $ProductsCSVitems[1]?>
-                                </div>
-                                <!--<input type="number" value="1" name="quantity">-->
-                                <div class="totalPrice">
-                                <?= $ProductsCSVitems[3] ?>€
-                                </div>
-                            </div>
-                            <?php
-                                }
-                            }
-                        ?>
-                           
-
                         <?php
+                            }
                         }
                         ?>
-
-                    </div>
-                   <!-- <div class="btn">
+                    <?php
+                    }
+                    ?>
+                    <h4>Total: <?= $Total ?> </h4>
+                </div>
+                <!-- <div class="btn">
                         <button>Check out</button>
                         <button id="closeBtn">Close</button>
                     </div> -->
 
-                   <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
+                <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
 
-                    <form mathod="POST" class="btn">
-                        <input type="submit" value="Check out" name="check_out">
-                        <input type="submit" value="Close" name="closeBtn" id="closeBtn">
-                    </form>
+                <form mathod="POST" class="btn">
+                    <input type="submit" value="Check out" name="check_out">
+                    <input type="submit" value="Clear all" name="ClearAll" id="closeBtn">
+                </form>
 
-                </div>
-                </div>
+            </div>
 
-            <?php
+
+        <?php
         }; ?>
     </div>
 
@@ -184,6 +185,7 @@
             document.getElementById("show-cart").addEventListener("click", function() {
                 document.getElementById("cartTab").style.right = "0px"
             })
+
         }
     </script>
 </body>
