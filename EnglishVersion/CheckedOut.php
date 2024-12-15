@@ -11,7 +11,10 @@
 </head>
 
 <body>
-
+    <?php
+    include_once("../phpLibrary/MyLibrary.php");
+    NavigationBarE("");
+    ?>
     <div class="checkedOut">
 
 

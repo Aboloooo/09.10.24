@@ -217,6 +217,14 @@ body {
   opacity: 0.5;
 }
 
+.AdminPanelProduct {
+  width: 95%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+}
 .cart {
   background-color: #03f80f;
 }

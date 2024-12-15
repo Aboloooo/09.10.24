@@ -108,10 +108,12 @@ function addToCart($prodcutID)
 }
 
 // //Clearing bascket
-if (isset($_POST["ClearAll"])) {
-    unset($_SESSION["cart"]);
-    session_destroy($_SESSION["cart"]);
-    header("Refresh:0");
+if (isset($_SESSION["cart"])) {
+    if (isset($_POST["ClearAll"])) {
+        unset($_SESSION["cart"]);
+        // session_unset();
+        header("Refresh:0");
+    }
 }
 
 

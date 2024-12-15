@@ -38,10 +38,8 @@
                     $_SESSION["user"] = true;
                     $_SESSION["UserName"] = $usernameInput;
                     // checking if the user is admin 
-                    if ($Level == "Admin") {
+                    if (trim($Level) == "Admin") {
                         $_SESSION["userIsAdmin"] = true;
-                    } else {
-                        $_SESSION["userIsAdmin"] = false;
                     }
                     if (isset($_POST["submit"])) {
                         header("Location: Home.php");
