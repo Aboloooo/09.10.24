@@ -44,7 +44,6 @@
         <?php
         if ($_SESSION[("user")]) {
             if (!$_SESSION["userIsAdmin"] == false) {
-                echo '<script>alert("Welcome to Geeks for Geeks")</script>';
         ?>
                 <div class="AdminPanelProduct">
                     <a href="AddingNewProduct.php"><button class="button-24" role="button">Add new product</button></a>
@@ -139,7 +138,7 @@
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
 
                     <?php
-                    if ($_SESSION[("user")]) {
+                    if ($_SESSION["userIsAdmin"] == false) {
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->
