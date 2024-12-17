@@ -1,3 +1,6 @@
+<?php
+include_once("../phpLibrary/MyLibrary.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +15,6 @@
 
 <body>
     <?php
-    include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("Home");
     ?>
 

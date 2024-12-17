@@ -1,3 +1,6 @@
+<?php
+include_once("../phpLibrary/MyLibrary.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,12 +15,11 @@
 
 <body>
     <?php
-    include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
 
     <div>
-        <a href="Login.php"> <?= $arrayOfStrings["Login"]?> </a>
+        <a href="Login.php"> <?= $arrayOfStrings["Login"] ?> </a>
     </div>
 
     <?php
@@ -28,38 +30,35 @@
         // check if user is already exist
         $existingAccount = "../DataBases/Client_DataBase.csv";
         $usernameAlreayExist = false;
-        if(file_exists($existingAccount)){
-            $OpenedFile = fopen($existingAccount , "r");
+        if (file_exists($existingAccount)) {
+            $OpenedFile = fopen($existingAccount, "r");
 
-            while(($line = fgets($OpenedFile))!== false){
-                list($username , $password) = explode(" => ", $line);
-                if($username == $usernameInput){
+            while (($line = fgets($OpenedFile)) !== false) {
+                list($username, $password) = explode(" => ", $line);
+                if ($username == $usernameInput) {
                     print($arrayOfStrings["This username is already taken; please choose another!"]);
                     $usernameAlreayExist = true;
                     break;
                 }
             }
         }
-           
-        if (!$usernameAlreayExist)
-        {
+
+        if (!$usernameAlreayExist) {
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
                 print($arrayOfStrings["Registration in process; please be patient!"]);
                 $client_DataBase = fopen("../DataBases/Client_DataBase.csv", "a");
-    
+
                 //A condition to add header for the database
                 if (filesize("../DataBases/Client_DataBase.csv") === 0) {
                     fwrite($client_DataBase, "userName" . " => " . "Password" . " => " . "Level");
-                    fwrite($client_DataBase,"\n" . "admin" . " => " . "password" . " => " . "Admin");    //Admin created automatically
+                    fwrite($client_DataBase, "\n" . "admin" . " => " . "password" . " => " . "Admin");    //Admin created automatically
                 };
                 //adding crendintial to database for ex) abolo => 123 => Customer
-                fwrite($client_DataBase, "\n" . $_POST["username"] . " => " . $_POST["password"]. " => " . "Customer");
+                fwrite($client_DataBase, "\n" . $_POST["username"] . " => " . $_POST["password"] . " => " . "Customer");
             } else {
                 print($arrayOfStrings["Passwords do not match!"]);
             }
-
         }
-        
     }
     ?>
 

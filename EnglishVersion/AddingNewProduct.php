@@ -1,3 +1,6 @@
+<?php
+include_once("../phpLibrary/MyLibrary.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +15,6 @@
 
 <body>
     <?php
-    include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
 
@@ -29,7 +31,7 @@
         $productGenderFR = $_POST["productGender(FR)"];
 
         // now checking if all the neccesary inputs are filled up
-        if (!isset($productName, $productDescriptionEN, $productDescriptionFR, $productPrice, $productGenderEN, $productGenderFR)) {
+        if (empty($productName) || empty($productDescriptionEN) || empty($productDescriptionFR)  || empty($productPrice)  || empty($productGenderEN) || empty($productGenderFR)) {
             die("Error: One or more product details are missing.");
             $completedProductDetails = false;
         } else {
@@ -37,7 +39,6 @@
         }
 
         if ($completedProductDetails) {
-
             $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
             $lastId = 0;
             $line = fgets($ProductsDataBase);
@@ -64,6 +65,7 @@
     ?>
 
     <div class="container-new-product">
+        <h1>New product</h1>
         <form method="POST" class="form" enctype="multipart/form-data">
             <div class="img-new-product">
                 <label for="fileToUpload"><?= $arrayOfStrings["Product Image"] ?>:</label>

@@ -333,6 +333,13 @@ body {
   border-radius: 10px;
   z-index: 100;
 }
+.container-new-product h1 {
+  position: absolute;
+  transform: translate(50%, -50%);
+  right: 50%;
+  border-bottom: 2px solid;
+  margin-top: 3%;
+}
 .img-new-product {
   width: 50%;
   height: 60vh;

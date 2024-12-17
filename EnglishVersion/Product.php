@@ -1,3 +1,6 @@
+<?php
+include_once("../phpLibrary/MyLibrary.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +16,6 @@
 
 <body class="ProductPageBody">
     <?php
-    include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("Product");
     ?>
 
@@ -138,7 +140,8 @@
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
 
                     <?php
-                    if ($_SESSION["userIsAdmin"] == false) {
+
+                    if ($_SESSION[("user")]) {
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->
