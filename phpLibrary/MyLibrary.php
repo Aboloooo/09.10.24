@@ -134,10 +134,17 @@ while (!feof($Translation)) {
         }
     }
 }
-
 ?>
 
 
+<?php
+
+// adding shopping cart to checkedOut page
+if (isset($_POST["check_out"])) {
+}
+
+
+?>
 
 <?php
 
@@ -183,7 +190,6 @@ function EndBar()
                 height="85%">
             </iframe>
         </div>
-
     </div>
 <?php
 }

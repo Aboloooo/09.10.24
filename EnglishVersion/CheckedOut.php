@@ -18,28 +18,13 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <div class="checkedOut">
-
-
         <h1>Checked out inventories</h1>
-
         <form>
             <label for="">Find: </label>
             <input type="text" width="100px">
             <input type="submit" value="Go">
         </form>
 
-        <div class="orderRecord">
-            <table class="inventoryList">
-                <h3>Ordered by: </h3>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>price</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-            </table>
-        </div>
 
         <div class="orderRecord">
             <table class="inventoryList">
@@ -51,12 +36,15 @@ include_once("../phpLibrary/MyLibrary.php");
                     <th>Date</th>
                     <th>Time</th>
                 </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </table>
         </div>
-
-        <?php
-
-        ?>
     </div>
 </body>
 
