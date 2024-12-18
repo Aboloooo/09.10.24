@@ -25,31 +25,34 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="submit" value="Go">
         </form>
 
-        <?php
-        $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "r");
-        $line = fgets($finlizedOrders);
-        while (!feof($finlizedOrders)) {
+        <div class="orderRecord">
+            <table class="inventoryList">
+                <tr>
+                    <th>Username</th>
+                    <th>Product ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+                <?php
+                $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "r");
                 $line = fgets($finlizedOrders);
-             list($productID, $Date, $Time, $Username) = explode(" => ", trim($line));
-        ?>
-            <div class="orderRecord">
-                <table class="inventoryList">
-                    <h3>Ordered by:<?= $Username ?> </h3>
+                while (!feof($finlizedOrders)) {
+                    $line = fgets($finlizedOrders);
+                    // $productID, $Date, $Time, $Username
+                    $RecordOfItems = explode(" => ", trim($line));
+                    // list($productID, $Date, $Time, $Username) = explode(" => ", trim($line));
+                ?>
                     <tr>
-                        <th>Product ID</th>
-                        <th>Date</th>
-                        <th>Time</th>
+                        <th><?= $RecordOfItems[3] ?></th>
+                        <th><?= $RecordOfItems[0] ?></th>
+                        <th><?= $RecordOfItems[1] ?></th>
+                        <th><?= $RecordOfItems[2] ?></th>
                     </tr>
-                    <tr>
-                        <th><?= $productID ?></th>
-                        <th><?= $Date ?></th>
-                        <th><?= $Time ?></th>
-                    </tr>
-                </table>
-            </div>
-        <?php
-        }
-        ?>
+                <?php
+                }
+                ?>
+            </table>
+        </div>
     </div>
 </body>
 
