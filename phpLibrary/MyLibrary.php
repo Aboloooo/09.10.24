@@ -116,6 +116,13 @@ if (isset($_SESSION["cart"])) {
     }
 }
 
+// adding shopping cart to checkedOut page
+if (isset($_POST["check_out"])) {
+    finlizedBascket();
+    //unset($_SESSION["cart"]);
+    $_SESSION["cart"] = [];
+}
+
 
 
 
@@ -134,16 +141,6 @@ while (!feof($Translation)) {
         }
     }
 }
-?>
-
-
-<?php
-
-// adding shopping cart to checkedOut page
-if (isset($_POST["check_out"])) {
-}
-
-
 ?>
 
 <?php
@@ -193,4 +190,28 @@ function EndBar()
     </div>
 <?php
 }
+
+function finlizedBascket()
+{
+    $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "a");
+    $Date =  date('Y-m-d');
+    $Time = date("H:i:s");
+    $OrderedBy = $_SESSION["UserName"];
+    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+        $line = fgets($ProductsCSV);
+        while (!feof($ProductsCSV)) {
+            $line = fgets($ProductsCSV);
+            $ProductsCSVitems = explode(",", $line);
+            if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
+            //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
+            {
+                $ID = $ProductsCSVitems[0];
+                $Name = $ProductsCSVitems[1];
+                $Price = $ProductsCSVitems[3];
+                fwrite($finlizedOrders,"\n". $ID. " => ". $Name. " => ". $Price. " => ". $Date. " => " . $Time . " => " . $OrderedBy);
+            }
+        }
+    }
+} //end of function
 ?>

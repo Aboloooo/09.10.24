@@ -61,6 +61,9 @@ include_once("../phpLibrary/MyLibrary.php");
                 <div id="show-cart">
                     <box-icon name='cart-add'></box-icon>
                     <?= count($_SESSION["cart"]) ?>
+
+                    <!-- temperory shortcut -->
+                    <a href="CheckedOut.php">check out</a>
                 </div>
         <?php
             }

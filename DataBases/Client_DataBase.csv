@@ -1,4 +1,4 @@
 userName => Password => Level
 admin => password => Admin
-abolo => 1 => Customer
-new => user => Customer
+user1 => 1 => Customer
+user2 => 2 => Customer

@@ -24,27 +24,25 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="text" width="100px">
             <input type="submit" value="Go">
         </form>
-
-
         <div class="orderRecord">
-            <table class="inventoryList">
-                <h3>Ordered by: </h3>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>price</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                </tr>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </table>
-        </div>
+        <table class="inventoryList">
+            <h3>Ordered by:</h3>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </table>
+    </div>
     </div>
 </body>
 
