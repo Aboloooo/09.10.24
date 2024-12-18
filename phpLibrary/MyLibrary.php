@@ -207,9 +207,7 @@ function finlizedBascket()
             //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
             {
                 $ID = $ProductsCSVitems[0];
-                $Name = $ProductsCSVitems[1];
-                $Price = $ProductsCSVitems[3];
-                fwrite($finlizedOrders,"\n". $ID. " => ". $Name. " => ". $Price. " => ". $Date. " => " . $Time . " => " . $OrderedBy);
+                fwrite($finlizedOrders,"\n". $ID. " => ". $Date. " => " . $Time . " => " . $OrderedBy);
             }
         }
     }
