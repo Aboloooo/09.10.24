@@ -12,7 +12,7 @@ include_once("../phpLibrary/MyLibrary.php");
     <!-- bank of icon  https://boxicons.com/  -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
 </head>
-
+ 
 <body>
     <?php
     NavigationBarE("Home");
