@@ -144,7 +144,7 @@ include_once("../phpLibrary/MyLibrary.php");
 
                     <?php
 
-                    if ($_SESSION[("user")]) {
+                    if (!$_SESSION[("userIsAdmin")]) {
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->

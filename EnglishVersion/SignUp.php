@@ -65,8 +65,8 @@ include_once("../phpLibrary/MyLibrary.php");
     <div class="login-form">
         <form action="" method="POST">
             <h1><?= $arrayOfStrings["SignUp"] ?></h1>
-            <label for="Email">Email</label>
-            <input type="text" placeholder="<?= $arrayOfStrings["Email or Phone"] ?>" name="username">
+            <label for="Email">Username</label>
+            <input type="text" placeholder="Username or phone number" name="username">
             <label for="password"><?= $arrayOfStrings["Password"] ?></label>
             <input type="password" placeholder="<?= $arrayOfStrings["Password"] ?>" name="password">
             <label for="password"><?= $arrayOfStrings["Password confirmation"] ?></label>
