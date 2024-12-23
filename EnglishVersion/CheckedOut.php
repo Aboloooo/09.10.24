@@ -18,31 +18,30 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <div class="checkedOut">
-        <h1>Checked out inventories</h1>
+        <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
         <form>
-            <label for="">Find: </label>
+            <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
             <input type="text" width="100px">
-            <input type="submit" value="Go">
+            <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
 
         <div class="orderRecord">
             <table class="inventoryList">
-                <tr>
-                    <th class="itemsRowHead">Username</th>
-                    <th class="itemsRowHead">Product ID</th>
-                    <th class="itemsRowHead">Date</th>
-                    <th class="itemsRowHead">Time</th>
-                </tr>
                 <?php
-                $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "r");
-                // checking if file exist
-                function displayOrders($finlizedOrders)
+                $FilePath = "../DataBases/FinlizedOrders.csv";
+                // // checking if file exist
+                function displayOrders($FilePath)
                 {
-                    if (!file_exists($finlizedOrders)) {
+                    if (!file_exists($FilePath)) {
                         print("No record found!");
                         return;
+                    } else {
+                        $finlizedOrders = fopen($FilePath, "r");
+                        return $finlizedOrders;
                     }
                 }
+                $finlizedOrders = displayOrders($FilePath);
+
                 $currentUsername = $_SESSION["UserName"];
                 $line = fgets($finlizedOrders);
                 while (!feof($finlizedOrders)) {
@@ -50,14 +49,36 @@ include_once("../phpLibrary/MyLibrary.php");
                     // $productID, $Date, $Time, $Username
                     $RecordOfItems = explode(" => ", trim($line));
                     // list($productID, $Date, $Time, $Username) = explode(" => ", trim($line));
-                    if ($currentUsername == $RecordOfItems[3] || $currentUsername == "admin") {
+                    if ($currentUsername == "admin") {
                 ?>
+                        <tr>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Username"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Product ID"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Date"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Time"] ?></th>
+                        </tr>
                         <tr class="itemsRow">
+                            <th><?= $RecordOfItems[4] ?></th>
+                            <th><?= $RecordOfItems[0] ?></th>
+                            <th><?= $RecordOfItems[2] ?></th>
                             <th><?= $RecordOfItems[3] ?></th>
+                        </tr>
+                    <?php
+                    } else if ($currentUsername == $RecordOfItems[4]) {
+                    ?>
+                        <tr>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Product ID"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Name"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Date"] ?></th>
+                            <th class="itemsRowHead"><?= $arrayOfStrings["Time"] ?></th>
+                        </tr>
+                        <tr class="itemsRow">
                             <th><?= $RecordOfItems[0] ?></th>
                             <th><?= $RecordOfItems[1] ?></th>
                             <th><?= $RecordOfItems[2] ?></th>
+                            <th><?= $RecordOfItems[3] ?></th>
                         </tr>
+
                 <?php
                     }
                 }

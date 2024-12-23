@@ -65,7 +65,7 @@ include_once("../phpLibrary/MyLibrary.php");
     ?>
 
     <div class="container-new-product">
-        <h1>New product</h1>
+        <h1><?= $arrayOfStrings["New product"] ?></h1>
         <form method="POST" class="form" enctype="multipart/form-data">
             <div class="img-new-product">
                 <label for="fileToUpload"><?= $arrayOfStrings["Product Image"] ?>:</label>

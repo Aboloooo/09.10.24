@@ -122,10 +122,34 @@ if (isset($_POST["check_out"])) {
     //unset($_SESSION["cart"]);
     $_SESSION["cart"] = [];
 }
+function finlizedBascket()
+{
+    $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "a");
+    $Date =  date('Y-m-d');
+    $Time = date("H:i:s");
+    $OrderedBy = $_SESSION["UserName"];
+    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+        $line = fgets($ProductsCSV);
+        while (!feof($ProductsCSV)) {
+            $line = fgets($ProductsCSV);
+            $ProductsCSVitems = explode(",", $line);
+            if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
+            //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
+            {
+                $ID = $ProductsCSVitems[0];
+                $Name = $ProductsCSVitems[1];
+                // $img = $ProductsCSVitems[5];
+                fwrite($finlizedOrders, "\n" . $ID . " => " . $Name . " => " . $Date . " => " . $Time . " => " . $OrderedBy);
+            }
+        }
+    }
+} //end of function
+?>
 
 
 
-
+<?php
 $Translation = fopen("../DataBases/translation.csv", "r");
 $arrayOfStrings = [];
 $line = fgets($Translation);
@@ -190,26 +214,4 @@ function EndBar()
     </div>
 <?php
 }
-
-function finlizedBascket()
-{
-    $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "a");
-    $Date =  date('Y-m-d');
-    $Time = date("H:i:s");
-    $OrderedBy = $_SESSION["UserName"];
-    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
-        $line = fgets($ProductsCSV);
-        while (!feof($ProductsCSV)) {
-            $line = fgets($ProductsCSV);
-            $ProductsCSVitems = explode(",", $line);
-            if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
-            //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
-            {
-                $ID = $ProductsCSVitems[0];
-                fwrite($finlizedOrders,"\n". $ID. " => ". $Date. " => " . $Time . " => " . $OrderedBy);
-            }
-        }
-    }
-} //end of function
 ?>

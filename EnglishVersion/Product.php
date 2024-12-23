@@ -48,8 +48,8 @@ include_once("../phpLibrary/MyLibrary.php");
             if (!$_SESSION["userIsAdmin"] == false) {
         ?>
                 <div class="AdminPanelProduct">
-                    <a href="AddingNewProduct.php"><button class="button-24" role="button">Add new product</button></a>
-                    <a href="CheckedOut.php"><button class="button-24" role="button">Checked out items</button></a>
+                    <a href="AddingNewProduct.php"><button class="button-24" role="button"><?= $arrayOfStrings["Add new product"] ?></button></a>
+                    <a href="CheckedOut.php"><button class="button-24" role="button"><?= $arrayOfStrings["Checked out items"] ?></button></a>
                 </div>
             <?php
             } else {
