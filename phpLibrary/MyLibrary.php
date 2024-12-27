@@ -128,6 +128,7 @@ function finlizedBascket()
     $Date =  date('Y-m-d');
     $Time = date("H:i:s");
     $OrderedBy = $_SESSION["UserName"];
+    $orderLine = $OrderedBy . " => " . $Date . " => " . $Time . " => ";
     for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
         $ProductsCSV = fopen("../DataBases/Products.csv", "r");
         $line = fgets($ProductsCSV);
@@ -138,12 +139,11 @@ function finlizedBascket()
             //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
             {
                 $ID = $ProductsCSVitems[0];
-                $Name = $ProductsCSVitems[1];
-                // $img = $ProductsCSVitems[5];
-                fwrite($finlizedOrders, "\n" . $ID . " => " . $Name . " => " . $Date . " => " . $Time . " => " . $OrderedBy);
+                $orderLine .= "," . $ID;
             }
         }
     }
+     fwrite($finlizedOrders, "\n" . $orderLine);
 } //end of function
 ?>
 
