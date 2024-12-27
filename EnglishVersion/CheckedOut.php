@@ -75,8 +75,6 @@ include_once("../phpLibrary/MyLibrary.php");
                             <th><?= ($_SESSION["userIsAdmin"]) ? $orderBy :  $ProductName; ?></th>
                             <th><?= $Price ?></th>
                         </tr>
-
-
                 <?php
                     }
                 }
