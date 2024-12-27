@@ -67,10 +67,10 @@ body {
   /* margin: 0 20px; */
   padding: 10px;
 }
-
-.SignInUpBtn {
-  background-color: #03f88e;
+h1 {
+  background-color: black;
 }
+
 /* Product page */
 
 .background_img {

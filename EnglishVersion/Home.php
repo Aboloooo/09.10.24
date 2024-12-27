@@ -11,8 +11,15 @@ include_once("../phpLibrary/MyLibrary.php");
     <link rel="stylesheet" href="../style.css">
     <!-- bank of icon  https://boxicons.com/  -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <style>
+        body {
+            background-image: url("../img/3.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
 </head>
- 
+
 <body>
     <?php
     NavigationBarE("Home");

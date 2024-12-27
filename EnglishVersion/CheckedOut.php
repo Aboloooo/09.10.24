@@ -19,6 +19,7 @@ include_once("../phpLibrary/MyLibrary.php");
     ?>
     <div class="checkedOut">
         <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
+        <h1>right time, date, seperation of orders</h1>
         <form>
             <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
             <input type="text" width="100px">
