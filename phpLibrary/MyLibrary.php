@@ -142,7 +142,6 @@ function finlizedBascket()
             }
         }
     }
-    fwrite($finlizedOrders, "\n" . $orderLine);
 } //end of function
 ?>
 
