@@ -18,71 +18,79 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <div class="checkedOut">
-        <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
+        <h1><?= ($_SESSION["userIsAdmin"]) ? $arrayOfStrings["Checked out inventories"] : $arrayOfStrings["Previous orders"]; ?></h1>
+        <h1>the only thing missed is seperation of each order!</h1>
         <form>
             <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
             <input type="text" width="100px">
             <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
-
         <div class="orderRecord">
             <table class="inventoryList">
+                <tr class="itemsRowHead">
+                    <th>Product ID</th>
+                    <th><?= (!$_SESSION["userIsAdmin"]) ? "Product name" : "Buyer"; ?></th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
                 <?php
-                $FilePath = "../DataBases/FinlizedOrders.csv";
-                // // checking if file exist
-                function displayOrders($FilePath)
+                $FinalizedItemsCSV = fopen("../DataBases/FinlizedOrders.csv", "r");
+                $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+                $line = fgets($FinalizedItemsCSV);
+                $total = 0;
+
+                while (!feof($FinalizedItemsCSV)) {
+                    $line = fgets($FinalizedItemsCSV);
+                    $recordLine = explode(",", $line);
+                    $entireLine = explode(" => ", $line);
+                    $orderBy = $entireLine[0];
+                    $Date = $entireLine[1];
+                    $Time = $entireLine[2];
+                    matchItems($recordLine, $ProductsCSV, $total, $Date, $Time, $orderBy);
+                }
+                function matchItems($recordLine, $ProductsCSV, $total, $Date, $Time, $orderBy)
                 {
-                    if (!file_exists($FilePath)) {
-                        print("No record found!");
-                        return;
-                    } else {
-                        $finlizedOrders = fopen($FilePath, "r");
-                        return $finlizedOrders;
+                    rewind($ProductsCSV);
+                    while (!feof($ProductsCSV)) {
+                        $line = fgets($ProductsCSV);
+                        $ProductsCSVitems = explode(",", $line);
+                        foreach ($recordLine as $itemID) {
+                            if ($ProductsCSVitems[0] == $itemID) {
+                                $ID = $ProductsCSVitems[0];
+                                $ProductName = $ProductsCSVitems[1];
+                                $Price = $ProductsCSVitems[3];
+                                $total += $ProductsCSVitems[3];
+                                displayItems($ID, $ProductName, $Price, $Date, $Time, $orderBy);
+                            }
+                        }
                     }
                 }
-                $finlizedOrders = displayOrders($FilePath);
 
-                $currentUsername = $_SESSION["UserName"];
-                $line = fgets($finlizedOrders);
-                while (!feof($finlizedOrders)) {
-                    $line = fgets($finlizedOrders);
-                    // $productID, $Date, $Time, $Username
-                    $RecordOfItems = explode(" => ", trim($line));
-                    // list($productID, $Date, $Time, $Username) = explode(" => ", trim($line));
-                    if ($currentUsername == "admin") {
+                function displayItems($ID, $ProductName, $Price, $Date, $Time, $orderBy)
+                {
+                    if ($orderBy == $_SESSION["UserName"]) {
                 ?>
+
                         <tr>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Username"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Product ID"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Date"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Time"] ?></th>
+                            <th><?= $ID ?></th>
+                            <th><?= ($_SESSION["userIsAdmin"]) ? $orderBy :  $ProductName; ?></th>
+                            <th><?= $Price ?></th>
                         </tr>
-                        <tr class="itemsRow">
-                            <th><?= $RecordOfItems[4] ?></th>
-                            <th><?= $RecordOfItems[0] ?></th>
-                            <th><?= $RecordOfItems[2] ?></th>
-                            <th><?= $RecordOfItems[3] ?></th>
-                        </tr>
-                    <?php
-                    } else if ($currentUsername == $RecordOfItems[4]) {
-                    ?>
-                        <tr>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Product ID"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Name"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Date"] ?></th>
-                            <th class="itemsRowHead"><?= $arrayOfStrings["Time"] ?></th>
-                        </tr>
-                        <tr class="itemsRow">
-                            <th><?= $RecordOfItems[0] ?></th>
-                            <th><?= $RecordOfItems[1] ?></th>
-                            <th><?= $RecordOfItems[2] ?></th>
-                            <th><?= $RecordOfItems[3] ?></th>
-                        </tr>
+
 
                 <?php
                     }
                 }
                 ?>
+                <tr>
+                    <th>Total:</th>
+                    <th></th>
+                    <th></th>
+                    <th>total</th>
+                </tr>
+                <tr>
+                    An order has been made on <?= $Date . " at " . $Time ?>
+                </tr>
             </table>
         </div>
     </div>
