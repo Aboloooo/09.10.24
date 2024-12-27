@@ -18,7 +18,7 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <div class="checkedOut">
-        <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
+        <h1><?= ($_SESSION["userIsAdmin"]) ? $arrayOfStrings["Checked out inventories"] : $arrayOfStrings["Previous orders"]; ?></h1>
         <form>
             <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
             <input type="text" width="100px">
