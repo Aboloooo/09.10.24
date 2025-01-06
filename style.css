@@ -67,9 +67,6 @@ body {
   /* margin: 0 20px; */
   padding: 10px;
 }
-h1 {
-  background-color: black;
-}
 
 /* Product page */
 
@@ -502,7 +499,6 @@ h1 {
   margin-right: auto;
 }
 .orderRecord {
-  margin-top: 100px;
   border: black 2px solid;
 }
 .itemsRowHead {

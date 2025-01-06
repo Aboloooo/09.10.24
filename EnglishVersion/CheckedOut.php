@@ -25,73 +25,91 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="text" width="100px">
             <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
-        <div class="orderRecord">
-            <table class="inventoryList">
-                <tr class="itemsRowHead">
-                    <th>Product ID</th>
-                    <th><?= (!$_SESSION["userIsAdmin"]) ? "Product name" : "Buyer"; ?></th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-                <?php
-                $FinalizedItemsCSV = fopen("../DataBases/FinlizedOrders.csv", "r");
-                $ProductsCSV = fopen("../DataBases/Products.csv", "r");
-                $line = fgets($FinalizedItemsCSV);
-                $total = 0;
+        <?php
+        // Reading orders file
+        $FinalizedItemsCSV = fopen("../DataBases/FinlizedOrders.csv", "r");
+        $emptyFirstOrderLine = fgets($FinalizedItemsCSV);
+        $orders = [];
+        while (!feof($FinalizedItemsCSV)) {
+            $line = fgets($FinalizedItemsCSV);
+            $entireLine = explode(" => ", $line);
+            $orderBy = $entireLine[0];
+            $Date = $entireLine[1];
+            $Time = $entireLine[2];
+            $ordredProductIDs = explode(",", $entireLine[3]);
+            $orders[] = [
+                "user" => $orderBy,
+                "Date" => $Date,
+                "Time" => $Time,
+                "ordredProductIDs" => $ordredProductIDs,
+            ];
+        }
 
-                while (!feof($FinalizedItemsCSV)) {
-                    $line = fgets($FinalizedItemsCSV);
-                    $recordLine = explode(",", $line);
-                    $entireLine = explode(" => ", $line);
-                    $orderBy = $entireLine[0];
-                    $Date = $entireLine[1];
-                    $Time = $entireLine[2];
-                    matchItems($recordLine, $ProductsCSV, $total, $Date, $Time, $orderBy);
-                }
-                function matchItems($recordLine, $ProductsCSV, $total, $Date, $Time, $orderBy)
-                {
-                    rewind($ProductsCSV);
-                    while (!feof($ProductsCSV)) {
-                        $line = fgets($ProductsCSV);
-                        $ProductsCSVitems = explode(",", $line);
-                        foreach ($recordLine as $itemID) {
-                            if ($ProductsCSVitems[0] == $itemID) {
-                                $ID = $ProductsCSVitems[0];
-                                $ProductName = $ProductsCSVitems[1];
-                                $Price = $ProductsCSVitems[3];
-                                $total += $ProductsCSVitems[3];
-                                displayItems($ID, $ProductName, $Price, $Date, $Time, $orderBy);
+        // Reading products file
+        $productMap = [];
+        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+        $emptyFirstProductLine = fgets($ProductsCSV);
+        while (!feof($ProductsCSV)) {
+            $line = fgets($ProductsCSV);
+            $ProductsCSVitems = explode(",", $line);
+            $productID = $ProductsCSVitems[0];
+            $productName = $ProductsCSVitems[1];
+            $productPrice = $ProductsCSVitems[3];
+            $productMap[$productID] = [
+                "productName" => $productName,
+                "productPrice" => $productPrice,
+            ];
+        }
+
+        $currentUser = $_SESSION["UserName"];
+        foreach ($orders as $order) {
+            if ($currentUser == $order["user"]) {
+        ?>
+                <div class="orderRecord">
+                    <table class="inventoryList">
+                        <h3>An order has been placed by <?= $order["user"] ?> on <?= $order["Date"] ?> at <?= $order["Time"] ?></h3>
+                        <tr class="itemsRowHead">
+                            <th>Product Name</th>
+                            <th>Product Price</th>
+                        </tr>
+                        <?php
+                        foreach ($orders["ordredProductIDs"] as $ordredproductID) {
+                            if (isset($productMap[$ordredproductID])) {
+                        ?>
+                                <tr class="itemsRowHead">
+                                    <th><?= $productMap[$ordredproductID]["productName"] ?></th>
+                                    <th><?= $productMap[$ordredproductID]["productPrice"] ?></th>
+                                </tr>
+                        <?php
                             }
                         }
-                    }
-                }
-
-                function displayItems($ID, $ProductName, $Price, $Date, $Time, $orderBy)
-                {
-                    if ($orderBy == $_SESSION["UserName"]) {
-                ?>
-
-                        <tr>
-                            <th><?= $ID ?></th>
-                            <th><?= ($_SESSION["userIsAdmin"]) ? $orderBy :  $ProductName; ?></th>
-                            <th><?= $Price ?></th>
-                        </tr>
-                <?php
-                    }
-                }
-                ?>
-                <tr>
-                    <th>Total:</th>
-                    <th></th>
-                    <th></th>
-                    <th>total</th>
-                </tr>
-                <tr>
-                    An order has been made on <?= $Date . " at " . $Time ?>
-                </tr>
-            </table>
-        </div>
-    </div>
+                    } else {
+                        ?>
+                        <div class="orderRecord">
+                            <table class="inventoryList">
+                                <h3>An order has been placed by <?= $order["user"] ?> on <?= $order["Date"] ?> at <?= $order["Time"] ?></h3>
+                                <tr class="itemsRowHead">
+                                    <th>Product Name</th>
+                                    <th>Product Price</th>
+                                </tr>
+                                <?php
+                                foreach ($orders["ordredProductIDs"] as $ordredproductID) {
+                                    if (isset($productMap[$ordredproductID])) {
+                                ?>
+                                        <tr class="itemsRowHead">
+                                            <th><?= $productMap[$ordredproductID]["productName"] ?></th>
+                                            <th><?= $productMap[$ordredproductID]["productPrice"] ?></th>
+                                        </tr>
+                        <?php
+                                    }
+                                }
+                            }
+                        }
+                        // $total = 0;
+                        ?>
+                            </table>
+                        </div>
+                </div>
 </body>
 
 </html>
