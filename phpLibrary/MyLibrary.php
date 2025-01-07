@@ -138,7 +138,7 @@ function finlizedBascket()
             //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
             {
                 $ID = $ProductsCSVitems[0];
-                $orderLine .= "," . $ID;
+                $orderLine .= $ID . "," ;
             }
         }
     }

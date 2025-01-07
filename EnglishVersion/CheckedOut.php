@@ -19,7 +19,6 @@ include_once("../phpLibrary/MyLibrary.php");
     ?>
     <div class="checkedOut">
         <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
-        <h1>right time, date, seperation of orders</h1>
         <form>
             <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
             <input type="text" width="100px">
@@ -45,6 +44,9 @@ include_once("../phpLibrary/MyLibrary.php");
             ];
         }
 
+
+        //var_dump($orders); 
+
         // Reading products file
         $productMap = [];
         $ProductsCSV = fopen("../DataBases/Products.csv", "r");
@@ -52,18 +54,21 @@ include_once("../phpLibrary/MyLibrary.php");
         while (!feof($ProductsCSV)) {
             $line = fgets($ProductsCSV);
             $ProductsCSVitems = explode(",", $line);
-            $productID = $ProductsCSVitems[0];
-            $productName = $ProductsCSVitems[1];
-            $productPrice = $ProductsCSVitems[3];
-            $productMap[$productID] = [
-                "productName" => $productName,
-                "productPrice" => $productPrice,
-            ];
+            if (count($ProductsCSVitems) == 8) {
+                $productID = $ProductsCSVitems[0];
+                $productName = $ProductsCSVitems[1];
+                $productPrice = $ProductsCSVitems[3];
+                $productMap[$productID] = [
+                    "productName" => $productName,
+                    "productPrice" => $productPrice,
+                ];
+            }
         }
 
         $currentUser = $_SESSION["UserName"];
         foreach ($orders as $order) {
-            if ($currentUser == $order["user"]) {
+            $total = 0;
+            if ($order["user"] == $currentUser) {
         ?>
                 <div class="orderRecord">
                     <table class="inventoryList">
@@ -73,42 +78,57 @@ include_once("../phpLibrary/MyLibrary.php");
                             <th>Product Price</th>
                         </tr>
                         <?php
-                        foreach ($orders["ordredProductIDs"] as $ordredproductID) {
+                        foreach ($order["ordredProductIDs"] as $ordredproductID) {
                             if (isset($productMap[$ordredproductID])) {
+                                $total += $productMap[$ordredproductID]["productPrice"];
                         ?>
-                                <tr class="itemsRowHead">
+                                <tr class="orderitems">
                                     <th><?= $productMap[$ordredproductID]["productName"] ?></th>
                                     <th><?= $productMap[$ordredproductID]["productPrice"] ?></th>
                                 </tr>
-                        <?php
+                                <!--  <tr class="test">
+                                    <th>Total:</th>
+                                    <th> test </th>
+                                </tr> -->
+                            <?php
                             }
                         }
-                    } else {
-                        ?>
-                        <div class="orderRecord">
-                            <table class="inventoryList">
-                                <h3>An order has been placed by <?= $order["user"] ?> on <?= $order["Date"] ?> at <?= $order["Time"] ?></h3>
-                                <tr class="itemsRowHead">
-                                    <th>Product Name</th>
-                                    <th>Product Price</th>
-                                </tr>
-                                <?php
-                                foreach ($orders["ordredProductIDs"] as $ordredproductID) {
-                                    if (isset($productMap[$ordredproductID])) {
-                                ?>
-                                        <tr class="itemsRowHead">
-                                            <th><?= $productMap[$ordredproductID]["productName"] ?></th>
-                                            <th><?= $productMap[$ordredproductID]["productPrice"] ?></th>
-                                        </tr>
-                        <?php
+                    }
+                    if ($_SESSION["userIsAdmin"]) { {
+                            ?>
+                            <div class="orderRecord">
+                                <table class="inventoryList">
+                                    <h3>An order has been placed by <?= $order["user"] ?> on <?= $order["Date"] ?> at <?= $order["Time"] ?></h3>
+                                    <tr class="itemsRowHead">
+                                        <th>Product Name</th>
+                                        <th>Product Price</th>
+                                    </tr>
+                                    <?php
+                                    foreach ($order["ordredProductIDs"] as $ordredproductID) {
+                                        if (isset($productMap[$ordredproductID])) {
+                                            $total += $productMap[$ordredproductID]["productPrice"];
+                                    ?>
+                                            <tr class="orderitems">
+                                                <th><?= $productMap[$ordredproductID]["productName"] ?></th>
+                                                <th><?= $productMap[$ordredproductID]["productPrice"] ?></th>
+                                            </tr>
+                            <?php
+                                        }
                                     }
                                 }
                             }
-                        }
-                        // $total = 0;
+
+                            ?>
+                            <tr class="test">
+                                <th></th>
+                                <th>Total: <?= $total ?></th>
+                            </tr>
+                        <?php
+                    }
+                    // $total = 0;
                         ?>
-                            </table>
-                        </div>
+                                </table>
+                            </div>
                 </div>
 </body>
 
