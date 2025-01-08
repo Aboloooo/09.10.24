@@ -82,10 +82,10 @@ include_once("../phpLibrary/MyLibrary.php");
         ?>
                 <div class="orderRecord">
                     <table class="inventoryList">
-                        <h3>An order has been placed by <?= $order["user"] ?> on <?= $order["Date"] ?> at <?= $order["Time"] ?></h3>
+                        <h3><?= $arrayOfStrings["An order has been placed by"] ?> <?= $order["user"] ?> <?= $arrayOfStrings["on"] ?> <?= $order["Date"] ?> <?= $arrayOfStrings["at"] ?> <?= $order["Time"] ?></h3>
                         <tr class="itemsRowHead">
-                            <th>Product Name</th>
-                            <th>Product Price</th>
+                            <th><?= $arrayOfStrings["Product name"] ?></th>
+                            <th><?= $arrayOfStrings["Product price"] ?></th>
                         </tr>
                         <?php
                         foreach ($order["ordredProductIDs"] as $ordredproductID) {

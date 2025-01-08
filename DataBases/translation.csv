@@ -36,6 +36,7 @@ submit,submit,soumettre
 Buy, Buy, acheter
 Product Image,Product Image,Image du produit
 Product name, Product name, Nom du produit
+Product price, Product price, Prix du produit
 Price,Price,Prix
 Description, Description, Description
 Gender usage, Gender usage, Utilisation du genre
@@ -50,3 +51,6 @@ Time,Time,Heure
 Go,Go,Aller
 Name,Name,Nom
 Previous orders,Previous orders,Commandes précédentes
+An order has been placed by,An order has been placed by,Une commande a été passée par
+on,on,le
+at,at,à
