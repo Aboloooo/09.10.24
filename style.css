@@ -7,7 +7,7 @@ body {
 .navigationBar {
   width: auto;
   height: 200px;
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(41, 41, 41);
 }
 .links {
   display: flex;
@@ -64,12 +64,31 @@ body {
 }
 
 #selectLang {
-  /* margin: 0 20px; */
   padding: 10px;
 }
 
-/* Product page */
 
+.signInOutBtn form{
+width: 20%;
+height: 100px;
+margin-left: auto;
+margin-right: auto;
+display: flex;
+flex-direction: column;
+padding: 10px;
+}
+.signInOutBtn input{
+  height: 45px;
+  font-weight: 500;
+  border-color: rgb(24, 203, 248);
+  color: rgb(24, 203, 248);
+}
+.signInOutBtn input:nth-child(2){
+  height: 30px;
+  margin-top: 10px;
+}
+
+/* Product page */
 .background_img {
   width: 70%;
   float: left;
