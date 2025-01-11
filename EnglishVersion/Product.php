@@ -112,7 +112,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 <?php
                 }
                 ?>
-                <h4>Total: <?= $Total ?> </h4>
+                <h4>Total: <?= $Total ?>€ </h4>
             </div>
             <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
             <form method="POST" class="btn">
@@ -144,7 +144,7 @@ include_once("../phpLibrary/MyLibrary.php");
 
                     <?php
 
-                    if (!$_SESSION[("userIsAdmin")] && $_SESSION[("user")]== true) {
+                    if (!$_SESSION[("userIsAdmin")] && $_SESSION[("user")] == true) {
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->

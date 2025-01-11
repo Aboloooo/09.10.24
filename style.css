@@ -67,23 +67,23 @@ body {
   padding: 10px;
 }
 
-
-.signInOutBtn form{
-width: 20%;
-height: 100px;
-margin-left: auto;
-margin-right: auto;
-display: flex;
-flex-direction: column;
-padding: 10px;
+.signInOutBtn form {
+  width: 20%;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
-.signInOutBtn input{
+.signInOutBtn input {
   height: 45px;
   font-weight: 500;
   border-color: rgb(24, 203, 248);
-  color: rgb(24, 203, 248);
+  color: rgb(0, 0, 0);
+  font-weight: 600;
 }
-.signInOutBtn input:nth-child(2){
+.signInOutBtn input:nth-child(2) {
   height: 30px;
   margin-top: 10px;
 }
@@ -527,9 +527,9 @@ h1 {
 .itemsRow:nth-child(even) {
   background-color: rgba(60, 54, 54, 0.067);
 }
-.orderitems:nth-child(even){
+.orderitems:nth-child(even) {
   background-color: #eee;
 }
-.test{
+.test {
   background-color: #afc4b0;
 }
