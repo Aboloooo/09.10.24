@@ -63,7 +63,7 @@ include_once("../phpLibrary/MyLibrary.php");
                     <?= count($_SESSION["cart"]) ?>
 
                     <!-- temperory shortcut -->
-                    <a href="CheckedOut.php">check out</a>
+                    <a href="CheckedOut.php"><?= $arrayOfStrings["checkout"] ?></a>
                 </div>
         <?php
             }
@@ -74,7 +74,7 @@ include_once("../phpLibrary/MyLibrary.php");
         <!-- Shopping cart -->
         <div id="cartTab">
             <box-icon name='exit' id="closeIcone"></box-icon>
-            <h1>Shopping cart</h1>
+            <h1><?= $arrayOfStrings["ShoppingCart"] ?></h1>
             <div class="listCart">
 
                 <!--For each item in the cart session the following loop will run-->
@@ -116,8 +116,8 @@ include_once("../phpLibrary/MyLibrary.php");
             </div>
             <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
             <form method="POST" class="btn">
-                <input type="submit" value="Check out" name="check_out">
-                <input type="submit" value="Clear all" name="ClearAll" id="closeBtn">
+                <input type="submit" value="<?= $arrayOfStrings["checkout"] ?>" name="check_out">
+                <input type="submit" value="<?= $arrayOfStrings["Clear all"] ?>" name="ClearAll" id="closeBtn">
             </form>
         </div>
     </div>

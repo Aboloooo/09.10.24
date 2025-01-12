@@ -31,7 +31,7 @@ include_once("../phpLibrary/MyLibrary.php");
         if ($_SESSION["user"]) {
         ?>
             <form method="post">
-                <input type="submit" value="Logout" name="Logout">
+                <input type="submit" value="<?= $arrayOfStrings["Logout"] ?>" name="Logout">
             </form>
 
         <?php
@@ -39,8 +39,8 @@ include_once("../phpLibrary/MyLibrary.php");
         } else {
         ?>
             <form method="post">
-                <input type="submit" value="Sign up" name="SignUp">
-                <input type="submit" value="Login" name="Login">
+                <input type="submit" value="<?= $arrayOfStrings["SignUp"] ?>" name="SignUp">
+                <input type="submit" value="<?= $arrayOfStrings["Login"] ?>" name="Login">
             </form>
 
         <?php
