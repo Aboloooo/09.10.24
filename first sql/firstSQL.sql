@@ -10,15 +10,17 @@ create table countries(
 create table users(
     userID int primary key auto_increment,
     Name varchar(255),
-    Email varchar(255),
+    Email varchar(255), 
     CountryID int,
     FOREIGN KEY (CountryId) REFERENCES countries(CountryId)
 );
 
-Insert Into countries (CountryName) VALUES ("Lux");
-Insert Into countries (CountryName) VALUES ("Por");
-Insert Into countries (CountryName) VALUES ("Yaman");
+Insert Into countries (CountryName) VALUES ('Lux');
+Insert Into countries (CountryName) VALUES ('Por');
+Insert Into countries (CountryName) VALUES ('Yaman');
 
-Insert Into users (Name, Email, CountryId) VALUES ("AA", "aa@example.com", 3);
-Insert Into users (Name, Email, CountryId) VALUES ("BB", "bb@example.com", 1);
-Insert Into users (Name, Email, CountryId) VALUES ("CC", "cc@example.com", 2);
+Insert Into users (Name, Email, CountryId) VALUES ('AA', 'aa@example.com', 1);
+Insert Into users (Name, Email, CountryId) VALUES ('BB', 'bb@example.com', 2);
+Insert Into users (Name, Email, CountryId) VALUES ('CC', 'cc@example.com', 3);
+
+select Name,Email,users.CountryID from users,countries where users.CountryID = countries.CountryID;
