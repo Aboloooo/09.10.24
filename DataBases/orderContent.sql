@@ -2,7 +2,7 @@ drop database if exists orderContent;
 create database orderContent;
 use orderContent;
 
-here we can see orders more detailed
+/* here we can see orders more detailed */
 create table orderContent(
 
 
