@@ -31,18 +31,46 @@
 
     /* step 5 */
     $results = $sqlSelectStatement->get_result();
+
+
+
+    /* getting user input */
+    if (isset($_GET["submitBtn"])) {
+        $userInput = isset($_GET["selectedCountry"]);
+
+        $sqlFilterCommand = $connection->prepare('select * from users where CountryID = ' . $userInput);
+        $sqlFilterCommand->execute();
+        $filtred = $sqlFilterCommand->get_result();
+        echo '<table>
+                <th>name</th>';
+        while ($row = $filtred->fetch_assoc()) {
     ?>
-    <form action="">
-        <select name="selectedCountry" id="">
-        <?php
-        while ($row = $results->fetch_assoc()) {
-            ?>
-            <option value="<?= $row['countryName']?>" if() ><?= $row['countryName']?></option>';
-           <?php
+            <tr><?= $row["Name"] ?></tr>
+    <?php
         }
-        ?>
+        echo '</table>';
+    }
+    ?>
+    <form action="" method="GET">
+        <label for="">choose a country</label>
+
+        <select name="selectedCountry" id="">
+            <option value="choose">select</option>
+            <?php
+            while ($row = $results->fetch_assoc()) {
+                $countID++;
+            ?>
+                <option value="<?= $countID ?>"><?= $row['countryName'] ?> </option>';
+            <?php
+            }
+            ?>
         </select>
+        <input type="submit" value="filter" name="submitBtn">
     </form>
+
+    <table>
+        <th></th>
+    </table>
 </body>
 
 </html>
