@@ -15,12 +15,21 @@ create table users(
     FOREIGN KEY (CountryId) REFERENCES countries(CountryId)
 );
 
-Insert Into countries (CountryName) VALUES ('Lux');
-Insert Into countries (CountryName) VALUES ('Por');
+
+
+Insert Into countries (CountryName) VALUES ('Luxembourg');
+Insert Into countries (CountryName) VALUES ('Portugal');
 Insert Into countries (CountryName) VALUES ('Yaman');
 
-Insert Into users (Name, Email, CountryId) VALUES ('AA', 'aa@example.com', 1);
-Insert Into users (Name, Email, CountryId) VALUES ('BB', 'bb@example.com', 2);
-Insert Into users (Name, Email, CountryId) VALUES ('CC', 'cc@example.com', 3);
 
-select Name,Email,users.CountryID from users,countries where users.CountryID = countries.CountryID;
+Insert Into users (Name, Email, CountryId) VALUES ('Abolo', 'Abolo@example.com', 1);
+Insert Into users (Name, Email, CountryId) VALUES ('Bob', 'Bob@example.com', 2);
+Insert Into users (Name, Email, CountryId) VALUES ('Aiman', 'Aiman@example.com', 3);
+Insert Into users (Name, Email, CountryId) VALUES ('Abolo1', 'Abolo@example.com', 1);
+Insert Into users (Name, Email, CountryId) VALUES ('Bob1', 'Bob@example.com', 2);
+Insert Into users (Name, Email, CountryId) VALUES ('Aiman1', 'Aiman@example.com', 3);
+Insert Into users (Name, Email, CountryId) VALUES ('Abolo2', 'Abolo@example.com', 1);
+Insert Into users (Name, Email, CountryId) VALUES ('Bob2', 'Bob@example.com', 2);
+Insert Into users (Name, Email, CountryId) VALUES ('Aiman2', 'Aiman@example.com', 3);
+
+/* select Name,Email,users.CountryID from users,countries where users.CountryID = countries.CountryID; */
