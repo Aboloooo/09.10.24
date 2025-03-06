@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function NavigationBarE($DedicatedPage)
 {
@@ -62,8 +63,6 @@ function NavigationBarE($DedicatedPage)
 
 <?php
 };
-
-session_start();
 
 if (!isset($_SESSION["user"])) {
     $_SESSION["user"] = false;
@@ -138,7 +137,7 @@ function finlizedBascket()
             //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
             {
                 $ID = $ProductsCSVitems[0];
-                $orderLine .= $ID . "," ;
+                $orderLine .= $ID . ",";
             }
         }
     }
