@@ -18,7 +18,7 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <?php
-    $accounts = "../DataBases/Client_DataBase.csv";
+    /*     $accounts = "../DataBases/Client_DataBase.csv";*/
     $_SESSION["userIsAdmin"] = false;
     global $arrayOfStrings;
 
@@ -29,7 +29,7 @@ include_once("../phpLibrary/MyLibrary.php");
         $sucessfullLogin = false;    //Flags are really important
 
         //check if the database exists
-        if (file_exists($accounts)) {
+        /* if (file_exists($accounts)) {
             //Read the database line by line and separate the username and pass from eachother using explode function
             $openFile = fopen($accounts, "r");
             while (($line = fgets($openFile)) !== false) {
@@ -54,6 +54,35 @@ include_once("../phpLibrary/MyLibrary.php");
             if (!$sucessfullLogin) {
                 //Temperory text!! apear
                 print($arrayOfStrings["Login failled!"]);
+            }
+        } */
+
+
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        } else {
+            $sqlUserLoginChecking = $connection->prepare('select username, pass, level from users where username=?;');
+            $sqlUserLoginChecking->bind_param("s", $usernameInput);
+            $sqlUserLoginChecking->execute();
+            $result = $sqlUserLoginChecking->get_result();
+
+            while ($row = $result->fetch_assoc()) {
+                $usernameStored = $row["username"];
+                $passStored = $row["pass"];
+                $levelStored = $row["level"];
+                if ($usernameInput == $usernameStored) {
+                    if ($passwordInput == $passStored) {
+                        if ($levelStored == 'Admin') {
+                            $_SESSION["userIsAdmin"] = true;
+                        }
+                        $sucessfullLogin = true;
+                        $_SESSION["user"] = true;
+                        $_SESSION["UserName"] = $usernameInput;
+                        header("location: Home.php");
+                    } else {
+                        echo 'password is incorrect!';
+                    }
+                }
             }
         }
     }

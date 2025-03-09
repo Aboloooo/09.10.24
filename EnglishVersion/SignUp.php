@@ -23,7 +23,7 @@ include_once("../phpLibrary/MyLibrary.php");
     </div>
 
     <?php
-    if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
+    /*     if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
         global $arrayOfStrings;
         $usernameInput = $_POST["username"];
 
@@ -59,7 +59,35 @@ include_once("../phpLibrary/MyLibrary.php");
                 print($arrayOfStrings["Passwords do not match!"]);
             }
         }
+    } */
+
+    if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
+        $sqlUserCheck =  $connection->prepare('select username from users where username=?;');
+        $sqlUserCheck->bind_param('s', $_POST["username"]);
+        $sqlUserCheck->execute();
+        $result = $sqlUserCheck->get_result();
+        $row = $result->fetch_assoc();
+
+        if ($row['username']) {
+            if ($_POST["username"] == $row['username']) {
+                print($arrayOfStrings["This username is already taken; please choose another!"]);
+            } else {
+                if ($_POST["password"] == $_POST["passwordConfirmation"]) {
+                    print($arrayOfStrings["Registration in process; please be patient!"]);
+                    $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,level) values (?,?,?)');
+                    $sqlInsertUserCredential->bind_param('sss', $_POST["username"], $_POST["password"], "Customer");
+                    $sqlInsertUserCredential->execute();
+                } else {
+                    print("Passwords aren't the same! Please check your passwords.");
+                }
+            }
+        }
     }
+
+
+
+
+
     ?>
 
     <div class="login-form">

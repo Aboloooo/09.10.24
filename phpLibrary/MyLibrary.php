@@ -1,6 +1,13 @@
 <?php
 session_start();
 
+/* connection to database */
+$host = 'localhost';
+$username = 'root';
+$password = '';
+$database = 'wesers2';
+$connection = mysqli_connect($host, $username, $password, $database);
+
 function NavigationBarE($DedicatedPage)
 {
     global $arrayOfStrings;
