@@ -10,7 +10,4 @@ create table users(
 );
 
 Insert Into users (username, pass, level) VALUES
-('admin', 'password', 'Admin'),
-('user1', '1', 'Customer'),
-('user2', '2', 'Customer'),
-('user12345', 'user12345', 'Customer');
+('admin', 'password', 'Admin');

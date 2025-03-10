@@ -69,51 +69,51 @@ include_once("../phpLibrary/MyLibrary.php");
             }
         }
         ?>
-
-
-        <!-- Shopping cart -->
+        <!-- SQL application -->
         <div id="cartTab">
             <box-icon name='exit' id="closeIcone"></box-icon>
             <h1><?= $arrayOfStrings["ShoppingCart"] ?></h1>
             <div class="listCart">
-
-                <!--For each item in the cart session the following loop will run-->
                 <?php
-                $Total = 0;
+                /* For each item in the cart session the following loop will run */
+                $TotalPrice = 0;
                 for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-                    $ProductsCSV = fopen("../DataBases/Products.csv", "r");
-                    $line = fgets($ProductsCSV);
-                    while (!feof($ProductsCSV)) {
-                        $line = fgets($ProductsCSV);
-                        $ProductsCSVitems = explode(",", $line);
-                        if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
-                        //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
-                        {
-                            $Total = $Total + $ProductsCSVitems[3];
+                    if ($connection->connect_error) {
+                        die("Connection failed: " . $connection->connect_error);
+                    } else {
+                        $sqlProduct = $connection->prepare('select * from products where productsID=?;');
+                        $sqlProduct->bind_param('i', $_SESSION["cart"][$i]);
+                        $sqlProduct->execute();
+                        $result = $sqlProduct->get_result();
+
+                        while ($row = $result->fetch_assoc()) {
+                            if ($row["productsID"] == $_SESSION["cart"][$i]) {
+                                $TotalPrice += $row["Price"];
                 ?>
-                            <div class="item">
-                                <div class="imgage">
-                                    <img src="<?= $ProductsCSVitems[5] ?>" alt="">
+                                <div class="item">
+                                    <div class="imgage">
+                                        <img src="<?= $row['img'] ?>" alt="">
+                                    </div>
+                                    <div class="name">
+                                        <?= $row['productName'] ?>
+                                    </div>
+                                    <div class="totalPrice">
+                                        <?= $row["Price"] ?>€
+                                    </div>
+                                    <div class="trash">
+                                        <box-icon name='trash-alt' type='solid'></box-icon>
+                                    </div>
                                 </div>
-                                <div class="name">
-                                    <?= $ProductsCSVitems[1] ?>
-                                </div>
-                                <div class="totalPrice">
-                                    <?= $ProductsCSVitems[3] ?>€
-                                </div>
-                                <div class="trash">
-                                    <box-icon name='trash-alt' type='solid'></box-icon>
-                                </div>
-                            </div>
-                    <?php
+                <?php
+                            }
                         }
                     }
-                    ?>
-                <?php
                 }
                 ?>
-                <h4>Total: <?= $Total ?>€ </h4>
+                <h4>Total: <?= $TotalPrice ?>€ </h4>
             </div>
+
+
             <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
             <form method="POST" class="btn">
                 <input type="submit" value="<?= $arrayOfStrings["checkout"] ?>" name="check_out">
@@ -123,23 +123,20 @@ include_once("../phpLibrary/MyLibrary.php");
     </div>
 
 
-
     <div class="image-container">
         <?php
-        $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
-        $line = fgets($ProductsDataBase);
-
-        while (!feof($ProductsDataBase)) {
-            $line = fgets($ProductsDataBase);
-            $splitsOfEachLine = explode(",", $line);
-            if (count($splitsOfEachLine) >= 8) {
+        $sqlGetProducts = $connection->prepare("SELECT * FROM products");
+        $sqlGetProducts->execute();
+        $result = $sqlGetProducts->get_result();
+        while ($row = $result->fetch_assoc()) {
+            if ($row['productsID']) {
         ?>
                 <div class="product-box">
-                    <!-- ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR -->
-                    <img src="<?= $splitsOfEachLine[5] ?>" class="product-img">
-                    <h2 class="product-title"><?= $splitsOfEachLine[1] ?></h2>
-                    <span class="price"><?= $splitsOfEachLine[3] ?>€</span>
-                    <p><?php ($_SESSION["language"] == "EN") ? $splitsOfEachLine[4] : $splitsOfEachLine[7] ?></p>
+                    <!-- ID,productName,Price,GenderEN,img,GenderFR -->
+                    <img src="<?= $row['img'] ?>" class="product-img">
+                    <h2 class="product-title"><?= $row['productName'] ?></h2>
+                    <span class="price"><?= $row['Price'] ?>€</span>
+                    <p><?php ($_SESSION["language"] == "EN") ? $row['GenderEN'] : $row['GenderFR']  ?></p>
                     <i class='bx bx-shopping-bag add-cart' id="cart-icon"></i>
 
                     <?php
@@ -148,7 +145,7 @@ include_once("../phpLibrary/MyLibrary.php");
                     ?>
                         <form method="POST">
                             <!-- hidden input  ID -->
-                            <input type="hidden" value="<?= $splitsOfEachLine[0] ?>" name="ID">
+                            <input type="hidden" value="<?= $row['productsID'] ?>" name="ID">
 
                             <!-- buy btn will be there in case a customer has logged in-->
                             <input type="submit" id="btn" value="<?= $arrayOfStrings["Buy"] ?>" name="addingToCart">
@@ -162,6 +159,8 @@ include_once("../phpLibrary/MyLibrary.php");
         }
         ?>
     </div>
+
+
     <!-- the following function will create a end bar in the end of the content of a webpage -->
     <?php
     EndBar()

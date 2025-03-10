@@ -23,8 +23,10 @@ include_once("../phpLibrary/MyLibrary.php");
     </div>
 
     <?php
-    /*     if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
-        global $arrayOfStrings;
+
+    /*     
+    if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
+        
         $usernameInput = $_POST["username"];
 
         // check if user is already exist
@@ -60,7 +62,7 @@ include_once("../phpLibrary/MyLibrary.php");
             }
         }
     } */
-
+    global $arrayOfStrings;
     if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
         $sqlUserCheck =  $connection->prepare('select username from users where username=?;');
         $sqlUserCheck->bind_param('s', $_POST["username"]);
@@ -68,21 +70,27 @@ include_once("../phpLibrary/MyLibrary.php");
         $result = $sqlUserCheck->get_result();
         $row = $result->fetch_assoc();
 
-        if ($row['username']) {
-            if ($_POST["username"] == $row['username']) {
-                print($arrayOfStrings["This username is already taken; please choose another!"]);
-            } else {
-                if ($_POST["password"] == $_POST["passwordConfirmation"]) {
+
+        if ($row) {
+            print($arrayOfStrings["This username is already taken; please choose another!"]);
+        } else {
+            if ($_POST["password"] == $_POST["passwordConfirmation"]) {
+                $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,level) values (?,?,?)');
+                $usernameInput = $_POST["username"];
+                $userPass = $_POST["password"];
+                $defaultLevel = 'Customer';
+                $sqlInsertUserCredential->bind_param('sss', $usernameInput, $userPass, $defaultLevel);
+                if ($sqlInsertUserCredential->execute()) {
                     print($arrayOfStrings["Registration in process; please be patient!"]);
-                    $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,level) values (?,?,?)');
-                    $sqlInsertUserCredential->bind_param('sss', $_POST["username"], $_POST["password"], "Customer");
-                    $sqlInsertUserCredential->execute();
                 } else {
-                    print("Passwords aren't the same! Please check your passwords.");
+                    echo 'something went wrong!';
                 }
+            } else {
+                print($arrayOfStrings["Passwords do not match!"]);
             }
         }
     }
+
 
 
 
