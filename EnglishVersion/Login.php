@@ -71,7 +71,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 $passStored = $row["pass"];
                 $levelStored = $row["level"];
                 if ($usernameInput == $usernameStored) {
-                    if ($passwordInput == $passStored) {
+                    if (password_verify($passwordInput,$passStored)) {
                         if ($levelStored == 'Admin') {
                             $_SESSION["userIsAdmin"] = true;
                         }
@@ -82,6 +82,8 @@ include_once("../phpLibrary/MyLibrary.php");
                     } else {
                         echo 'password is incorrect!';
                     }
+                }else{
+                    echo 'Please check again your username and password!';
                 }
             }
         }

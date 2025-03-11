@@ -127,6 +127,8 @@ if (isset($_POST["check_out"])) {
     finlizedBascket();
     $_SESSION["cart"] = [];
 }
+
+/* using csv */
 function finlizedBascket()
 {
     $finlizedOrders = fopen("../DataBases/FinlizedOrders.csv", "a");
@@ -150,7 +152,49 @@ function finlizedBascket()
     }
     fwrite($finlizedOrders, "\n" . $orderLine);
 } //end of function
+
+
+/* using databse */
+function finlizedBascket()
+{
+    $Date =  date('Y-m-d');
+    $Time = date("H:i:s");
+    $OrderedBy = $_SESSION["UserName"];
+    $orderedItemsID = "";
+
+    /* INSERT INTO orders (userID, actionDate, actionTime, orderedItems) */
+    /* (1, '2024-12-27', '18:36:27', '4,9,6'), */
+    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+        /* creating a map to find the product from Database 
+        $db_ProductID_map = $connection->prepare('select productsID from products;');
+        */
+
+        
+        $db_ProductID = $connection->prepare('select productsID from products where productsID =?;*');
+        $db_ProductID->bind_param('i', $_SESSION["cart"][$i]);
+        $db_ProductID->execute();
+        $result = $db_ProductID->get_result();
+        $FoundProductID = $result->fetch_assoc();
+        if($FoundProductID){ /* checking if exist */
+            if ($FoundProductID == $_SESSION["cart"][$i])
+            {
+                 $orderedItemsID .= $FoundProductID . ",";
+            }
+        }else{
+            echo 'Couldnt find product ID';
+        }
+    }
+    $sqlInsertOrder = $connection->prepare('INSERT INTO orders (userID, actionDate, actionTime, orderedItems)') VALUES (/* user ID */,$Date,$Time, $orderedItemsID);
+
+    }
+    fwrite($finlizedOrders, "\n" . $orderLine);
+} //end of function
+
+
+
+
 ?>
+
 
 
 
