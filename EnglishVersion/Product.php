@@ -81,7 +81,9 @@ include_once("../phpLibrary/MyLibrary.php");
                     if ($connection->connect_error) {
                         die("Connection failed: " . $connection->connect_error);
                     } else {
-                        $sqlProduct = $connection->prepare('select * from products where productsID=?;');
+                        /* I need to check if table products exist first*/
+
+                        $sqlProduct = $connection->prepare('select COUNT(*) from products where productsID=?;');
                         $sqlProduct->bind_param('i', $_SESSION["cart"][$i]);
                         $sqlProduct->execute();
                         $result = $sqlProduct->get_result();

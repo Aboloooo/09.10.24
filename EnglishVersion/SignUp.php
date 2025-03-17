@@ -63,7 +63,12 @@ include_once("../phpLibrary/MyLibrary.php");
         }
     } */
     global $arrayOfStrings;
-    if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
+    $formHasEmptyFilleds = false;
+    if (
+        !empty($_POST["username"]) &&
+        !empty($_POST["password"]) &&
+        !empty($_POST["passwordConfirmation"])
+    ) {
         $sqlUserCheck =  $connection->prepare('select username from users where username=?;');
         $sqlUserCheck->bind_param('s', $_POST["username"]);
         $sqlUserCheck->execute();
@@ -75,11 +80,13 @@ include_once("../phpLibrary/MyLibrary.php");
             print($arrayOfStrings["This username is already taken; please choose another!"]);
         } else {
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
-                $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,level) values (?,?,?)');
+                $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,email,phoneN,level) values (?,?,?,?,?)');
                 $usernameInput = $_POST["username"];
-                $userPass = $_POST["password"];
+                $hashedPass = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                $userEmail = $_POST["Email"];
+                $userPhoneN = $_POST["PhoneN"];
                 $defaultLevel = 'Customer';
-                $sqlInsertUserCredential->bind_param('sss', $usernameInput, $userPass, $defaultLevel);
+                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
                     print($arrayOfStrings["Registration in process; please be patient!"]);
                 } else {
@@ -89,7 +96,12 @@ include_once("../phpLibrary/MyLibrary.php");
                 print($arrayOfStrings["Passwords do not match!"]);
             }
         }
+    } else {
+        $formHasEmptyFilleds = true;
     }
+    /* if ($formHasEmptyFilleds) {
+        echo 'All the filleds are required!!';
+    } */
 
 
 
@@ -107,6 +119,12 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="password" placeholder="<?= $arrayOfStrings["Password"] ?>" name="password">
             <label for="password"><?= $arrayOfStrings["Password confirmation"] ?></label>
             <input type="password" placeholder="<?= $arrayOfStrings["Password confirmation"] ?>" name="passwordConfirmation">
+
+            <label for="email"><?= $arrayOfStrings["Email"] ?></label>
+            <input type="Email" placeholder="<?= $arrayOfStrings["Email or Gmail"] ?>" name="Email">
+
+            <label for="PhoneN"><?= $arrayOfStrings["Phone Number"] ?></label>
+            <input type="tel" placeholder="<?= $arrayOfStrings["GSM"] ?>" name="PhoneN">
 
             <input type="submit" id="submit" placeholder="submit" value="<?= $arrayOfStrings["submit"] ?>">
 
