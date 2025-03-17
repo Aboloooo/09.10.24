@@ -10,3 +10,6 @@ create table users(
     phoneN int(255),
     level varchar(255)
 );
+
+Insert Into users (username, pass, level) VALUES
+('admin', 'password', 'Admin');

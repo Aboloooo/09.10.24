@@ -127,6 +127,8 @@ if (isset($_POST["check_out"])) {
     finlizedBascket();
     $_SESSION["cart"] = [];
 }
+
+/* using csv */
 function finlizedBascket()
 {
     global $connection;
@@ -136,40 +138,21 @@ function finlizedBascket()
     $orderedItemsID = "";
 
     for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-        $db_ProductID = $connection->prepare('select productsID from products where productsID =?');
-        $db_ProductID->bind_param('i', $_SESSION["cart"][$i]);
-        $db_ProductID->execute();
-        $result = $db_ProductID->get_result();
-        $FoundProductID = $result->fetch_assoc()['productsID'];
-        if($FoundProductID){ /* checking if exist */
-            if ($FoundProductID == $_SESSION["cart"][$i])
+        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
+        $line = fgets($ProductsCSV);
+        while (!feof($ProductsCSV)) {
+            $line = fgets($ProductsCSV);
+            $ProductsCSVitems = explode(",", $line);
+            if ($ProductsCSVitems[0] == $_SESSION["cart"][$i])
+            //ID,Name,DescriptionEN,Price,GenderEN,img,DescriptionFR,GenderFR
             {
-                 $orderedItemsID .= $FoundProductID . ",";
+                $ID = $ProductsCSVitems[0];
+                $orderLine .= $ID . ",";
             }
-        }else{
-            echo 'Couldnt find product ID';
         }
     }
-    /* finding userID from users table */
-    /*$sqlFatchUserID = $connection->prepare('select userID from users where username = ?;');
-    $sqlFatchUserID->bind_param('s', $OrderedBy);
-    $sqlFatchUserID->execute();
-    $userResult = $sqlFatchUserID->get_result();
-    $userRow = $userResult->fetch_assoc();*/
-
-    $sqlInsertOrder = $connection->prepare('INSERT INTO orders (userID, actionDate, actionTime, orderedItems) VALUES ((select userID from users where username = ?) ,? ,?, ?)');
-                       
-    $sqlInsertOrder->bind_param('ssss', $OrderedBy, $Date, $Time,  $orderedItemsID);
-
-    if($sqlInsertOrder->execute()){
-        echo 'order placed successfully!';
-        $_SESSION["cart"] = [];
-    }else{
-        echo 'something went wrong-placing order failed!';
-    }
-}
-//end of function
-
+    fwrite($finlizedOrders, "\n" . $orderLine);
+} //end of function
 ?>
 
 
