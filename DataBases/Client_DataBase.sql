@@ -6,8 +6,7 @@ create table users(
     userID int primary key auto_increment,
     username varchar(255),
     pass varchar(255),
+    email varchar(255),
+    phoneN int(255),
     level varchar(255)
 );
-
-Insert Into users (username, pass, level) VALUES
-('admin', 'password', 'Admin');
