@@ -82,9 +82,17 @@ include_once("../phpLibrary/MyLibrary.php");
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
                 $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,email,phoneN,level) values (?,?,?,?,?)');
                 $usernameInput = $_POST["username"];
-                $userPass = $_POST["password"];
+<<<<<<< HEAD
+                $hashedPass = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                $userEmail = $_POST["Email"];
+                $userPhoneN = $_POST["PhoneN"];
                 $defaultLevel = 'Customer';
-                $sqlInsertUserCredential->bind_param('sss', $usernameInput, $userPass, $defaultLevel);
+                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
+=======
+                $hashedPass= password_hash($_POST["password"], PASSWORD_DEFAULT) ;
+                $defaultLevel = 'Customer';
+                $sqlInsertUserCredential->bind_param('sss', $usernameInput, $hashedPass, $defaultLevel);
+>>>>>>> 5c2a519f67007be86f46d1a4cfb1a93e45ce1420
                 if ($sqlInsertUserCredential->execute()) {
                     print($arrayOfStrings["Registration in process; please be patient!"]);
                 } else {
