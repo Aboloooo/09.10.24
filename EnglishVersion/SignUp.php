@@ -84,10 +84,10 @@ include_once("../phpLibrary/MyLibrary.php");
                 $usernameInput = $_POST["username"];
                 $userPass = $_POST["password"];
                 $hashedPass = password_hash($userPass, PASSWORD_DEFAULT);
-                $defaultLevel = 'Customer';
                 $userEmail = $_POST["Email"];
                 $userPhoneN = $_POST["PhoneN"];
-                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
+                $defaultLevel = 'Customer';
+                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass,$userEmail, $userPhoneN , $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
                     print($arrayOfStrings["Registration in process; please be patient!"]);
                 } else {
@@ -97,13 +97,12 @@ include_once("../phpLibrary/MyLibrary.php");
                 print($arrayOfStrings["Passwords do not match!"]);
             }
         }
+    } else {
+        $formHasEmptyFilleds = true;
     }
-
-
-
-
-
-
+    /* if ($formHasEmptyFilleds) {
+        echo 'All the filleds are required!!';
+    } */
     ?>
 
     <div class="login-form">

@@ -81,6 +81,8 @@ include_once("../phpLibrary/MyLibrary.php");
                     if ($connection->connect_error) {
                         die("Connection failed: " . $connection->connect_error);
                     } else {
+                        /* I need to check if table products exist first*/
+
                         $sqlProduct = $connection->prepare('select * from products where productsID=?;');
                         $sqlProduct->bind_param('i', $_SESSION["cart"][$i]);
                         $sqlProduct->execute();
@@ -129,7 +131,7 @@ include_once("../phpLibrary/MyLibrary.php");
         $sqlGetProducts->execute();
         $result = $sqlGetProducts->get_result();
         while ($row = $result->fetch_assoc()) {
-            if ($row['productsID'] > 0) {
+            if ($row['productsID']) {
         ?>
                 <div class="product-box">
                     <!-- ID,productName,Price,GenderEN,img,GenderFR -->
@@ -155,8 +157,6 @@ include_once("../phpLibrary/MyLibrary.php");
                     ?>
                 </div>
         <?php
-            } else {
-                echo 'No product is available currently!';
             }
         }
         ?>
