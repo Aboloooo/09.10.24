@@ -131,7 +131,7 @@ include_once("../phpLibrary/MyLibrary.php");
         $sqlGetProducts->execute();
         $result = $sqlGetProducts->get_result();
         while ($row = $result->fetch_assoc()) {
-            if ($row['productsID']>0) {
+            if ($row['productsID']) {
         ?>
                 <div class="product-box">
                     <!-- ID,productName,Price,GenderEN,img,GenderFR -->
@@ -157,8 +157,6 @@ include_once("../phpLibrary/MyLibrary.php");
                     ?>
                 </div>
         <?php
-            }else{
-                echo 'No product is available currently!';
             }
         }
         ?>

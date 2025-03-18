@@ -82,6 +82,8 @@ include_once("../phpLibrary/MyLibrary.php");
                     } else {
                         echo 'password is incorrect!';
                     }
+                } else {
+                    echo 'Please check again your username and password!';
                 }
             }
         }

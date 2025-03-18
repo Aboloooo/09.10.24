@@ -127,6 +127,8 @@ if (isset($_POST["check_out"])) {
     finlizedBascket();
     $_SESSION["cart"] = [];
 }
+
+/* using csv */
 function finlizedBascket()
 {
     global $connection;
