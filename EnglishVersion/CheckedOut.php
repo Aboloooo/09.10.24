@@ -50,8 +50,6 @@ include_once("../phpLibrary/MyLibrary.php");
         }
 
 
-        //var_dump($orders); 
-
         // Reading products file
         $productMap = [];
         $ProductsCSV = fopen("../DataBases/Products.csv", "r");
@@ -96,17 +94,17 @@ include_once("../phpLibrary/MyLibrary.php");
                                     <th><?= $productMap[$ordredproductID]["productName"] ?></th>
                                     <th><?= $productMap[$ordredproductID]["productPrice"] ?>€</th>
                                 </tr>
-                    <?php
+                        <?php
                             }
                         }
-                         ?>
-                    <tr class="test">
-                        <th></th>
-                        <th>Total: <?= $total ?>€</th>
-                    </tr>
+                        ?>
+                        <tr class="test">
+                            <th></th>
+                            <th>Total: <?= $total ?>€</th>
+                        </tr>
                 <?php
-                    }  
             }
+        }
                 ?>
                     </table>
                 </div>
