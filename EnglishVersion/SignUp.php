@@ -83,8 +83,11 @@ include_once("../phpLibrary/MyLibrary.php");
                 $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,email,phoneN,level) values (?,?,?,?,?)');
                 $usernameInput = $_POST["username"];
                 $userPass = $_POST["password"];
+                $hashedPass = password_hash($userPass, PASSWORD_DEFAULT);
+                $userEmail = $_POST["Email"];
+                $userPhoneN = $_POST["PhoneN"];
                 $defaultLevel = 'Customer';
-                $sqlInsertUserCredential->bind_param('sss', $usernameInput, $userPass, $defaultLevel);
+                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass,$userEmail, $userPhoneN , $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
                     print($arrayOfStrings["Registration in process; please be patient!"]);
                 } else {
