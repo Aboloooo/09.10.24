@@ -19,28 +19,6 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("Product");
     ?>
 
-    <div class="product-heading-img">
-        <div>
-            <div>
-                <img src="../img/backgro.png" alt="" class="background_img">
-            </div>
-            <div class="h2-1">
-                <?php
-                //var_dump($arrayOfStrings); 
-                ?>
-                <h2><?= $arrayOfStrings["firstPromotiontext"] ?></h2>
-            </div>
-        </div>
-        <div>
-            <img src="../img/backgro2.png" alt="" class="background_img2">
-        </div>
-        <div class="h2-2">
-            <h2> <?= $arrayOfStrings["secondPromotiontext"] ?></h2>
-        </div>
-    </div>
-    </div>
-
-
     <div class="product-banner">
         <!-- Add new products btn -->
         <?php

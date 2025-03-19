@@ -143,10 +143,14 @@ function finlizedBascket()
         $db_ProductID->execute();
         $result = $db_ProductID->get_result();
         $FoundProductID = $result->fetch_assoc()['productsID'];
+        /* inserting each product ID as a new row into orderContent table */
+       /*  $sqlInsertRowIntoOrderList = $connection->prepare('insert into orderContent (productID) VALUES (?)'); */
+       /*  $sqlInsertRowIntoOrderList->bind_param('i', $FoundProductID); */
         if($FoundProductID){ /* checking if exist */
             if ($FoundProductID == $_SESSION["cart"][$i])
             {
-                 $orderedItemsID .= $FoundProductID . ",";
+                 /* $orderedItemsID .= $FoundProductID . ","; */
+                /*  $sqlInsertRowIntoOrderList->bind_param('ii', $FoundProductID); */
             }
         }else{
             echo 'Couldnt find product ID';
@@ -159,9 +163,9 @@ function finlizedBascket()
     $userResult = $sqlFatchUserID->get_result();
     $userRow = $userResult->fetch_assoc();*/
 
-    $sqlInsertOrder = $connection->prepare('INSERT INTO orders (userID, actionDate, actionTime, orderedItems) VALUES ((select userID from users where username = ?) ,? ,?, ?)');
+    $sqlInsertOrder = $connection->prepare('INSERT INTO orders (userID, actionDate, actionTime)  ((select userID from users where username = ?) ,? ,?, ?)');
                        
-    $sqlInsertOrder->bind_param('ssss', $OrderedBy, $Date, $Time,  $orderedItemsID);
+    $sqlInsertOrder->bind_param('sss', $OrderedBy, $Date, $Time);
 
     if($sqlInsertOrder->execute()){
         echo 'order placed successfully!';
