@@ -10,7 +10,7 @@ create table users(
     username varchar(255),
     pass varchar(255),
     email varchar(255),
-    phoneN int(255),
+    phoneN INT,
     level varchar(255)
 );
 
@@ -22,7 +22,6 @@ create table products(
     img varchar(255),
     GenderFR varchar(255)
 );
-
 INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 ('Nike Air Max Plus', 189.99, 'Men', '../img/Men/1/1.1.PNG', 'Hommes'),
 ('Nike Air Force 107 EasyOn', 119.99, 'Men', '../img/Men/2/2.1.PNG', 'Hommes'),
@@ -37,13 +36,31 @@ INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 ('Giannis Freak 5', 94.99, 'Women', '../img/Women/11/11.1.PNG', 'Femmes'),
 ('Nike Zoom Fly 5', 135.99, 'Women', '../img/Women/12/12.1.PNG', 'Femmes');
 
+CREATE TABLE orders (
+    orderID INT PRIMARY KEY AUTO_INCREMENT,
+    userID INT,
+    actionDate DATE,
+    actionTime TIME,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+);
+
+/* Here we can see orders in more detail */
+CREATE TABLE orderContent (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    orderID INT(99),
+    productsID INT(99),
+    /* FOREIGN KEY (orderID) REFERENCES orders(orderID),
+    FOREIGN KEY (productsID) REFERENCES products(productsID) */
+    FOREIGN KEY (orderID) REFERENCES orders(orderID) ON DELETE CASCADE,
+    FOREIGN KEY (productsID) REFERENCES products(productsID) ON DELETE CASCADE
+);
+
 
 CREATE TABLE translation (
     translationID VARCHAR(50) PRIMARY KEY,
     txtEN VARCHAR(999),
     txtFR VARCHAR(999)
 );
-
 INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Home', 'Home', 'Maison'),
 ('Product', 'Product', 'Product'),
@@ -104,22 +121,5 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('ShoppingCart', 'Shopping cart', 'Panier'),
 ('Clear all', 'Clear all', 'Tout effacer');
 
-CREATE TABLE orders (
-    orderID INT PRIMARY KEY AUTO_INCREMENT,
-    userID INT,
-    actionDate DATE,
-    actionTime TIME,
-    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
-);
 
-/* Here we can see orders in more detail */
-CREATE TABLE orderContent (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
-    orderID INT(99),
-    productsID INT(99),
-    /* FOREIGN KEY (orderID) REFERENCES orders(orderID),
-    FOREIGN KEY (productsID) REFERENCES products(productsID) */
-    FOREIGN KEY (orderID) REFERENCES orders(orderID) ON DELETE CASCADE,
-    FOREIGN KEY (productsID) REFERENCES products(productsID) ON DELETE CASCADE
-);
 
