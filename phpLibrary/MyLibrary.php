@@ -136,31 +136,50 @@ function finlizedBascket()
     $Time = date("H:i:s");
     $userName = $_SESSION["UserName"];
 
-    /* for each item in the bascket */
-    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
-        $db_ProductID = $connection->prepare('select productsID from products where productsID =?');
-        $db_ProductID->bind_param('i', $_SESSION["cart"][$i]);
-        $db_ProductID->execute();
-        $result = $db_ProductID->get_result();
-        $FoundProductID = $result->fetch_assoc()['productsID'];
-        /* inserting each order as a new order into order table */
-        if($FoundProductID){ /* checking if exist */
-            $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime) values ((select userID from users where username = ?) ,?, ?)');
-            $insertOrderRecord->bind_param('sss', $userName, $Date, $Time);
+    /* checking if cart is empty */
+    if (empty($_SESSION["cart"])) {
+        echo '<script>alert($arrayOfStrings["Cart is empty!"])</script>';
+    }
 
-            $insertOrderedItems = $connection->prepare('insert into orderContent(productsID) values(?)');
+    /* finding userID */
+    $sqlFindUserID = $connection->prepare('select userID from users where username=?');
+    $sqlFindUserID->bind_param('s', $userName);
+    $sqlFindUserID->execute();
+    $userID = $sqlFindUserID->get_result();
+    if ($userID->num_rows == 0) {
+        echo '<script>alert("User cant be found!")</script>';
+    }
+
+    /* inserting order into order table for each order not each product */
+    $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime) VALUES (? ,?, ?)');
+    $insertOrderRecord->bind_param('iss', $userID, $Date, $Time);
+    if (!$insertOrderRecord->execute()) {
+        echo '<script>alert("Order could not be placed!")</script>';
+    }
+
+
+
+    /* finding each productID for each item in the bascket */
+     for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+        $productID = $_SESSION["cart"][$i];
+
+    /* inserting each order as a new order into order table */
+    /*  if ($FoundProductID) { /* checking if exist */
+
+
+    /*  $insertOrderedItems = $connection->prepare('insert into orderContent(productsID) values(?)');
             $insertOrderedItems->bind_param('i', $FoundProductID);
-        }else{ 
+        } else {
             echo 'Couldnt find product ID';
         }
-    }
+    } */
 
-    if($insertOrderRecord->execute()){
+    /* if ($insertOrderRecord->execute()) {
         echo 'order placed successfully!';
         $_SESSION["cart"] = [];
-    }else{
+    } else {
         echo 'order can not be placed, inserting order to database got an issue!';
-    }
+    } */
 }
 //end of function
 

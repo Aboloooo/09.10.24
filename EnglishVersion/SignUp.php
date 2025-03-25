@@ -87,9 +87,9 @@ include_once("../phpLibrary/MyLibrary.php");
                 $userEmail = $_POST["Email"];
                 $userPhoneN = $_POST["PhoneN"];
                 $defaultLevel = 'Customer';
-                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass,$userEmail, $userPhoneN , $defaultLevel);
+                $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
-                    print($arrayOfStrings["Registration done successfully!, you can log in now."]);
+                    print($arrayOfStrings["Registration done successfully!; you can log in now."]);
                 } else {
                     echo 'something went wrong!';
                 }

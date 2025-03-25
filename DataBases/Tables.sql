@@ -13,6 +13,13 @@ create table users(
     phoneN INT,
     level varchar(255)
 );
+CREATE TABLE orders (
+    orderID INT PRIMARY KEY AUTO_INCREMENT,
+    userID INT,
+    actionDate Date,
+    actionTime Time,
+    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
+);
 
 create table products(
     productsID int primary key auto_increment,
@@ -36,13 +43,6 @@ INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 ('Giannis Freak 5', 94.99, 'Women', '../img/Women/11/11.1.PNG', 'Femmes'),
 ('Nike Zoom Fly 5', 135.99, 'Women', '../img/Women/12/12.1.PNG', 'Femmes');
 
-CREATE TABLE orders (
-    orderID INT PRIMARY KEY AUTO_INCREMENT,
-    userID INT,
-    actionDate DATE,
-    actionTime TIME,
-    FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
-);
 
 /* Here we can see orders in more detail */
 CREATE TABLE orderContent (
@@ -71,7 +71,7 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Login failled!', 'Login failled!', 'La connexion a échoué!'),
 ('This username is already taken; please choose another!', 'This username is already taken; please choose another!', 'Ce nom d\utilisateur est déjà pris ; veuillez en choisir un autre!'),
 ('SignUp', 'Sign up', 'S\inscrire'),
-('Registration in process; please be patient!', 'Registration in process; please be patient!', 'Inscription en cours; s\il vous plaît soyez patient!'),
+('Registration done successfully!, you can log in now.', 'Registration done successfully!, you can log in now.', 'Inscription effectuée avec succès ! Vous pouvez vous connecter maintenant.'),
 ('Passwords do not match!', 'Passwords do not match!', 'Les mots de passe ne correspondent pas!'),
 ('langChanger', 'Change the language', 'Changer la langue'),
 ('unknown', 'Unknown', 'Inconnu'),
@@ -119,7 +119,7 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('at', 'at', 'à'),
 ('checkout', 'check out', 'Vérifie'),
 ('ShoppingCart', 'Shopping cart', 'Panier'),
-('Clear all', 'Clear all', 'Tout effacer');
-
+('Clear all', 'Clear all', 'Tout effacer'),
+('Cart is empty!','Cart is empty!','Le panier est vide!');
 
 
