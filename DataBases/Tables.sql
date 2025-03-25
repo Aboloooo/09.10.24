@@ -46,7 +46,7 @@ CREATE TABLE orders (
 
 /* Here we can see orders in more detail */
 CREATE TABLE orderContent (
-    ID INT PRIMARY KEY AUTO_INCREMENT,
+    orderContentID INT PRIMARY KEY AUTO_INCREMENT,
     orderID INT(99),
     productsID INT(99),
     /* FOREIGN KEY (orderID) REFERENCES orders(orderID),

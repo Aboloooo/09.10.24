@@ -89,7 +89,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 $defaultLevel = 'Customer';
                 $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass,$userEmail, $userPhoneN , $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
-                    print($arrayOfStrings["Registration in process; please be patient!"]);
+                    print($arrayOfStrings["Registration done successfully!, you can log in now."]);
                 } else {
                     echo 'something went wrong!';
                 }

@@ -128,50 +128,38 @@ if (isset($_POST["check_out"])) {
     $_SESSION["cart"] = [];
 }
 
-/* using csv */
+/* using database */
 function finlizedBascket()
 {
     global $connection;
     $Date =  date('Y-m-d');
     $Time = date("H:i:s");
-    $OrderedBy = $_SESSION["UserName"];
-    $orderedItemsID = "";
+    $userName = $_SESSION["UserName"];
 
+    /* for each item in the bascket */
     for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
         $db_ProductID = $connection->prepare('select productsID from products where productsID =?');
         $db_ProductID->bind_param('i', $_SESSION["cart"][$i]);
         $db_ProductID->execute();
         $result = $db_ProductID->get_result();
         $FoundProductID = $result->fetch_assoc()['productsID'];
-        /* inserting each product ID as a new row into orderContent table */
-       /*  $sqlInsertRowIntoOrderList = $connection->prepare('insert into orderContent (productID) VALUES (?)'); */
-       /*  $sqlInsertRowIntoOrderList->bind_param('i', $FoundProductID); */
+        /* inserting each order as a new order into order table */
         if($FoundProductID){ /* checking if exist */
-            if ($FoundProductID == $_SESSION["cart"][$i])
-            {
-                 /* $orderedItemsID .= $FoundProductID . ","; */
-                /*  $sqlInsertRowIntoOrderList->bind_param('ii', $FoundProductID); */
-            }
-        }else{
+            $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime) values ((select userID from users where username = ?) ,?, ?)');
+            $insertOrderRecord->bind_param('sss', $userName, $Date, $Time);
+
+            $insertOrderedItems = $connection->prepare('insert into orderContent(productsID) values(?)');
+            $insertOrderedItems->bind_param('i', $FoundProductID);
+        }else{ 
             echo 'Couldnt find product ID';
         }
     }
-    /* finding userID from users table */
-    /*$sqlFatchUserID = $connection->prepare('select userID from users where username = ?;');
-    $sqlFatchUserID->bind_param('s', $OrderedBy);
-    $sqlFatchUserID->execute();
-    $userResult = $sqlFatchUserID->get_result();
-    $userRow = $userResult->fetch_assoc();*/
 
-    $sqlInsertOrder = $connection->prepare('INSERT INTO orders (userID, actionDate, actionTime)  ((select userID from users where username = ?) ,? ,?, ?)');
-                       
-    $sqlInsertOrder->bind_param('sss', $OrderedBy, $Date, $Time);
-
-    if($sqlInsertOrder->execute()){
+    if($insertOrderRecord->execute()){
         echo 'order placed successfully!';
         $_SESSION["cart"] = [];
     }else{
-        echo 'something went wrong-placing order failed!';
+        echo 'order can not be placed, inserting order to database got an issue!';
     }
 }
 //end of function

@@ -38,7 +38,8 @@ include_once("../phpLibrary/MyLibrary.php");
             $completedProductDetails = true;
         }
 
-        if ($completedProductDetails) {
+        /* CSV */
+/*         if ($completedProductDetails) {
             $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
             $lastId = 0;
             $line = fgets($ProductsDataBase);
@@ -49,17 +50,20 @@ include_once("../phpLibrary/MyLibrary.php");
                     $lastId = $splitsOfEachLine[0];
                 }
             }
-
             $lastId++;
-
-
-
             //print($_SESSION["LastID"]++);
             //  ID, $productName, $productDescription, $productPrice,  $productSize, $productGender, $productImg
             $productBank =  fopen("../DataBases/Products.csv", "a");
             $NewProduct = [$lastId, $productName, $productDescriptionEN, $productPrice, $productGenderEN, "../img/new_product/new_product.jpg", $productDescriptionFR, $productGenderFR];
 
             fputcsv($productBank, $NewProduct);
+        } */
+        /* SQL */
+        if($completedProductDetails){
+            $sqlInsertNewProductDetail = $connection->prepare('insert into products(productName, Price, GenderEN, img, GenderFR) VALUES (?,?,?,?,?)');
+            $defaultImg = '../img/new_product/new_product.jpg';
+            $sqlInsertNewProductDetail->bind_param('sisss', $productName,$productPrice,$productGenderEN,$defaultImg,$productGenderFR);
+            $sqlInsertNewProductDetail->execute();
         }
     }
     ?>
