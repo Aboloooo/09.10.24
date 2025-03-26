@@ -138,48 +138,42 @@ function finlizedBascket()
 
     /* checking if cart is empty */
     if (empty($_SESSION["cart"])) {
-        echo '<script>alert($arrayOfStrings["Cart is empty!"])</script>';
+        return '<script>alert($arrayOfStrings["Cart is empty!"])</script>';
     }
 
-    /* finding userID */
-    $sqlFindUserID = $connection->prepare('select userID from users where username=?');
-    $sqlFindUserID->bind_param('s', $userName);
-    $sqlFindUserID->execute();
-    $userID = $sqlFindUserID->get_result();
-    if ($userID->num_rows == 0) {
-        echo '<script>alert("User cant be found!")</script>';
-    }
+
 
     /* inserting order into order table for each order not each product */
-    $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime) VALUES (? ,?, ?)');
-    $insertOrderRecord->bind_param('iss', $userID, $Date, $Time);
+    $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime) VALUES ((select userID from users where username=?) ,?, ?)');
+    $insertOrderRecord->bind_param('sss', $userName, $Date, $Time);
     if (!$insertOrderRecord->execute()) {
         echo '<script>alert("Order could not be placed!")</script>';
+        die();
     }
 
+    $orderId = $connection->insert_id; // TEACHER GENERATED !!!! // https://www.php.net/manual/en/mysqli.insert-id.php
 
+    
 
-    /* finding each productID for each item in the bascket */
-     for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
+    for ($i = 0; $i < count($_SESSION["cart"]); $i++) {
         $productID = $_SESSION["cart"][$i];
+        $insertOrderedItems = $connection->prepare('insert into orderContent(orderID,productsID) values( ? ,?)');
+       // var_dump($productID);
+        $insertOrderedItems->bind_param('ii',$orderId,  $productID);
 
-    /* inserting each order as a new order into order table */
-    /*  if ($FoundProductID) { /* checking if exist */
-
-
-    /*  $insertOrderedItems = $connection->prepare('insert into orderContent(productsID) values(?)');
-            $insertOrderedItems->bind_param('i', $FoundProductID);
-        } else {
-            echo 'Couldnt find product ID';
+        if (!$insertOrderedItems->execute())
+        {
+            echo '<script>alert("order can not be placed, inserting order to database got an issue!")</script>';
         }
-    } */
-
-    /* if ($insertOrderRecord->execute()) {
-        echo 'order placed successfully!';
-        $_SESSION["cart"] = [];
-    } else {
-        echo 'order can not be placed, inserting order to database got an issue!';
-    } */
+        /*if ($insertOrderedItems->execute()) {
+            echo 'order placed successfully!';
+            $_SESSION["cart"] = [];
+        } else {
+            echo 'order can not be placed, inserting order to database got an issue!';
+        }*/
+    }
+    
+    echo '<script>alert("order placed successfully!")</script>';
 }
 //end of function
 

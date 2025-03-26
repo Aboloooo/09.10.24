@@ -13,6 +13,7 @@ create table users(
     phoneN INT,
     level varchar(255)
 );
+
 CREATE TABLE orders (
     orderID INT PRIMARY KEY AUTO_INCREMENT,
     userID INT,
@@ -47,8 +48,8 @@ INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 /* Here we can see orders in more detail */
 CREATE TABLE orderContent (
     orderContentID INT PRIMARY KEY AUTO_INCREMENT,
-    orderID INT(99),
-    productsID INT(99),
+    orderID INT,
+    productsID INT,
     /* FOREIGN KEY (orderID) REFERENCES orders(orderID),
     FOREIGN KEY (productsID) REFERENCES products(productsID) */
     FOREIGN KEY (orderID) REFERENCES orders(orderID) ON DELETE CASCADE,

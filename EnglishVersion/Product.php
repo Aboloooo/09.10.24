@@ -143,7 +143,7 @@ include_once("../phpLibrary/MyLibrary.php");
 
     <!-- the following function will create a end bar in the end of the content of a webpage -->
     <?php
-    EndBar()
+    EndBar();
     ?>
     <script>
         document.addEventListener("DOMContentLoaded", ready);
