@@ -25,38 +25,39 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
         <?php
-        $sqlOrderInfor = $connection->prepare('select * from orders natural join orderContent where userID=(select userID from users where username=?;)');
-        $sqlOrderInfor->bind_param('s', $_SESSION['UserName']);
+        $sqlOrderInfor = $connection->prepare('select * from orders natural join orderContent where userID=(select userID from users where username=?)');
+        $sqlOrderInfor->bind_param("s", $_SESSION['UserName']);
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
         } else {
             $sqlOrderInfor->execute();
             $result = $sqlOrderInfor->get_result();
+            $orders = [];
             while ($row = $result->fetch_assoc()) {
-                $userID = $row['userID'];
-                $actionDate = $row['actionDate'];
-                $actionTime = $row['actionTime'];
-                $orderContentID = $row['OrderContentID'];
-                $productsID = $row['productsID'];
+                $orders[] = [
+                    'orderID' => $row['orderID'],
+                    'userID' => $row['userID'],
+                    'actionDate' => $row['actionDate'],
+                    'actionTime' => $row['actionTime'],
+                    'productID' => $row['productsID']
+                ];
                 /* until here everything must be fine */
-                foreach ($orderID as $order) {
-                    $sqlProductInfo = $connection->prepare('select * from products natural join orderContent where productsID = ?');
-                    $sqlProductInfo->bind_param('i', $row['productsID'])
+                foreach ($orders as $order) {
         ?>
-                    <div class="orderRecord">
-                        <div>   <!-- product img -->
+                    <!-- create table for each order -->
+                    <div>
+                        <div>
+                            <?php
+                            $sqlRetrivingProductImg = $connection->prepare('select img from products where productID = ?');
+                            $sqlRetrivingProductImg->bind_param('i', $orders['productID']);
+                            $sqlRetrivingProductImg->execute();
+                            ?>
                             <img src="" alt="">
                         </div>
-                        <table class="inventoryList">
-                            <h3><?= $arrayOfStrings["An order has been placed."] ?><?= $arrayOfStrings[" On "] . $actionDate ?><?= $arrayOfStrings["at "]. $actionTime ?> </h3>
-                            <tr class="itemsRowHead">
-                                <th><?= $arrayOfStrings["Product name"] ?></th>
-                                <th><?= $arrayOfStrings["Product price"] ?></th>
-                            </tr>
-
-                        </table>
+                        <div></div>
                     </div>
-                <?php
+
+        <?php
                 }
             }
         }
