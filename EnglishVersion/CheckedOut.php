@@ -25,89 +25,45 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
         <?php
-        // Reading orders file
-        $FinalizedItemsCSV = fopen("../DataBases/FinlizedOrders.csv", "r");
-        $fileExist = file_exists("../DataBases/FinlizedOrders.csv");
-        $emptyFirstOrderLine = fgets($FinalizedItemsCSV);
-        $orders = [];
-        if ($fileExist) {
-            while (!feof($FinalizedItemsCSV)) {
-                $line = fgets($FinalizedItemsCSV);
-                $entireLine = explode(" => ", $line);
-                $orderBy = $entireLine[0];
-                $Date = $entireLine[1];
-                $Time = $entireLine[2];
-                $ordredProductIDs = explode(",", $entireLine[3]);
-                $orders[] = [
-                    "user" => $orderBy,
-                    "Date" => $Date,
-                    "Time" => $Time,
-                    "ordredProductIDs" => $ordredProductIDs,
-                ];
-            }
+        $sqlOrderInfor = $connection->prepare('select * from orders natural join orderContent where userID=(select userID from users where username=?;)');
+        $sqlOrderInfor->bind_param('s', $_SESSION['UserName']);
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
         } else {
-            print("No order record found!");
-        }
+            $sqlOrderInfor->execute();
+            $result = $sqlOrderInfor->get_result();
+            while ($row = $result->fetch_assoc()) {
+                $userID = $row['userID'];
+                $actionDate = $row['actionDate'];
+                $actionTime = $row['actionTime'];
+                $orderContentID = $row['OrderContentID'];
+                $productsID = $row['productsID'];
+                /* until here everything must be fine */
+                foreach ($orderID as $order) {
+                    $sqlProductInfo = $connection->prepare('select * from products natural join orderContent where productsID = ?');
+                    $sqlProductInfo->bind_param('i', $row['productsID'])
+        ?>
+                    <div class="orderRecord">
+                        <div>   <!-- product img -->
+                            <img src="" alt="">
+                        </div>
+                        <table class="inventoryList">
+                            <h3><?= $arrayOfStrings["An order has been placed."] ?><?= $arrayOfStrings[" On "] . $actionDate ?><?= $arrayOfStrings["at "]. $actionTime ?> </h3>
+                            <tr class="itemsRowHead">
+                                <th><?= $arrayOfStrings["Product name"] ?></th>
+                                <th><?= $arrayOfStrings["Product price"] ?></th>
+                            </tr>
 
-
-        // Reading products file
-        $productMap = [];
-        $ProductsCSV = fopen("../DataBases/Products.csv", "r");
-        $ProductsCSVExist = file_exists("../DataBases/Products.csv");
-        $emptyFirstProductLine = fgets($ProductsCSV);
-        if ($ProductsCSVExist) {
-            while (!feof($ProductsCSV)) {
-                $line = fgets($ProductsCSV);
-                $ProductsCSVitems = explode(",", $line);
-                if (count($ProductsCSVitems) == 8) {
-                    $productID = $ProductsCSVitems[0];
-                    $productName = $ProductsCSVitems[1];
-                    $productPrice = $ProductsCSVitems[3];
-                    $productMap[$productID] = [
-                        "productName" => $productName,
-                        "productPrice" => $productPrice,
-                    ];
+                        </table>
+                    </div>
+                <?php
                 }
             }
-        } else {
-            print("Something went wrong!");
         }
-
-        $currentUser = $_SESSION["UserName"];
-        foreach ($orders as $order) {
-            $total = 0;
-            if ($order["user"] == $currentUser || $_SESSION["userIsAdmin"]) {
         ?>
-                <div class="orderRecord">
-                    <table class="inventoryList">
-                        <h3><?= $arrayOfStrings["An order has been placed by"] ?> <?= $order["user"] ?> <?= $arrayOfStrings["on"] ?> <?= $order["Date"] ?> <?= $arrayOfStrings["at"] ?> <?= $order["Time"] ?></h3>
-                        <tr class="itemsRowHead">
-                            <th><?= $arrayOfStrings["Product name"] ?></th>
-                            <th><?= $arrayOfStrings["Product price"] ?></th>
-                        </tr>
-                        <?php
-                        foreach ($order["ordredProductIDs"] as $ordredproductID) {
-                            if (isset($productMap[$ordredproductID])) {
-                                $total += floatval($productMap[$ordredproductID]["productPrice"]);
-                        ?>
-                                <tr class="orderitems">
-                                    <th><?= $productMap[$ordredproductID]["productName"] ?></th>
-                                    <th><?= $productMap[$ordredproductID]["productPrice"] ?>€</th>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
-                        <tr class="test">
-                            <th></th>
-                            <th>Total: <?= $total ?>€</th>
-                        </tr>
-                <?php
-            }
-        }
-                ?>
-                    </table>
-                </div>
+
+
+
     </div>
 </body>
 
