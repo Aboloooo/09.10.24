@@ -25,40 +25,32 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
         </form>
         <?php
-        $sqlOrderInfor = $connection->prepare('select * from orders natural join orderContent where userID=(select userID from users where username=?)');
-        $sqlOrderInfor->bind_param("s", $_SESSION['UserName']);
+        $sqlOrderInfor = $connection->prepare('select * from orders');
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
         } else {
             $sqlOrderInfor->execute();
             $result = $sqlOrderInfor->get_result();
-            $orders = [];
             while ($row = $result->fetch_assoc()) {
-                $orders[] = [
-                    'orderID' => $row['orderID'],
-                    'userID' => $row['userID'],
-                    'actionDate' => $row['actionDate'],
-                    'actionTime' => $row['actionTime'],
-                    'productID' => $row['productsID']
-                ];
-                /* until here everything must be fine */
-                foreach ($orders as $order) {
+                $orderID = $row['orderID'];
         ?>
-                    <!-- create table for each order -->
-                    <div>
-                        <div>
-                            <?php
-                            $sqlRetrivingProductImg = $connection->prepare('select img from products where productID = ?');
-                            $sqlRetrivingProductImg->bind_param('i', $orders['productID']);
-                            $sqlRetrivingProductImg->execute();
-                            ?>
-                            <img src="" alt="">
-                        </div>
+                <!-- create table for each order row -->
+                
+                <div class="tableOfOrder">
+                <h2>order ID <?= $orderID ?></h2>
+                    <div class="imgProducts">
+                        <img src="../img/Men/1/1.1.PNG" alt="">
                         <div></div>
                     </div>
+                    <div>
+                        <h3>time</h3>
+                        <h3>date</h3>
+                    </div>
+                </div>
+
 
         <?php
-                }
+
             }
         }
         ?>

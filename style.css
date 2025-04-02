@@ -476,30 +476,27 @@ body {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  height: auto;
+  height: 100%;
+  background-color: #7ea180;
 }
 h1 {
   display: flex;
   justify-content: center;
 }
-.inventoryList {
-  width: 100%;
+
+.tableOfOrder {
+  width: 80%;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
+  background-color: #124212;
 }
-.orderRecord {
-  border: #000000 2px solid;
-  margin-top: 30px;
+.imgProducts {
+  width: 15%;
+  height: 15%;
+  display: flex;
+  flex-direction: column;
 }
-.itemsRowHead {
-  background-color: #03f88e;
-}
-.itemsRow:nth-child(even) {
-  background-color: rgba(60, 54, 54, 0.067);
-}
-.orderitems:nth-child(even) {
-  background-color: #eee;
-}
-.test {
-  background-color: #afc4b0;
+.imgProducts img {
+  padding: 10px;
 }
