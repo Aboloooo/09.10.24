@@ -497,6 +497,12 @@ h1 {
   display: flex;
   flex-direction: column;
 }
-.imgProducts img {
-  padding: 10px;
+.tableOfOrders {
+  background-color: #03f80f;
+  width: 100%;
+  height: auto;
+  padding: 10%;
+}
+.tableOfOrders td {
+  border: 2px solid black;
 }
