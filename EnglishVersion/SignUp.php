@@ -19,50 +19,11 @@ include_once("../phpLibrary/MyLibrary.php");
     ?>
 
     <div>
-        <a href="Login.php"> <?= $arrayOfStrings["Login"] ?> </a>
+        <a href="Login.php"> <?= $t["Login"] ?> </a>
     </div>
 
     <?php
-
-    /*     
-    if (isset($_POST["username"], $_POST["password"], $_POST["passwordConfirmation"])) {
-        
-        $usernameInput = $_POST["username"];
-
-        // check if user is already exist
-        $existingAccount = "../DataBases/Client_DataBase.csv";
-        $usernameAlreayExist = false;
-        if (file_exists($existingAccount)) {
-            $OpenedFile = fopen($existingAccount, "r");
-
-            while (($line = fgets($OpenedFile)) !== false) {
-                list($username, $password) = explode(" => ", $line);
-                if ($username == $usernameInput) {
-                    print($arrayOfStrings["This username is already taken; please choose another!"]);
-                    $usernameAlreayExist = true;
-                    break;
-                }
-            }
-        }
-
-        if (!$usernameAlreayExist) {
-            if ($_POST["password"] == $_POST["passwordConfirmation"]) {
-                print($arrayOfStrings["Registration in process; please be patient!"]);
-                $client_DataBase = fopen("../DataBases/Client_DataBase.csv", "a");
-
-                //A condition to add header for the database
-                if (filesize("../DataBases/Client_DataBase.csv") === 0) {
-                    fwrite($client_DataBase, "userName" . " => " . "Password" . " => " . "Level");
-                    fwrite($client_DataBase, "\n" . "admin" . " => " . "password" . " => " . "Admin");    //Admin created automatically
-                };
-                //adding crendintial to database for ex) abolo => 123 => Customer
-                fwrite($client_DataBase, "\n" . $_POST["username"] . " => " . $_POST["password"] . " => " . "Customer");
-            } else {
-                print($arrayOfStrings["Passwords do not match!"]);
-            }
-        }
-    } */
-    global $arrayOfStrings;
+    global $t;
     $formHasEmptyFilleds = false;
     if (
         !empty($_POST["username"]) &&
@@ -77,7 +38,7 @@ include_once("../phpLibrary/MyLibrary.php");
 
 
         if ($row) {
-            print($arrayOfStrings["This username is already taken; please choose another!"]);
+            print($t["This username is already taken; please choose another!"]);
         } else {
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
                 $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,email,phoneN,level) values (?,?,?,?,?)');
@@ -89,12 +50,12 @@ include_once("../phpLibrary/MyLibrary.php");
                 $defaultLevel = 'Customer';
                 $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
-                    print($arrayOfStrings["Registration done successfully!; you can log in now."]);
+                    print($t["Registration done successfully!; you can log in now."]);
                 } else {
                     echo 'something went wrong!';
                 }
             } else {
-                print($arrayOfStrings["Passwords do not match!"]);
+                print($t["Passwords do not match!"]);
             }
         }
     } else {
@@ -107,21 +68,21 @@ include_once("../phpLibrary/MyLibrary.php");
 
     <div class="login-form">
         <form action="" method="POST">
-            <h1><?= $arrayOfStrings["SignUp"] ?></h1>
+            <h1><?= $t["SignUp"] ?></h1>
             <label for="Email">Username</label>
             <input type="text" placeholder="Username or phone number" name="username">
-            <label for="password"><?= $arrayOfStrings["Password"] ?></label>
-            <input type="password" placeholder="<?= $arrayOfStrings["Password"] ?>" name="password">
-            <label for="password"><?= $arrayOfStrings["Password confirmation"] ?></label>
-            <input type="password" placeholder="<?= $arrayOfStrings["Password confirmation"] ?>" name="passwordConfirmation">
+            <label for="password"><?= $t["Password"] ?></label>
+            <input type="password" placeholder="<?= $t["Password"] ?>" name="password">
+            <label for="password"><?= $t["Password confirmation"] ?></label>
+            <input type="password" placeholder="<?= $t["Password confirmation"] ?>" name="passwordConfirmation">
 
-            <label for="email"><?= $arrayOfStrings["Email"] ?></label>
-            <input type="Email" placeholder="<?= $arrayOfStrings["Email or Gmail"] ?>" name="Email">
+            <label for="email">Email</label>
+            <input type="Email" placeholder="<?= $t["EmaiLOrGmail"] ?>" name="Email">
 
-            <label for="PhoneN"><?= $arrayOfStrings["Phone Number"] ?></label>
-            <input type="tel" placeholder="<?= $arrayOfStrings["GSM"] ?>" name="PhoneN">
+            <label for="PhoneN"><?= $t["PhoneNumber"] ?></label>
+            <input type="tel" placeholder="GSM" name="PhoneN">
 
-            <input type="submit" id="submit" placeholder="submit" value="<?= $arrayOfStrings["submit"] ?>">
+            <input type="submit" id="submit" placeholder="submit" value="<?= $t["submit"] ?>">
 
         </form>
     </div>

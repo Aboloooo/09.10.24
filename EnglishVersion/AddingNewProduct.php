@@ -39,7 +39,7 @@ include_once("../phpLibrary/MyLibrary.php");
         }
 
         /* CSV */
-/*         if ($completedProductDetails) {
+        /*         if ($completedProductDetails) {
             $ProductsDataBase = fopen("../DataBases/Products.csv", "r");
             $lastId = 0;
             $line = fgets($ProductsDataBase);
@@ -59,35 +59,35 @@ include_once("../phpLibrary/MyLibrary.php");
             fputcsv($productBank, $NewProduct);
         } */
         /* SQL */
-        if($completedProductDetails){
+        if ($completedProductDetails) {
             $sqlInsertNewProductDetail = $connection->prepare('insert into products(productName, Price, GenderEN, img, GenderFR) VALUES (?,?,?,?,?)');
             $defaultImg = '../img/new_product/new_product.jpg';
-            $sqlInsertNewProductDetail->bind_param('sisss', $productName,$productPrice,$productGenderEN,$defaultImg,$productGenderFR);
+            $sqlInsertNewProductDetail->bind_param('sisss', $productName, $productPrice, $productGenderEN, $defaultImg, $productGenderFR);
             $sqlInsertNewProductDetail->execute();
         }
     }
     ?>
 
     <div class="container-new-product">
-        <h1><?= $arrayOfStrings["New product"] ?></h1>
+        <h1><?= $t["New product"] ?></h1>
         <form method="POST" class="form" enctype="multipart/form-data">
             <div class="img-new-product">
-                <label for="fileToUpload"><?= $arrayOfStrings["Product Image"] ?>:</label>
+                <label for="fileToUpload"><?= $t["Product Image"] ?>:</label>
                 <input type="file" name="fileToUpload">
             </div>
             <div class="detail-new-product">
 
-                <input type="text" placeholder="<?= $arrayOfStrings["Product name"] ?>:" name="productName">
+                <input type="text" placeholder="<?= $t["Product name"] ?>:" name="productName">
 
-                <input type="text" placeholder="<?= $arrayOfStrings["Description"] ?>(EN):" name="productDescription(EN)">
+                <input type="text" placeholder="<?= $t["Description"] ?>(EN):" name="productDescription(EN)">
 
-                <input type="text" placeholder="<?= $arrayOfStrings["Description"] ?>(FR):" name="productDescription(FR)">
+                <input type="text" placeholder="<?= $t["Description"] ?>(FR):" name="productDescription(FR)">
 
-                <input type="money" placeholder="<?= $arrayOfStrings["Price"] ?>:" name="productPrice">
+                <input type="money" placeholder="<?= $t["Price"] ?>:" name="productPrice">
 
-                <input type="text" placeholder="<?= $arrayOfStrings["Gender usage"] ?>(EN):" name="productGender(EN)">
+                <input type="text" placeholder="<?= $t["Gender usage"] ?>(EN):" name="productGender(EN)">
 
-                <input type="text" placeholder="<?= $arrayOfStrings["Gender usage"] ?>(FR):" name="productGender(FR)">
+                <input type="text" placeholder="<?= $t["Gender usage"] ?>(FR):" name="productGender(FR)">
 
                 <input type="submit" value="submit" name="submit">
 

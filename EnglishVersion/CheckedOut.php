@@ -18,19 +18,31 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     ?>
     <div class="checkedOut">
-        <h1><?= $arrayOfStrings["Checked out inventories"] ?></h1>
+        <h1><?= $t["Checked out inventories"] ?></h1>
         <form>
-            <label for=""><?= $arrayOfStrings["Find"] ?>: </label>
+            <label for=""><?= $t["Find"] ?>: </label>
             <input type="text" width="100px">
-            <input type="submit" value="<?= $arrayOfStrings["Go"] ?>">
+            <input type="submit" value="<?= $t["Go"] ?>">
         </form>
         <?php
-        $sqlOrderInfor = $connection->prepare('SELECT * FROM orders');
+        global $t;
         $sqlOrderContent = $connection->prepare('SELECT productsID FROM orderContent WHERE orderID = ?');
+        $sqlUserLevelCheck = $connection->prepare('SELECT * FROM users where username = ?');
 
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
         } else {
+            $sqlUserLevelCheck->bind_param('s', $_SESSION['UserName']);
+            $sqlUserLevelCheck->execute();
+            $userLevel = $sqlUserLevelCheck->get_result();
+            while ($row = $userLevel->fetch_assoc())
+                if ($row['level'] == 'admin') {
+                    $sqlOrderInfor = $connection->prepare('SELECT * FROM orders');
+                } else {
+                    $sqlOrderInfor = $connection->prepare('SELECT * FROM orders WHERE userID = ?');
+                    $sqlOrderInfor->bind_param('i', $row['userID']);
+                }
+
             $sqlOrderInfor->execute();
             $result = $sqlOrderInfor->get_result();
 
@@ -45,46 +57,51 @@ include_once("../phpLibrary/MyLibrary.php");
                 $sqlOrderContent->execute();
                 $productIDsforEachOrder = $sqlOrderContent->get_result();
         ?>
-                <div>
-                    <h3>An order placed on <?= $actionDate ?> at <?= $actionTime ?></h3>
-                </div>
                 <!-- Create table for each order row -->
                 <div class="tableOfOrder">
-                    <h2>Order ID <?= $orderID ?></h2>
+                    <h2><?= $t["OrderID"] ?> <?= $orderID ?></h2>
+                    <h3><?= $t['An order has been placed on'] ?> <?= $actionDate ?> <?= $t['at'] ?> <?= $actionTime ?></h3>
                     <div class="imgProducts">
-                        <?php
-                        while ($productIDs = $productIDsforEachOrder->fetch_assoc()) {
-                            $productID = $productIDs['productsID'];
+                        <table class="tableOfOrders">
+                            <tr>
+                                <th></th>
+                                <th><?= $t['Name'] ?></th>
+                                <th><?= $t['Price'] ?></th>
+                            </tr>
+                            <?php
+                            $total = 0;
+                            while ($productIDs = $productIDsforEachOrder->fetch_assoc()) {
+                                $productID = $productIDs['productsID'];
 
-                            // Get product info
-                            $product = $connection->prepare('SELECT * FROM products WHERE productsID = ?');
-                            $product->bind_param('i', $productID);
-                            $product->execute();
-                            $productInfo = $product->get_result();
-                            $productInformation = $productInfo->fetch_assoc();
+                                // Get product info
+                                $product = $connection->prepare('SELECT * FROM products WHERE productsID = ?');
+                                $product->bind_param('i', $productID);
+                                $product->execute();
+                                $productInfo = $product->get_result();
+                                $productInformation = $productInfo->fetch_assoc();
 
-                            if ($productInformation) {
-                                $productName = $productInformation['productName'];
-                                $productPrice = $productInformation['Price'];
-                                $productImg = $productInformation['img'];
-                        ?>
-                                <table class="tableOfOrders">
-                                    <tr>
-                                        <th></th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                    </tr>
+                                if ($productInformation) {
+                                    $productName = $productInformation['productName'];
+                                    $productPrice = $productInformation['Price'];
+                                    $productImg = $productInformation['img'];
+                                    $total += $productPrice;
+                            ?>
                                     <tr>
                                         <td><img src="<?= $productImg ?>" width="100px" height="110px"></td>
                                         <td><?= $productName ?></td>
                                         <td><?= $productPrice ?></td>
                                     </tr>
-                                </table>
                     </div>
             <?php
+                                }
                             }
-                        }
             ?>
+            <tr>
+                <td>Total:</td>
+                <td></td>
+                <td><?= $total ?></td>
+            </tr>
+            </table>
                 </div>
 
     </div>

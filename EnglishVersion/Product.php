@@ -26,14 +26,14 @@ include_once("../phpLibrary/MyLibrary.php");
             if (!$_SESSION["userIsAdmin"] == false) {
         ?>
                 <div class="AdminPanelProduct">
-                    <a href="AddingNewProduct.php"><button class="button-24" role="button"><?= $arrayOfStrings["Add new product"] ?></button></a>
-                    <a href="CheckedOut.php"><button class="button-24" role="button"><?= $arrayOfStrings["Checked out items"] ?></button></a>
+                    <a href="AddingNewProduct.php"><button class="button-24" role="button"><?= $t["Add new product"] ?></button></a>
+                    <a href="CheckedOut.php"><button class="button-24" role="button"><?= $t["Checked out items"] ?></button></a>
                 </div>
             <?php
             } else {
             ?>
                 <div>
-                    <h2> <?= $arrayOfStrings["Our products"] ?></h2>
+                    <h2> <?= $t["Our products"] ?></h2>
                 </div>
                 <!-- If any customer user is logged, the cart icon will appear -->
                 <div id="show-cart">
@@ -41,7 +41,7 @@ include_once("../phpLibrary/MyLibrary.php");
                     <?= count($_SESSION["cart"]) ?>
 
                     <!-- temperory shortcut -->
-                    <a href="CheckedOut.php"><?= $arrayOfStrings["checkout"] ?></a>
+                    <a href="CheckedOut.php"><?= $t["checkout"] ?></a>
                 </div>
         <?php
             }
@@ -50,7 +50,7 @@ include_once("../phpLibrary/MyLibrary.php");
         <!-- SQL application -->
         <div id="cartTab">
             <box-icon name='exit' id="closeIcone"></box-icon>
-            <h1><?= $arrayOfStrings["ShoppingCart"] ?></h1>
+            <h1><?= $t["ShoppingCart"] ?></h1>
             <div class="listCart">
                 <?php
                 /* For each item in the cart session the following loop will run */
@@ -96,8 +96,8 @@ include_once("../phpLibrary/MyLibrary.php");
 
             <!-- function for check out btn to send all the items in the session array into a CSV file with all the details plus date and time-->
             <form method="POST" class="btn">
-                <input type="submit" value="<?= $arrayOfStrings["checkout"] ?>" name="check_out">
-                <input type="submit" value="<?= $arrayOfStrings["Clear all"] ?>" name="ClearAll" id="closeBtn">
+                <input type="submit" value="<?= $t["checkout"] ?>" name="check_out">
+                <input type="submit" value="<?= $t["Clear all"] ?>" name="ClearAll" id="closeBtn">
             </form>
         </div>
     </div>
@@ -128,7 +128,7 @@ include_once("../phpLibrary/MyLibrary.php");
                             <input type="hidden" value="<?= $row['productsID'] ?>" name="ID">
 
                             <!-- buy btn will be there in case a customer has logged in-->
-                            <input type="submit" id="btn" value="<?= $arrayOfStrings["Buy"] ?>" name="addingToCart">
+                            <input type="submit" id="btn" value="<?= $t["Buy"] ?>" name="addingToCart">
                         </form>
                     <?php
                     }

@@ -19,6 +19,7 @@ CREATE TABLE orders (
     userID INT,
     actionDate Date,
     actionTime Time,
+    status varchar(50),
     FOREIGN KEY (userID) REFERENCES users(userID) ON DELETE CASCADE
 );
 
@@ -50,8 +51,6 @@ CREATE TABLE orderContent (
     orderContentID INT PRIMARY KEY AUTO_INCREMENT,
     orderID INT,
     productsID INT,
-    /* FOREIGN KEY (orderID) REFERENCES orders(orderID),
-    FOREIGN KEY (productsID) REFERENCES products(productsID) */
     FOREIGN KEY (orderID) REFERENCES orders(orderID) ON DELETE CASCADE,
     FOREIGN KEY (productsID) REFERENCES products(productsID) ON DELETE CASCADE
 );
@@ -92,16 +91,21 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('country', 'country', 'pays'),
 ('Write Home', 'Write "Home" here', 'Écrivez "Home" ici'),
 ('Username', 'Username', 'Nom d\utilisateur'),
+('EmaiLOrGmail', 'Email or Gmail', 'E-mail ou Gmail'),
 ('Email or Phone', 'Email or Phone', 'E-mail ou téléphone'),
+('PhoneNumber', 'Phone Number', 'Numéro de téléphone'),
 ('Password', 'Password', 'Mot de passe'),
 ('Password confirmation', 'Password confirmation', 'Confirmation du mot de passe'),
 ('Create an account', 'Create an account', 'Créer un compte'),
 ('submit', 'submit', 'Soumettre'),
 ('Buy', 'Buy', 'Acheter'),
+('Order could not be placed!', 'Order could not be placed!', "La commande n'a pas pu être passée!"),
+('order can not be placed, inserting order to database got an issue!', 'order can not be placed, inserting order to database got an issue!', 'Achla commande ne peut pas être passée, insertion de la commande dans la base de données a rencontré un problème!'),
 ('Product Image', 'Product Image', 'Image du produit'),
 ('Product name', 'Product name', 'Nom du produit'),
 ('Product price', 'Product price', 'Prix du produit'),
 ('Price', 'Price', 'Prix'),
+('order placed successfully!', 'order placed successfully!', 'commande passée avec succès !'),
 ('Description', 'Description', 'Description'),
 ('Gender usage', 'Gender usage', 'Utilisation du genre'),
 ('Add new product', 'Add new product', 'Ajouter un nouveau produit'),
@@ -117,10 +121,13 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Previous orders', 'Previous orders', 'Commandes précédentes'),
 ('An order has been placed by', 'An order has been placed by', 'Une commande a été passée par'),
 ('on', 'on', 'le'),
-('at', 'at', 'à'),
 ('checkout', 'check out', 'Vérifie'),
 ('ShoppingCart', 'Shopping cart', 'Panier'),
 ('Clear all', 'Clear all', 'Tout effacer'),
-('Cart is empty!','Cart is empty!','Le panier est vide!');
-
+('Cart is empty!','Cart is empty!','Le panier est vide!'),
+('password is incorrect!', 'password is incorrect!', 'le mot de passe est incorrect!'),
+('OrderID','Order ID','Numéro de commande'),
+('at', 'at', 'à'),
+('An order has been placed on','An order has been placed on','Une commande a été passée sur'),
+('Please check again your username and password!', 'Please check again your username and password!', "Veuillez vérifier à nouveau votre nom d'utilisateur et votre mot de passe !");
 

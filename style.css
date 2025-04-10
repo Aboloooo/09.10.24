@@ -472,37 +472,98 @@ body {
 }
 
 /* CheckedOut page */
-.checkedOut {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  height: 100%;
-  background-color: #7ea180;
-}
-h1 {
-  display: flex;
-  justify-content: center;
+.checkedOut h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #007bff;
 }
 
+/* Form Styling */
+.checkedOut form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.checkedOut label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.checkedOut input[type="text"] {
+  padding: 5px 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.checkedOut input[type="submit"] {
+  padding: 6px 15px;
+  background-color: #00b45d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkedOut input[type="submit"]:hover {
+  background-color: #00723b;
+}
+
+/* Order Container */
 .tableOfOrder {
-  width: 80%;
-  height: 100%;
+  margin-bottom: 40px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fdfdfd;
+}
+
+.tableOfOrder h2 {
+  margin-top: 0;
+  color: #343a40;
+}
+
+.tableOfOrder h3 {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Product Images and Table */
+.imgProducts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Product Table */
+.tableOfOrders {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
   margin-left: auto;
   margin-right: auto;
-  background-color: #124212;
 }
-.imgProducts {
-  width: 15%;
-  height: 15%;
-  display: flex;
-  flex-direction: column;
-}
-.tableOfOrders {
-  background-color: #03f80f;
-  width: 100%;
-  height: auto;
-  padding: 10%;
-}
+
+.tableOfOrders th,
 .tableOfOrders td {
-  border: 2px solid black;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.tableOfOrders th {
+  background-color: #007bff;
+  color: white;
+}
+
+.tableOfOrders img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
 }
