@@ -18,7 +18,6 @@ include_once("../phpLibrary/MyLibrary.php");
             background-size: cover;
         }
     </style>
-
 </head>
 
 <body>

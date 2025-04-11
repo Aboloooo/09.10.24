@@ -28,6 +28,8 @@ include_once("../phpLibrary/MyLibrary.php");
         global $t;
         $sqlOrderContent = $connection->prepare('SELECT productsID FROM orderContent WHERE orderID = ?');
         $sqlUserLevelCheck = $connection->prepare('SELECT * FROM users where username = ?');
+        $findUserName = $connection->prepare('SELECT username FROM users where userID = ?');
+        $showUsernameToAdmin = false;
 
         if ($connection->connect_error) {
             die("Connection failed: " . $connection->connect_error);
@@ -36,8 +38,9 @@ include_once("../phpLibrary/MyLibrary.php");
             $sqlUserLevelCheck->execute();
             $userLevel = $sqlUserLevelCheck->get_result();
             while ($row = $userLevel->fetch_assoc())
-                if ($row['level'] == 'admin') {
+                if (strtoupper($row['level']) == 'ADMIN') {
                     $sqlOrderInfor = $connection->prepare('SELECT * FROM orders');
+                    $showUsernameToAdmin = true;
                 } else {
                     $sqlOrderInfor = $connection->prepare('SELECT * FROM orders WHERE userID = ?');
                     $sqlOrderInfor->bind_param('i', $row['userID']);
@@ -48,7 +51,13 @@ include_once("../phpLibrary/MyLibrary.php");
 
             while ($row = $result->fetch_assoc()) {
                 $orderID = $row['orderID'];
+
                 $userID = $row['userID'];
+                $findUserName->bind_param('i', $userID);
+                $findUserName->execute();
+                $username = $findUserName->get_result();
+                $userName = $username->fetch_assoc();
+
                 $actionDate = $row['actionDate'];
                 $actionTime = $row['actionTime'];
                 $status = $row['status'];
@@ -60,7 +69,18 @@ include_once("../phpLibrary/MyLibrary.php");
         ?>
                 <!-- Create table for each order row -->
                 <div class="tableOfOrder">
-                    <h2><?= $t["OrderID"] ?> <?= $orderID ?></h2>
+                    <?php
+                    if ($showUsernameToAdmin) {
+                    ?>
+                        <h2><?= $t["OrderID"] ?> <?= $orderID ?> <br> <?= $t["made by"] ?> <?= $userName['username'] ?></h2>
+                    <?php
+                    } else {
+                    ?>
+                        <h2><?= $t["OrderID"] ?> <?= $orderID ?></h2>
+                    <?php
+                    }
+                    ?>
+
                     <h3><?= $t['An order has been placed on'] ?> <?= $actionDate ?> <?= $t['at'] ?> <?= $actionTime ?></h3>
                     <div class="imgProducts">
                         <table class="tableOfOrders">
