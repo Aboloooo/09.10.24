@@ -23,6 +23,22 @@ include_once("../phpLibrary/MyLibrary.php");
 <body>
     <?php
     NavigationBarE("");
+    global $t;
+
+    if (
+        !empty($_POST["oldPass"]) &&
+        !empty($_POST["newPass"]) &&
+        !empty($_POST["newPassConfir"])
+    ) {
+        $CurrentPass = $connection->prepare('select pass from users where username =?');
+        $CurrentPass->bind_param('s', $_SESSION['UserName']);
+        $CurrentPass->execute();
+        $result = $CurrentPass->get_result();
+        $row = $result->fetch_assoc();
+        $currentUserPass = $row['pass'];
+
+        /* from now on I can compare currentUserPass with entered one and update it with new one */
+    }
     ?>
 
     <div class="form-location">
