@@ -58,6 +58,7 @@ CREATE TABLE translation (
     txtEN VARCHAR(999),
     txtFR VARCHAR(999)
 );
+
 INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Home', 'Home', 'Maison'),
 ('Product', 'Product', 'Product'),
@@ -66,9 +67,12 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Login', 'Login', 'Se connecter'),
 ('Logout', 'Logout', 'Déconnexion'),
 ('Login failled!', 'Login failled!', 'La connexion a échoué!'),
-('This username is already taken; please choose another!', 'This username is already taken; please choose another!', 'Ce nom d\utilisateur est déjà pris ; veuillez en choisir un autre!'),
+('This username is already taken; please choose anot', 'This username is already taken; please choose another!', 'Ce nom d\utilisateur est déjà pris ; veuillez en choisir un autre!'),
 ('SignUp', 'Sign up', 'S\inscrire'),
-('Change password', 'Change password', 'Changer le mot de passe'),
+('ChangePassword', 'Change password', 'Changer le mot de passe'),
+('pass', 'Password', 'le mot de passe'),
+('NewPass', 'New password', 'Nouveau mot de passe'),
+('Confirmation', 'Confirmation', 'Confirmation'),
 ('Pending', 'Pending', 'En attente'),
 ('Delivered', 'Delivered', 'livré'),
 ('Registration done successfully!, you can log in now.', 'Registration done successfully!, you can log in now.', 'Inscription effectuée avec succès ! Vous pouvez vous connecter maintenant.'),
