@@ -32,6 +32,7 @@ include_once("../phpLibrary/MyLibrary.php");
         ?>
             <form method="post">
                 <input type="submit" value="<?= $t["Logout"] ?>" name="Logout">
+                <input type="submit" value="<?= $t["Change password"] ?>" name="ChangePass">
             </form>
 
         <?php

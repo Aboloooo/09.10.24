@@ -144,7 +144,7 @@ function finlizedBascket()
 
     /* inserting order into order table for each order not each product */
     $insertOrderRecord = $connection->prepare('insert into orders(userID,actionDate,actionTime,status) VALUES ((select userID from users where username=?) ,?, ?,?)');
-    $insertOrderRecord->bind_param('sss', $userName, $Date, $Time, $defaultStatus);
+    $insertOrderRecord->bind_param('ssss', $userName, $Date, $Time, $defaultStatus);
     if (!$insertOrderRecord->execute()) {
         echo '<script>alert(<?=$t["Order could not be placed!"]?>)</script>';
         die();

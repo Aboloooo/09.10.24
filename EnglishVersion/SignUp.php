@@ -38,7 +38,7 @@ include_once("../phpLibrary/MyLibrary.php");
 
 
         if ($row) {
-            print($t["This username is already taken; please choose another!"]);
+            print($t['This username is already taken; please choose another!']);
         } else {
             if ($_POST["password"] == $_POST["passwordConfirmation"]) {
                 $sqlInsertUserCredential = $connection->prepare('insert into users (username,pass,email,phoneN,level) values (?,?,?,?,?)');

@@ -51,6 +51,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 $userID = $row['userID'];
                 $actionDate = $row['actionDate'];
                 $actionTime = $row['actionTime'];
+                $status = $row['status'];
 
                 // Get products for this order
                 $sqlOrderContent->bind_param('i', $orderID);
@@ -96,6 +97,11 @@ include_once("../phpLibrary/MyLibrary.php");
                                 }
                             }
             ?>
+            <tr style="background-color: <?= $status == 'Pending' ? 'red' : 'lightgreen' ?>;">
+                <td></td>
+                <td><?= $t[$status] ?></td>
+                <td></td>
+            </tr>
             <tr>
                 <td>Total:</td>
                 <td></td>

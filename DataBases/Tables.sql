@@ -1,11 +1,8 @@
-DROP TABLE IF EXISTS orderContent;
-DROP TABLE IF EXISTS orders;
+/* we drop those tables becauase anyway we are going to insert values in this page */
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS translation;
-DROP TABLE IF EXISTS users;
 
-
-create table users(
+create table if not EXISTS users(
     userID int primary key auto_increment,
     username varchar(255),
     pass varchar(255),
@@ -14,7 +11,7 @@ create table users(
     level varchar(255)
 );
 
-CREATE TABLE orders (
+CREATE TABLE if not EXISTS orders (
     orderID INT PRIMARY KEY AUTO_INCREMENT,
     userID INT,
     actionDate Date,
@@ -47,7 +44,7 @@ INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 
 
 /* Here we can see orders in more detail */
-CREATE TABLE orderContent (
+CREATE TABLE if not EXISTS orderContent (
     orderContentID INT PRIMARY KEY AUTO_INCREMENT,
     orderID INT,
     productsID INT,
@@ -71,6 +68,9 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Login failled!', 'Login failled!', 'La connexion a échoué!'),
 ('This username is already taken; please choose another!', 'This username is already taken; please choose another!', 'Ce nom d\utilisateur est déjà pris ; veuillez en choisir un autre!'),
 ('SignUp', 'Sign up', 'S\inscrire'),
+('Change password', 'Change password', 'Changer le mot de passe'),
+('Pending', 'Pending', 'En attente'),
+('Delivered', 'Delivered', 'livré'),
 ('Registration done successfully!, you can log in now.', 'Registration done successfully!, you can log in now.', 'Inscription effectuée avec succès ! Vous pouvez vous connecter maintenant.'),
 ('Passwords do not match!', 'Passwords do not match!', 'Les mots de passe ne correspondent pas!'),
 ('langChanger', 'Change the language', 'Changer la langue'),
