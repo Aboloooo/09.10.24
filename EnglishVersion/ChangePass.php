@@ -25,19 +25,46 @@ include_once("../phpLibrary/MyLibrary.php");
     NavigationBarE("");
     global $t;
 
-    if (
-        !empty($_POST["oldPass"]) &&
-        !empty($_POST["newPass"]) &&
-        !empty($_POST["newPassConfir"])
-    ) {
-        $CurrentPass = $connection->prepare('select pass from users where username =?');
-        $CurrentPass->bind_param('s', $_SESSION['UserName']);
-        $CurrentPass->execute();
-        $result = $CurrentPass->get_result();
-        $row = $result->fetch_assoc();
-        $currentUserPass = $row['pass'];
+    $emptyInput = false;
+    $updatePass = $connection->prepare('UPDATE users set pass = ? where username = ?');
+    if (isset($_POST['submit'])) {
+        if (
+            !empty($_POST["oldPass"]) &&
+            !empty($_POST["newPass"]) &&
+            !empty($_POST["newPassConfir"])
+        ) {
+            $CurrentPass = $connection->prepare('select pass from users where username =?');
+            $CurrentPass->bind_param('s', $_SESSION['UserName']);
+            $CurrentPass->execute();
+            $result = $CurrentPass->get_result();
+            $row = $result->fetch_assoc();
+            $currentUserPass = $row['pass'];
 
-        /* from now on I can compare currentUserPass with entered one and update it with new one */
+            /* from now on I can compare currentUserPass with entered one and update it with new one */
+            if ($currentUserPass) {
+                if (password_verify($_POST["oldPass"], $currentUserPass)) {
+                    if (($_POST["newPass"] == $_POST["newPassConfir"])) {
+                        $hashedNewPass = password_hash($_POST["newPass"], PASSWORD_DEFAULT);
+                        $updatePass->bind_param('ss', $hashedNewPass, $_SESSION["UserName"]);
+                        $updatePass->execute();
+                        echo "<script>alert('Your password updated successfully.')</script>";
+                    } else {
+                        echo "<script>alert('New passwords are not match')</script>";
+                    }
+                } else {
+                    /* translation miss */
+                    echo "<script>alert('Your old password is incorrect.')</script>";
+                }
+            } else {
+                /* translation miss */
+                echo "<script>alert('Your password cant be found in database.')</script>";
+            }
+        } else {
+            $emptyInput = true;
+        }
+        if (isset($_POST['submit']) && $emptyInput) {
+            echo "<script>alert('All the fields needs to be filled out')</script>";
+        }
     }
     ?>
 
