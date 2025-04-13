@@ -142,13 +142,16 @@ include_once("../phpLibrary/MyLibrary.php");
 
             ?>
             <tr style="background-color: <?= $status == 'Pending' ? 'red' : 'lightgreen' ?>;">
-                <td><?= $t['Change status'] ?>:</td>
+                <td> <?= $showUsernameToAdmin ? $t['Change status'] : '' ?> </td>
                 <td><?= $t[$status] ?></td>
-                <td>
-                    <form method="POST">
-                        <input type="hidden" name="orderDisplayID" value="<?= $row['orderID'] ?>">
-                        <button type="submit" name="changeStatus">Change Status</button>
-                    </form>
+                <td> <?php if ($showUsernameToAdmin) {
+                        ?>
+                        <form method="POST">
+                            <input type="hidden" name="orderDisplayID" value="<?= $row['orderID'] ?>">
+                            <button type="submit" name="changeStatus">change</button>
+                        </form>
+                    <?php
+                        } ?>
                 </td>
             </tr>
             <tr>
