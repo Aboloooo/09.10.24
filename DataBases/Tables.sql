@@ -91,6 +91,7 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Form has been submitted succefully!', 'Form has been submitted successfully!', 'Le formulaire a été soumis avec succès!'),
 ('Contact us', 'Contact us', 'Contactez-nous'),
 ('First name', 'First name', 'Prénom'),
+('Change status', 'Change status', 'Changer de statut'),
 ('Last name', 'Last name', 'Nom de famille'),
 ('Forgotten password', 'Forgotten password', 'Mot de passe oublié'),
 ('country', 'country', 'pays'),

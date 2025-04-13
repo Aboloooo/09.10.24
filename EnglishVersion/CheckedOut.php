@@ -49,6 +49,8 @@ include_once("../phpLibrary/MyLibrary.php");
             $sqlOrderInfor->execute();
             $result = $sqlOrderInfor->get_result();
 
+
+
             while ($row = $result->fetch_assoc()) {
                 $orderID = $row['orderID'];
 
@@ -61,6 +63,8 @@ include_once("../phpLibrary/MyLibrary.php");
                 $actionDate = $row['actionDate'];
                 $actionTime = $row['actionTime'];
                 $status = $row['status'];
+
+
 
                 // Get products for this order
                 $sqlOrderContent->bind_param('i', $orderID);
@@ -116,11 +120,36 @@ include_once("../phpLibrary/MyLibrary.php");
             <?php
                                 }
                             }
+                            /* changing status of orders */
+                            $changeStatusOfOrder = $connection->prepare('UPDATE orders set status = ? where orderID =?');
+                            $newStatus = ($status == 'Pending') ? 'Delivered' : 'Pending';
+                            if (isset($_POST['changeStatus'])) {
+                                $orderID = $_POST['orderDisplayID'];
+                                $fetchStatus = $connection->prepare('select status from orders where orderID = ?');
+                                $fetchStatus->bind_param('i', $orderID);
+                                $fetchStatus->execute();
+                                $resultStatus = $fetchStatus->get_result();
+                                $orderStatusRow = $resultStatus->fetch_assoc();
+                                $orderStatus = $orderStatusRow['status'];
+                                $newStatus = ($orderStatus == 'Pending') ? 'Delivered' : 'Pending';
+
+                                $changeStatusOfOrder = $connection->prepare('UPDATE orders SET status = ? WHERE orderID = ?');
+                                $changeStatusOfOrder->bind_param('si', $newStatus, $orderID);
+                                $changeStatusOfOrder->execute();
+                                header("Location: " . $_SERVER['PHP_SELF']);
+                            }
+
+
             ?>
             <tr style="background-color: <?= $status == 'Pending' ? 'red' : 'lightgreen' ?>;">
-                <td></td>
+                <td><?= $t['Change status'] ?>:</td>
                 <td><?= $t[$status] ?></td>
-                <td></td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="orderDisplayID" value="<?= $row['orderID'] ?>">
+                        <button type="submit" name="changeStatus">Change Status</button>
+                    </form>
+                </td>
             </tr>
             <tr>
                 <td>Total:</td>
@@ -129,6 +158,7 @@ include_once("../phpLibrary/MyLibrary.php");
             </tr>
             </table>
                 </div>
+
 
     </div>
 <?php
