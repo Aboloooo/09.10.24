@@ -16,6 +16,9 @@ include_once("../phpLibrary/MyLibrary.php");
 <body>
     <?php
     NavigationBarE("");
+
+
+
     ?>
     <div class="checkedOut">
         <h1><?= $t["Checked out inventories"] ?></h1>
@@ -25,7 +28,24 @@ include_once("../phpLibrary/MyLibrary.php");
             <input type="submit" value="<?= $t["Go"] ?>">
         </form>
         <?php
-        global $t;
+
+/* changing status of orders */
+if (isset($_POST['changeStatus'])) {
+     $orderID = $_POST['orderDisplayID'];
+    $fetchStatus = $connection->prepare('select status from orders where orderID = ?');
+    $fetchStatus->bind_param('i', $orderID);
+    $fetchStatus->execute();
+    $resultStatus = $fetchStatus->get_result();
+    $orderStatusRow = $resultStatus->fetch_assoc();
+    $orderStatus = $orderStatusRow['status'];
+
+    $newStatus = ($orderStatus == 'Pending') ? 'Delivered' : 'Pending';
+
+    $changeStatusOfOrder = $connection->prepare('UPDATE orders SET status = ? WHERE orderID = ?');
+    $changeStatusOfOrder->bind_param('si', $newStatus, $orderID);
+    $changeStatusOfOrder->execute();
+}
+
         $sqlOrderContent = $connection->prepare('SELECT productsID FROM orderContent WHERE orderID = ?');
         $sqlUserLevelCheck = $connection->prepare('SELECT * FROM users where username = ?');
         $findUserName = $connection->prepare('SELECT username FROM users where userID = ?');
@@ -120,23 +140,7 @@ include_once("../phpLibrary/MyLibrary.php");
             <?php
                                 }
                             }
-                            /* changing status of orders */
-                            if (isset($_POST['changeStatus'])) {
-                                $orderID = $_POST['orderDisplayID'];
-                                $fetchStatus = $connection->prepare('select status from orders where orderID = ?');
-                                $fetchStatus->bind_param('i', $orderID);
-                                $fetchStatus->execute();
-                                $resultStatus = $fetchStatus->get_result();
-                                $orderStatusRow = $resultStatus->fetch_assoc();
-                                $orderStatus = $orderStatusRow['status'];
-                                $newStatus = ($orderStatus == 'Pending') ? 'Delivered' : 'Pending';
-
-                                $changeStatusOfOrder = $connection->prepare('UPDATE orders SET status = ? WHERE orderID = ?');
-                                $changeStatusOfOrder->bind_param('si', $newStatus, $orderID);
-                                $changeStatusOfOrder->execute();
-                                header("Location: " . $_SERVER['PHP_SELF']);
-                            }
-
+                            
 
             ?>
             <tr style="background-color: <?= $status == 'Pending' ? 'red' : 'lightgreen' ?>;">
