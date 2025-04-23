@@ -47,23 +47,20 @@ include_once("../phpLibrary/MyLibrary.php");
                         $hashedNewPass = password_hash($_POST["newPass"], PASSWORD_DEFAULT);
                         $updatePass->bind_param('ss', $hashedNewPass, $_SESSION["UserName"]);
                         $updatePass->execute();
-                        echo "<script>alert('Your password updated successfully.')</script>";
+                        echo "<script>alert('" . $t['Your password updated successfully.'] . "');</script>";
                     } else {
-                        echo "<script>alert('New passwords are not match')</script>";
+                        echo "<script>alert('" . $t['New passwords are not match'] . "');</script>";
                     }
                 } else {
-                    /* translation miss */
-                    echo "<script>alert('Your old password is incorrect.')</script>";
+                    echo "<script>alert('" . $t['Your old password is incorrect.'] . "');</script>";
                 }
             } else {
-                /* translation miss */
-                echo "<script>alert('Your password cant be found in database.')</script>";
-            }
+                echo "<script>alert('" . $t['Your password cant be found in database.'] . "');</script>";            }
         } else {
             $emptyInput = true;
         }
         if (isset($_POST['submit']) && $emptyInput) {
-            echo "<script>alert('All the fields needs to be filled out')</script>";
+            echo "<script>alert('" . $t['All the fields needs to be filled out'] . "')</script>";
         }
     }
     ?>

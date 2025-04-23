@@ -136,6 +136,12 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('password is incorrect!', 'password is incorrect!', 'le mot de passe est incorrect!'),
 ('OrderID','Order ID','Numéro de commande'),
 ('at', 'at', 'à'),
+('Something went wrong!', 'Something went wrong!', "Une erreur s'est produite"),
+('All the fields needs to be filled out', 'All the fields needs to be filled out', 'Tous les champs doivent être remplis'),
+('Your password cant be found in database.', 'Your password cant be found in database.', 'Your password cant be found in database.'),
+('Your old password is incorrect.', 'Your old password is incorrect.', 'Votre ancien mot de passe est incorrect.'),
+('New passwords are not match', 'New passwords are not match', 'Les nouveaux mots de passe ne correspondent pas'),
+('Your password updated successfully.', 'Your password updated successfully.', 'Votre mot de passe a été mis à jour avec succès.'),
 ('An order has been placed on','An order has been placed on','Une commande a été passée sur'),
 ('Please check again your username and password!', 'Please check again your username and password!', "Veuillez vérifier à nouveau votre nom d'utilisateur et votre mot de passe !");
 

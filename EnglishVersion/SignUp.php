@@ -52,7 +52,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 if ($sqlInsertUserCredential->execute()) {
                     print($t['Registration done successfully!']);
                 } else {
-                    echo 'something went wrong!';
+                    echo $t['Something went wrong!'];
                 }
             } else {
                 print($t["Passwords do not match!"]);

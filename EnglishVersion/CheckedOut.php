@@ -114,7 +114,7 @@ include_once("../phpLibrary/MyLibrary.php");
                                     <tr>
                                         <td><img src="<?= $productImg ?>" width="100px" height="110px"></td>
                                         <td><?= $productName ?></td>
-                                        <td><?= $productPrice ?></td>
+                                        <td><?= $productPrice ?>€</td>
                                     </tr>
                     </div>
             <?php
@@ -155,7 +155,7 @@ include_once("../phpLibrary/MyLibrary.php");
             <tr>
                 <td>Total:</td>
                 <td></td>
-                <td><?= $total ?></td>
+                <td><?= $total ?>€</td>
             </tr>
             </table>
                 </div>
