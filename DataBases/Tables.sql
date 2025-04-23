@@ -1,8 +1,10 @@
-/* we drop those tables becauase anyway we are going to insert values in this page */
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS translation;
+drop database wesers2;
+create database wesers2;
+use wesers2;
 
-create table if not EXISTS users(
+/* we drop those tables becauase anyway we are going to insert values in this page */
+
+create table users(
     userID int primary key auto_increment,
     username varchar(255),
     pass varchar(255),
@@ -11,7 +13,7 @@ create table if not EXISTS users(
     level varchar(255)
 );
 
-CREATE TABLE if not EXISTS orders (
+CREATE TABLE orders (
     orderID INT PRIMARY KEY AUTO_INCREMENT,
     userID INT,
     actionDate Date,
@@ -44,7 +46,7 @@ INSERT INTO products (productName, Price, GenderEN, img, GenderFR) VALUES
 
 
 /* Here we can see orders in more detail */
-CREATE TABLE if not EXISTS orderContent (
+CREATE TABLE orderContent (
     orderContentID INT PRIMARY KEY AUTO_INCREMENT,
     orderID INT,
     productsID INT,
@@ -76,7 +78,7 @@ INSERT INTO translation (translationID, txtEN, txtFR) VALUES
 ('Confirmation', 'Confirmation', 'Confirmation'),
 ('Pending', 'Pending', 'En attente'),
 ('Delivered', 'Delivered', 'livré'),
-('Registration done successfully!; you can log in now.', 'Registration done successfully!, you can log in now.', 'Inscription effectuée avec succès ! Vous pouvez vous connecter maintenant.'),
+('Registration done successfully!', 'Registration done successfully!, you can log in now.', 'Inscription effectuée avec succès ! Vous pouvez vous connecter maintenant.'),
 ('Passwords do not match!', 'Passwords do not match!', 'Les mots de passe ne correspondent pas!'),
 ('langChanger', 'Change the language', 'Changer la langue'),
 ('unknown', 'Unknown', 'Inconnu'),

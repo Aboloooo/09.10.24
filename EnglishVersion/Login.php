@@ -39,9 +39,10 @@ include_once("../phpLibrary/MyLibrary.php");
                 $usernameStored = $row["username"];
                 $passStored = $row["pass"];
                 $levelStored = $row["level"];
+                $level = strtoupper($levelStored);
                 if ($usernameInput == $usernameStored) {
                     if (password_verify($passwordInput, $passStored)) {
-                        if ($levelStored == 'Admin') {
+                        if ($level == 'ADMIN') {
                             $_SESSION["userIsAdmin"] = true;
                         }
                         $sucessfullLogin = true;

@@ -121,8 +121,6 @@ include_once("../phpLibrary/MyLibrary.php");
                                 }
                             }
                             /* changing status of orders */
-                            $changeStatusOfOrder = $connection->prepare('UPDATE orders set status = ? where orderID =?');
-                            $newStatus = ($status == 'Pending') ? 'Delivered' : 'Pending';
                             if (isset($_POST['changeStatus'])) {
                                 $orderID = $_POST['orderDisplayID'];
                                 $fetchStatus = $connection->prepare('select status from orders where orderID = ?');
@@ -161,8 +159,6 @@ include_once("../phpLibrary/MyLibrary.php");
             </tr>
             </table>
                 </div>
-
-
     </div>
 <?php
             }

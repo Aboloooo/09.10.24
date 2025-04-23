@@ -50,7 +50,7 @@ include_once("../phpLibrary/MyLibrary.php");
                 $defaultLevel = 'Customer';
                 $sqlInsertUserCredential->bind_param('sssis', $usernameInput, $hashedPass, $userEmail, $userPhoneN, $defaultLevel);
                 if ($sqlInsertUserCredential->execute()) {
-                    print($t['Registration done successfully!; you can log in now.']);
+                    print($t['Registration done successfully!']);
                 } else {
                     echo 'something went wrong!';
                 }
@@ -65,7 +65,6 @@ include_once("../phpLibrary/MyLibrary.php");
         echo 'All the filleds are required!!';
     } */
     ?>
-    <h1>Registration done text cant be translated!</h1>
     <div class="login-form">
         <form action="" method="POST">
             <h1><?= $t["SignUp"] ?></h1>
