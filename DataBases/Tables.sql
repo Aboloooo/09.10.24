@@ -2,8 +2,6 @@ drop database if exists wesers2;
 create database wesers2;
 use wesers2;
 
-/* we drop those tables becauase anyway we are going to insert values in this page */
-
 create table users(
     userID int primary key auto_increment,
     username varchar(255),

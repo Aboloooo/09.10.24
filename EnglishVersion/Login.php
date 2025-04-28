@@ -10,7 +10,7 @@ include_once("../phpLibrary/MyLibrary.php");
     <title>Document</title>
     <!-- bank of icon  https://boxicons.com/  -->
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <link rel="stylesheet" href="../style.css?<? time(); ?>">
+    <link rel="stylesheet" href="../style.css?<?= time(); ?>">
 </head>
 
 <body>
@@ -21,26 +21,32 @@ include_once("../phpLibrary/MyLibrary.php");
     $_SESSION["userIsAdmin"] = false;
     global $t;
 
-    //check if all the filleds are filled up
-    if (isset($_POST["username"], $_POST["password"])) {
-        $usernameInput = $_POST["username"];
-        $passwordInput = $_POST["password"];
-        $sucessfullLogin = false;    //Flags are really important
+    if (isset($_POST["submit"])) {
+        //check if all the filleds are filled up
+        if (isset($_POST["username"], $_POST["password"])) {
+            $usernameInput = $_POST["username"];
+            $passwordInput = $_POST["password"];
+            $sucessfullLogin = false;    //Flags are really important
 
-        if ($connection->connect_error) {
-            die("Connection failed: " . $connection->connect_error);
-        } else {
-            $sqlUserLoginChecking = $connection->prepare('select username, pass, level from users where username=?;');
-            $sqlUserLoginChecking->bind_param("s", $usernameInput);
-            $sqlUserLoginChecking->execute();
-            $result = $sqlUserLoginChecking->get_result();
+            if ($connection->connect_error) {
+                die("Connection failed: " . $connection->connect_error);
+            } else {
+                $sqlUserLoginChecking = $connection->prepare('select username, pass, level from users where username=?;');
+                $sqlUserLoginChecking->bind_param("s", $usernameInput);
+                $sqlUserLoginChecking->execute();
+                $result = $sqlUserLoginChecking->get_result();
 
-            while ($row = $result->fetch_assoc()) {
-                $usernameStored = $row["username"];
-                $passStored = $row["pass"];
-                $levelStored = $row["level"];
-                $level = strtoupper($levelStored);
-                if ($usernameInput == $usernameStored) {
+                $rowDidntFound = false;
+                if ($result->num_row == 0) {
+                    $rowDidntFound = true;
+                }
+
+                while ($row = $result->fetch_assoc()) {
+                    $usernameStored = $row["username"];
+                    $passStored = $row["pass"];
+                    $levelStored = $row["level"];
+                    $level = strtoupper($levelStored);
+
                     if (password_verify($passwordInput, $passStored)) {
                         if ($level == 'ADMIN') {
                             $_SESSION["userIsAdmin"] = true;
@@ -49,10 +55,12 @@ include_once("../phpLibrary/MyLibrary.php");
                         $_SESSION["user"] = true;
                         $_SESSION["UserName"] = $usernameInput;
                         header("location: Home.php");
+                        exit();
                     } else {
-                        echo $t['password is incorrect!'];
+                        echo $t['Please check again your username and password!'];
                     }
-                } else {
+                }
+                if ($rowDidntFound) {
                     echo $t['Please check again your username and password!'];
                 }
             }
