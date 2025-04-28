@@ -1,4 +1,4 @@
-drop database wesers2;
+drop database if exists wesers2;
 create database wesers2;
 use wesers2;
 
